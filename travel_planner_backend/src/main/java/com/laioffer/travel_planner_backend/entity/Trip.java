@@ -44,7 +44,6 @@ public class Trip implements Serializable {
 		@Enumerated(EnumType.STRING)
 		private TripType type;
 		
-		@Temporal(TemporalType.DATE)
 		private java.sql.Date startDate;
 		
 		private int numDays;
