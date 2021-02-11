@@ -22,6 +22,8 @@ import javax.persistence.Table;
 @Table(name = "days")
 public class Day implements Serializable {
 		
+		private static final long serialVersionUID = 4980339460759086827L;
+		
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		private int dayId;
@@ -35,6 +37,35 @@ public class Day implements Serializable {
 		@OneToMany
 		private List<Place> route;
 		
+		public int getDayId() {
+				return dayId;
+		}
 		
-
+		public void setDayId(int dayId) {
+				this.dayId = dayId;
+		}
+		
+		public Trip getTrip() {
+				return trip;
+		}
+		
+		public void setTrip(Trip trip) {
+				this.trip = trip;
+		}
+		
+		public Set<Place> getPlaces() {
+				return places;
+		}
+		
+		public void setPlaces(Set<Place> places) {
+				this.places = places;
+		}
+		
+		public List<Place> getRoute() {
+				return route;
+		}
+		
+		public void setRoute(List<Place> route) {
+				this.route = route;
+		}
 }

@@ -36,6 +36,9 @@ public class Trip implements Serializable {
 		@JsonIgnore
 		private User user;
 		
+		@Column(name = "trip_name")
+		private String name;
+		
 		private java.sql.Date dateCreated;
 		
 		@OneToMany
@@ -73,6 +76,14 @@ public class Trip implements Serializable {
 		
 		public void setUser(User user) {
 				this.user = user;
+		}
+		
+		public String getName() {
+				return name;
+		}
+		
+		public void setName(String name) {
+				this.name = name;
 		}
 		
 		public Date getDateCreated() {
