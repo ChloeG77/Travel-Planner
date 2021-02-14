@@ -129,3 +129,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# java
+/travel_planner_backend/src/recources/config.properties
+/travel_planner_backend/target
+/travel_planner_backend/.idea/libraries/
+/travel_planner_backend/.idea/dataSources/
