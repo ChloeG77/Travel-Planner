@@ -967,334 +967,342 @@
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <key id="308" parent="287" name="PRIMARY">
+    <column id="308" parent="287" name="city_name">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+    </column>
+    <key id="309" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cityId</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="309" parent="288" name="dayId">
+    <column id="310" parent="288" name="dayId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="310" parent="288" name="trip_tripId">
+    <column id="311" parent="288" name="trip_tripId">
       <Position>2</Position>
       <DataType>int|0s</DataType>
     </column>
-    <index id="311" parent="288" name="FK65cri90xqc1rta5rupofuwa57">
+    <index id="312" parent="288" name="FK65cri90xqc1rta5rupofuwa57">
       <ColNames>trip_tripId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="312" parent="288" name="PRIMARY">
+    <key id="313" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>dayId</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="313" parent="288" name="FK65cri90xqc1rta5rupofuwa57">
+    <foreign-key id="314" parent="288" name="FK65cri90xqc1rta5rupofuwa57">
       <ColNames>trip_tripId</ColNames>
       <RefTableName>trips</RefTableName>
       <RefColNames>tripId</RefColNames>
     </foreign-key>
-    <column id="314" parent="289" name="Day_dayId">
+    <column id="315" parent="289" name="Day_dayId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="315" parent="289" name="route_placeId">
+    <column id="316" parent="289" name="route_placeId">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="316" parent="289" name="places_placeId">
+    <column id="317" parent="289" name="places_placeId">
       <Position>3</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="317" parent="289" name="UK_h46qw34j2sjj0j661f4nk89w1">
+    <index id="318" parent="289" name="UK_h46qw34j2sjj0j661f4nk89w1">
       <ColNames>route_placeId</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="318" parent="289" name="UK_qt460w4msxvpep8nk7q4xf4kg">
+    <index id="319" parent="289" name="UK_qt460w4msxvpep8nk7q4xf4kg">
       <ColNames>places_placeId</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="319" parent="289" name="PRIMARY">
+    <key id="320" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Day_dayId
 places_placeId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="320" parent="289" name="UK_h46qw34j2sjj0j661f4nk89w1">
+    <key id="321" parent="289" name="UK_h46qw34j2sjj0j661f4nk89w1">
       <ColNames>route_placeId</ColNames>
       <UnderlyingIndexName>UK_h46qw34j2sjj0j661f4nk89w1</UnderlyingIndexName>
     </key>
-    <key id="321" parent="289" name="UK_qt460w4msxvpep8nk7q4xf4kg">
+    <key id="322" parent="289" name="UK_qt460w4msxvpep8nk7q4xf4kg">
       <ColNames>places_placeId</ColNames>
       <UnderlyingIndexName>UK_qt460w4msxvpep8nk7q4xf4kg</UnderlyingIndexName>
     </key>
-    <foreign-key id="322" parent="289" name="FK5hkwlbbdkm2mnsyp9c3v1bbpr">
+    <foreign-key id="323" parent="289" name="FK5hkwlbbdkm2mnsyp9c3v1bbpr">
       <ColNames>Day_dayId</ColNames>
       <RefTableName>days</RefTableName>
       <RefColNames>dayId</RefColNames>
     </foreign-key>
-    <foreign-key id="323" parent="289" name="FKpvb93tmbvs3p3munl8lfk51yf">
+    <foreign-key id="324" parent="289" name="FKpvb93tmbvs3p3munl8lfk51yf">
       <ColNames>route_placeId</ColNames>
       <RefTableName>places</RefTableName>
       <RefColNames>placeId</RefColNames>
     </foreign-key>
-    <foreign-key id="324" parent="289" name="FK6000rbk9ute062mf3af5my8hb">
+    <foreign-key id="325" parent="289" name="FK6000rbk9ute062mf3af5my8hb">
       <ColNames>places_placeId</ColNames>
       <RefTableName>places</RefTableName>
       <RefColNames>placeId</RefColNames>
     </foreign-key>
-    <column id="325" parent="290" name="next_val">
+    <column id="326" parent="290" name="next_val">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
     </column>
-    <column id="326" parent="291" name="placeId">
+    <column id="327" parent="291" name="placeId">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="327" parent="291" name="category">
+    <column id="328" parent="291" name="category">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="328" parent="291" name="closeTime">
+    <column id="329" parent="291" name="closeTime">
       <Position>3</Position>
       <DataType>time|0s</DataType>
     </column>
-    <column id="329" parent="291" name="country">
+    <column id="330" parent="291" name="country">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="330" parent="291" name="description">
+    <column id="331" parent="291" name="description">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="331" parent="291" name="latitude">
+    <column id="332" parent="291" name="latitude">
       <Position>6</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="332" parent="291" name="longitude">
+    <column id="333" parent="291" name="longitude">
       <Position>7</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="333" parent="291" name="name">
+    <column id="334" parent="291" name="name">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="334" parent="291" name="openTime">
+    <column id="335" parent="291" name="openTime">
       <Position>9</Position>
       <DataType>time|0s</DataType>
     </column>
-    <column id="335" parent="291" name="postcode">
+    <column id="336" parent="291" name="postcode">
       <Position>10</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="336" parent="291" name="price">
+    <column id="337" parent="291" name="price">
       <Position>11</Position>
       <DataType>double|0s</DataType>
     </column>
-    <column id="337" parent="291" name="place_rating">
+    <column id="338" parent="291" name="place_rating">
       <Position>12</Position>
       <DataType>double|0s</DataType>
     </column>
-    <column id="338" parent="291" name="state">
+    <column id="339" parent="291" name="state">
       <Position>13</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="339" parent="291" name="url">
+    <column id="340" parent="291" name="url">
       <Position>14</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="340" parent="291" name="city_cityId">
+    <column id="341" parent="291" name="city_cityId">
       <Position>15</Position>
       <DataType>int|0s</DataType>
     </column>
-    <index id="341" parent="291" name="FKm7b9lj8q83pkjf9wx48ulvua7">
+    <index id="342" parent="291" name="FKm7b9lj8q83pkjf9wx48ulvua7">
       <ColNames>city_cityId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="342" parent="291" name="PRIMARY">
+    <key id="343" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>placeId</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="343" parent="291" name="FKm7b9lj8q83pkjf9wx48ulvua7">
+    <foreign-key id="344" parent="291" name="FKm7b9lj8q83pkjf9wx48ulvua7">
       <ColNames>city_cityId</ColNames>
       <RefTableName>cities</RefTableName>
       <RefColNames>cityId</RefColNames>
     </foreign-key>
-    <column id="344" parent="292" name="Place_placeId">
+    <column id="345" parent="292" name="Place_placeId">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="345" parent="292" name="pastVisitors_emailId">
+    <column id="346" parent="292" name="pastVisitors_emailId">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="346" parent="292" name="FKpkyokkdlq6s6fylkl88g62mdn">
+    <index id="347" parent="292" name="FKpkyokkdlq6s6fylkl88g62mdn">
       <ColNames>Place_placeId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="347" parent="292" name="FK5iqv868sm6ruj2lyo2wkcq1ct">
+    <index id="348" parent="292" name="FK5iqv868sm6ruj2lyo2wkcq1ct">
       <ColNames>pastVisitors_emailId</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="348" parent="292" name="FKpkyokkdlq6s6fylkl88g62mdn">
+    <foreign-key id="349" parent="292" name="FKpkyokkdlq6s6fylkl88g62mdn">
       <ColNames>Place_placeId</ColNames>
       <RefTableName>places</RefTableName>
       <RefColNames>placeId</RefColNames>
     </foreign-key>
-    <foreign-key id="349" parent="292" name="FK5iqv868sm6ruj2lyo2wkcq1ct">
+    <foreign-key id="350" parent="292" name="FK5iqv868sm6ruj2lyo2wkcq1ct">
       <ColNames>pastVisitors_emailId</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>emailId</RefColNames>
     </foreign-key>
-    <column id="350" parent="293" name="tripId">
+    <column id="351" parent="293" name="tripId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="351" parent="293" name="dateCreated">
+    <column id="352" parent="293" name="dateCreated">
       <Position>2</Position>
       <DataType>date|0s</DataType>
     </column>
-    <column id="352" parent="293" name="isPrivate">
+    <column id="353" parent="293" name="isPrivate">
       <Position>3</Position>
       <DataType>bit(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="353" parent="293" name="numDays">
+    <column id="354" parent="293" name="numDays">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="354" parent="293" name="trip_rating">
+    <column id="355" parent="293" name="trip_rating">
       <Position>5</Position>
       <DataType>double|0s</DataType>
     </column>
-    <column id="355" parent="293" name="startDate">
+    <column id="356" parent="293" name="startDate">
       <Position>6</Position>
       <DataType>date|0s</DataType>
     </column>
-    <column id="356" parent="293" name="type">
+    <column id="357" parent="293" name="type">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="357" parent="293" name="user_emailId">
+    <column id="358" parent="293" name="user_emailId">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <index id="358" parent="293" name="FKfarbsa78v4anornabj0iqvwue">
+    <column id="359" parent="293" name="trip_name">
+      <Position>9</Position>
+      <DataType>varchar(255)|0s</DataType>
+    </column>
+    <index id="360" parent="293" name="FKfarbsa78v4anornabj0iqvwue">
       <ColNames>user_emailId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="359" parent="293" name="PRIMARY">
+    <key id="361" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>tripId</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="360" parent="293" name="FKfarbsa78v4anornabj0iqvwue">
+    <foreign-key id="362" parent="293" name="FKfarbsa78v4anornabj0iqvwue">
       <ColNames>user_emailId</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>emailId</RefColNames>
     </foreign-key>
-    <column id="361" parent="294" name="Trip_tripId">
+    <column id="363" parent="294" name="Trip_tripId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="362" parent="294" name="cities_cityId">
+    <column id="364" parent="294" name="cities_cityId">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="363" parent="294" name="UK_mtawnl48qrtwwjhkow5c2pcr3">
+    <index id="365" parent="294" name="UK_mtawnl48qrtwwjhkow5c2pcr3">
       <ColNames>cities_cityId</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="364" parent="294" name="PRIMARY">
+    <key id="366" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Trip_tripId
 cities_cityId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="365" parent="294" name="UK_mtawnl48qrtwwjhkow5c2pcr3">
+    <key id="367" parent="294" name="UK_mtawnl48qrtwwjhkow5c2pcr3">
       <ColNames>cities_cityId</ColNames>
       <UnderlyingIndexName>UK_mtawnl48qrtwwjhkow5c2pcr3</UnderlyingIndexName>
     </key>
-    <foreign-key id="366" parent="294" name="FK5vyf7x3k03rk80bquqxn66gf9">
+    <foreign-key id="368" parent="294" name="FK5vyf7x3k03rk80bquqxn66gf9">
       <ColNames>Trip_tripId</ColNames>
       <RefTableName>trips</RefTableName>
       <RefColNames>tripId</RefColNames>
     </foreign-key>
-    <foreign-key id="367" parent="294" name="FK34esv7b47lcqfr2dln7t6rlii">
+    <foreign-key id="369" parent="294" name="FK34esv7b47lcqfr2dln7t6rlii">
       <ColNames>cities_cityId</ColNames>
       <RefTableName>cities</RefTableName>
       <RefColNames>cityId</RefColNames>
     </foreign-key>
-    <column id="368" parent="295" name="Trip_tripId">
+    <column id="370" parent="295" name="Trip_tripId">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="369" parent="295" name="places_placeId">
+    <column id="371" parent="295" name="places_placeId">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="370" parent="295" name="UK_j7vtlo9duwb58hjk43px15dty">
+    <index id="372" parent="295" name="UK_j7vtlo9duwb58hjk43px15dty">
       <ColNames>places_placeId</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="371" parent="295" name="PRIMARY">
+    <key id="373" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Trip_tripId
 places_placeId</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="372" parent="295" name="UK_j7vtlo9duwb58hjk43px15dty">
+    <key id="374" parent="295" name="UK_j7vtlo9duwb58hjk43px15dty">
       <ColNames>places_placeId</ColNames>
       <UnderlyingIndexName>UK_j7vtlo9duwb58hjk43px15dty</UnderlyingIndexName>
     </key>
-    <foreign-key id="373" parent="295" name="FKrnyeslwwdcboundic98yo5egb">
+    <foreign-key id="375" parent="295" name="FKrnyeslwwdcboundic98yo5egb">
       <ColNames>Trip_tripId</ColNames>
       <RefTableName>trips</RefTableName>
       <RefColNames>tripId</RefColNames>
     </foreign-key>
-    <foreign-key id="374" parent="295" name="FK3mqu7ahjygre2wam4ikjpd6kc">
+    <foreign-key id="376" parent="295" name="FK3mqu7ahjygre2wam4ikjpd6kc">
       <ColNames>places_placeId</ColNames>
       <RefTableName>places</RefTableName>
       <RefColNames>placeId</RefColNames>
     </foreign-key>
-    <column id="375" parent="296" name="emailId">
+    <column id="377" parent="296" name="emailId">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="376" parent="296" name="dataOfBirth">
+    <column id="378" parent="296" name="dataOfBirth">
       <Position>2</Position>
       <DataType>date|0s</DataType>
     </column>
-    <column id="377" parent="296" name="gender">
+    <column id="379" parent="296" name="gender">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="378" parent="296" name="password">
+    <column id="380" parent="296" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <key id="379" parent="296" name="PRIMARY">
+    <key id="381" parent="296" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>emailId</ColNames>
       <Primary>1</Primary>
