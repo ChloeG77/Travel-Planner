@@ -2,23 +2,18 @@ package com.laioffer.travel_planner_backend.entity;
 
 import java.io.Serializable;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,7 +24,7 @@ public class Place implements Serializable {
 		
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO)
-		private Long placeId;
+		private String placeId;
 		
 		private String name;
 		
@@ -68,11 +63,11 @@ public class Place implements Serializable {
 		@ManyToMany
 		private List<User> pastVisitors;
 		
-		public Long getPlaceId() {
+		public String getPlaceId() {
 				return placeId;
 		}
 		
-		public void setPlaceId(Long placeId) {
+		public void setPlaceId(String placeId) {
 				this.placeId = placeId;
 		}
 		

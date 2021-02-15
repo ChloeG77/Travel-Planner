@@ -60,6 +60,8 @@ public class Trip implements Serializable {
 		@Column(name = "trip_rating")
 		private double rating;
 		
+		private String review;
+		
 		private boolean isPrivate;
 		
 		public int getTripId() {
@@ -148,6 +150,14 @@ public class Trip implements Serializable {
 		
 		public void setRating(double rating) {
 				this.rating = rating;
+		}
+		
+		public String getReview() {
+				return review;
+		}
+		
+		public void setReview(String review) {
+				this.review = review;
 		}
 		
 		public boolean isPrivate() {

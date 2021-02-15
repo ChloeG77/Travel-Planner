@@ -3,6 +3,7 @@ package com.laioffer.travel_planner_backend.entity;
 import java.io.Serializable;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -32,10 +33,10 @@ public class Day implements Serializable {
 		private Trip trip;
 		
 		@OneToMany
-		private Set<Place> places;
+		private Set<Stop> stops;
 		
 		@OneToMany
-		private List<Place> route;
+		private List<Stop> route;
 		
 		public int getDayId() {
 				return dayId;
@@ -53,19 +54,19 @@ public class Day implements Serializable {
 				this.trip = trip;
 		}
 		
-		public Set<Place> getPlaces() {
-				return places;
+		public Set<Stop> getPlaces() {
+				return stops;
 		}
 		
-		public void setPlaces(Set<Place> places) {
-				this.places = places;
+		public void setPlaces(Set<Stop> stops) {
+				this.stops = stops;
 		}
 		
-		public List<Place> getRoute() {
+		public List<Stop> getRoute() {
 				return route;
 		}
 		
-		public void setRoute(List<Place> route) {
+		public void setRoute(ArrayList<Stop> route) {
 				this.route = route;
 		}
 }
