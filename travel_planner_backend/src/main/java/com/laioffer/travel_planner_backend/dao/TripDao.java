@@ -1,5 +1,6 @@
 package com.laioffer.travel_planner_backend.dao;
 
+import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.entity.User;
 import org.hibernate.Criteria;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class TripDao {
@@ -78,6 +80,31 @@ public class TripDao {
                 session.close();
             }
         }
+    }
+
+    public void addPlace(int tripId, Place place) {
+        Trip trip = getTripById(tripId);
+        trip.addPlace(place);
+        updateTrip(trip);
+    }
+
+    public Place getPlace(int tripId, int placeId) {
+        Trip trip = getTripById(tripId);
+        Set<Place> places = trip.getPlaces();
+        for (Place place : places) {
+            if (place.getPlaceId().equals(placeId)) {
+                return place;
+            }
+        }
+        return null;
+    }
+
+
+    public void deletePlace(int tripId, int placeId) {
+        Trip trip = getTripById(tripId);
+        Place place = getPlace(tripId, placeId);
+        trip.deletePlace(place);
+        updateTrip(trip);
     }
 
     public Trip getTripByTripName(String tripName) {

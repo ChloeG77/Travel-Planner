@@ -1,11 +1,15 @@
 package com.laioffer.travel_planner_backend.controller;
 
+import com.laioffer.travel_planner_backend.entity.Day;
+import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class TripController {
@@ -15,18 +19,18 @@ public class TripController {
 
     @RequestMapping(value="trip/{tripId}", method = RequestMethod.GET)
     @ResponseBody
-    public Trip getTripId(@PathVariable(value="tripId") int tripId) {
+    public Trip getTripById(@PathVariable(value="tripId") int tripId) {
         return tripService.getTripById(tripId);
     }
 
 
     @RequestMapping(value="trip/days/{tripId}", method = RequestMethod.GET)
     @ResponseBody
-    public Trip getTripDays(@PathVariable(value="tripId") int tripId) {
-        return tripService.getTripById(tripId);
+    public List<Day> getTripDays(@PathVariable(value="tripId") int tripId) {
+        return tripService.getTripById(tripId).getDays();
     }
 
-    @RequestMapping(value="trip/{tripId}", method = RequestMethod.POST)
+    @RequestMapping(value="trip/{tripName}", method = RequestMethod.POST)
     @ResponseBody
     public String addTrip(@ModelAttribute Trip trip, BindingResult result) {
         if (result.hasErrors()) {
@@ -36,11 +40,22 @@ public class TripController {
         return "redirect:/getAllTrip";
     }
 
-    @RequestMapping(value="trip/{tripId}", method = RequestMethod.DELETE)
+    @RequestMapping(value="trip/{tripId}/{placeId}", method = RequestMethod.POST)
     @ResponseBody
-    public String deleteTrip(@PathVariable(value="tripId") int tripId) {
+    public String addPlace(@PathVariable(value="tripId") int tripId, @ModelAttribute Place place, BindingResult result) {
+        if (result.hasErrors()) {
+            return "addTrip";
+        }
+        tripService.addPlace(tripId, place);
+        return "redirect:/getAllTrip";
+    }
 
-        tripService.deleteTrip(tripId);
+
+    @RequestMapping(value="trip/{tripId}/{placeId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deletePlace(@PathVariable(value="tripId") int tripId, @PathVariable(value="placeId") int placeId) {
+
+        tripService.deletePlace(tripId, placeId);
         return "redirect:/getAllTrip";
     }
 
@@ -52,6 +67,33 @@ public class TripController {
         return "redirect:/getAllTrip";
     }
 
+
+    @RequestMapping(value="trip/privacy/{tripId}", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean getTripPrivacy(@PathVariable(value="tripId") int tripId) {
+
+        return tripService.getTripById(tripId).isPrivate();
+    }
+
+    @RequestMapping(value="trip/{privacy}/{tripId}", method = RequestMethod.POST)
+    @ResponseBody
+    public String getTripPrivacy(@PathVariable(value="tripId") int tripId, @PathVariable(value="privacy") boolean privacy) {
+        tripService.getTripById(tripId).setPrivate(privacy);
+        return "redirect:/getAllTrip";
+    }
+    @RequestMapping(value="trip/rating/{tripId}", method = RequestMethod.GET)
+    @ResponseBody
+    public double getTripRating(@PathVariable(value="tripId") int tripId) {
+
+        return tripService.getTripById(tripId).getRating();
+    }
+
+    @RequestMapping(value="trip/{rating}/{tripId}", method = RequestMethod.POST)
+    @ResponseBody
+    public String setTripRating(@PathVariable(value="tripId") int tripId, @PathVariable(value="rating") double rating) {
+
+        return "redirect:/getAllTrip";
+    }
 
 
 }

@@ -141,7 +141,14 @@ public class Trip implements Serializable {
 		public void setPlaces(Set<Place> places) {
 				this.places = places;
 		}
-		
+
+		public void addPlace(Place place) {
+		this.places.add(place);
+	}
+		public void deletePlace(Place place) {
+			this.places.remove(place);
+		}
+
 		public double getRating() {
 				return rating;
 		}
