@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Travel-Planner.iml" filepath="$PROJECT_DIR$/.idea/Travel-Planner.iml" />
+<<<<<<< Updated upstream
       <module fileurl="file://$PROJECT_DIR$/travel_planner_backend/travel_planner_backend.iml" filepath="$PROJECT_DIR$/travel_planner_backend/travel_planner_backend.iml" />
+=======
+>>>>>>> Stashed changes
     </modules>
   </component>
 </project>
