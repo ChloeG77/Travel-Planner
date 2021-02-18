@@ -1,7 +1,5 @@
 package com.laioffer.travel_planner_backend.dao;
 
-=======
->>>>>>> kaichun
 import com.laioffer.travel_planner_backend.entity.Day;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,9 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DayDao {
-<<<<<<< HEAD
-    @Autowired
-    private SessionFactory sessionFactory;
+
 		
 		@Autowired
 		private SessionFactory sessionFactory;
@@ -37,4 +33,4 @@ public class DayDao {
 				}
 		}
 }
->>>>>>> kaichun
+

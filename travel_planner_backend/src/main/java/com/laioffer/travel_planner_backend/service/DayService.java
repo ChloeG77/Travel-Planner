@@ -1,6 +1,6 @@
 package com.laioffer.travel_planner_backend.service;
 
-=======
+
 import com.laioffer.travel_planner_backend.dao.DayDao;
 import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
@@ -29,6 +29,5 @@ public class DayService {
 		public Day getDayById(int dayId) {
 				return dayDao.getDayById(dayId);
 		}
-		
->>>>>>> kaichun
+
 }

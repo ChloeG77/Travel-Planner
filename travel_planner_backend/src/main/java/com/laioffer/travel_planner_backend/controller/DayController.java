@@ -1,5 +1,6 @@
+package com.laioffer.travel_planner_backend.controller;
 
-=======
+import com.laioffer.travel_planner_backend.service.DayService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,4 @@ public class DayController {
 		}
 		
 
-		
->>>>>>> kaichun
 }
