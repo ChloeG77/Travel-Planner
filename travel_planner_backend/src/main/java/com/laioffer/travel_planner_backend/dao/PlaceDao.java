@@ -1,5 +1,6 @@
 package com.laioffer.travel_planner_backend.dao;
 
+import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -62,5 +63,15 @@ public class PlaceDao {
                 session.close();
             }
         }
+    }
+
+    public Place getPlaceById(String placeId) {
+        Place place = null;
+        try (Session session = sessionFactory.openSession()) {
+            place = session.get(Place.class, placeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return place;
     }
 }

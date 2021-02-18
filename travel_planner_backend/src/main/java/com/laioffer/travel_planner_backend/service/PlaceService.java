@@ -23,4 +23,8 @@ public class PlaceService {
     public void updatePlace(Place place) {
         placeDao.updatePlace(place);
     }
+
+    public Place getPlaceById(String placeId) {
+        return placeDao.getPlaceById(placeId);
+    }
 }
