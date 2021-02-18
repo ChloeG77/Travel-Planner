@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class TripService {
     private TripDao tripDao;
 
-    public Trip getTripById(int tripId) {
+    public Trip getTripById(long tripId) {
         return tripDao.getTripById(tripId);
     }
 
@@ -17,18 +17,19 @@ public class TripService {
         tripDao.addTrip(trip);
     }
 
-    public void deleteTrip(int tripId) {
+    public void deleteTrip(long tripId) {
         tripDao.deleteTrip(tripId);
     }
 
     public void updateTrip(Trip trip) {
         tripDao.updateTrip(trip);
-
     }
-    public void addPlace(int tripId, Place place) {
+
+    public void addPlace(long tripId, Place place) {
         tripDao.addPlace(tripId, place);
     }
-    public void deletePlace(int tripId, int placeId) {
+
+    public void deletePlace(long tripId, String placeId) {
         tripDao.deletePlace(tripId, placeId);
     }
 

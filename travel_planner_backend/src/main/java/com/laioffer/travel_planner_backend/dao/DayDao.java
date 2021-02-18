@@ -9,28 +9,28 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class DayDao {
 
-		
-		@Autowired
-		private SessionFactory sessionFactory;
-		
-		public Day getDayById(int dayId) {
-				Day day = null;
-				try (Session session = sessionFactory.openSession()) {
-						day = session.get(Day.class, dayId);
-				} catch (Exception e) {
-						e.printStackTrace();
-				}
-				return day;
-		}
-		
-		public void update(Day day) {
-				try (Session session = sessionFactory.openSession()) {
-						session.beginTransaction();
-						session.saveOrUpdate(day);
-						session.getTransaction().commit();
-				} catch (Exception e) {
-						e.printStackTrace();
-				}
-		}
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    public Day getDayById(long dayId) {
+        Day day = null;
+        try (Session session = sessionFactory.openSession()) {
+            day = session.get(Day.class, dayId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return day;
+    }
+
+    public void update(Day day) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.saveOrUpdate(day);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 

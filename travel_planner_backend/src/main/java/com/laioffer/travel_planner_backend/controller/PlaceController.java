@@ -16,8 +16,8 @@ public class PlaceController {
     @Autowired
     private PlaceService placeService;
 
-    @RequestMapping(value = "place/addPlace", method = RequestMethod.POST)
-    public String addPlace (@ModelAttribute Place place, BindingResult result) {
+    @RequestMapping(value = "place/{placeId}", method = RequestMethod.POST)
+    public String addPlace(@ModelAttribute Place place, BindingResult result) {
         if (result.hasErrors()) {
             return "addPlace";
         }
@@ -25,11 +25,24 @@ public class PlaceController {
         return "redirect:/getAllPlace";
     }
 
-
-    @RequestMapping (value = "delete/{placeId}")
-    public String deletePlace(@PathVariable(value = "placeId") int placeId) {
+    @RequestMapping(value = "place/{placeId}", method = RequestMethod.DELETE)
+    public String deletePlace(@PathVariable(value = "placeId") String placeId) {
         placeService.deletePlace(placeId);
-        return "redirect:/getAllProduct";
+        return "redirect:/getAllPlace";
+    }
+
+    @RequestMapping(value = "place/{placeId}", method = RequestMethod.GET)
+    public String searchPlaceById(@PathVariable(value = "placeId") String placeId) {
+        placeService.searchPlaceById(placeId);
+        // TODO: to complete and return actual place objects
+        return "redirect:/getAllPlace";
+    }
+
+    @RequestMapping(value = "place/name/{name}", method = RequestMethod.GET)
+    public String searchPlaceByName(@PathVariable(value = "name") String name) {
+        placeService.searchPlaceByName(name);
+        // TODO: to complete and return list of actual place objects
+        return "redirect:/getAllPlace";
     }
 
 }

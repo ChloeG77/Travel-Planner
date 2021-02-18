@@ -1,6 +1,5 @@
 package com.laioffer.travel_planner_backend.dao;
 
-import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,7 +29,7 @@ public class PlaceDao {
     }
 
 
-    public void deletePlace(int placeId) {
+    public void deletePlace(String placeId) {
         Session session = null;
         try {
             session = sessionFactory.openSession();

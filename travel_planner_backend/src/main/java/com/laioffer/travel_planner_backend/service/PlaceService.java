@@ -12,11 +12,11 @@ public class PlaceService {
     @Autowired
     private PlaceDao placeDao;
 
-    public void addPlace (Place place) {
+    public void addPlace(Place place) {
         placeDao.addPlace(place);
     }
 
-    public void deletePlace (int placeId) {
+    public void deletePlace(String placeId) {
         placeDao.deletePlace(placeId);
     }
 
@@ -26,5 +26,11 @@ public class PlaceService {
 
     public Place getPlaceById(String placeId) {
         return placeDao.getPlaceById(placeId);
+    }
+
+    public void searchPlaceById(String placeId) {
+    }
+
+    public void searchPlaceByName(String name) {
     }
 }
