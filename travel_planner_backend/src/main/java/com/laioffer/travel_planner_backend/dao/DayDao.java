@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DayDao {
+
 		
 		@Autowired
 		private SessionFactory sessionFactory;
@@ -32,3 +33,4 @@ public class DayDao {
 				}
 		}
 }
+
