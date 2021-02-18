@@ -35,7 +35,7 @@ public class ApplicationConfig {
 				String username = prop.getProperty("user");
 				String password = prop.getProperty("password");
 				String rds_ip = prop.getProperty("rds_ip");
-				String urlTemplate = "jdbc:mysql://%s:3306/travelplanner?createDatabaseIfNotExist=true&serverTimezone=UTC";
+				String urlTemplate = "jdbc:mysql://%s:3306/travelplanner2?createDatabaseIfNotExist=true&serverTimezone=UTC";
 
 				DriverManagerDataSource dataSource = new DriverManagerDataSource();
 				dataSource.setDriverClassName("com.mysql.jdbc.Driver");

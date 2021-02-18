@@ -1,6 +1,7 @@
 package com.laioffer.travel_planner_backend.dao;
 
-
+=======
+>>>>>>> kaichun
 import com.laioffer.travel_planner_backend.entity.Day;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,41 +10,31 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DayDao {
+<<<<<<< HEAD
     @Autowired
     private SessionFactory sessionFactory;
-
-    public void addDay(Day day) {
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.save(day);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
-
-    public void deleteDay (int dayId) {
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            Day day = session.get(Day.class, dayId);
-            session.delete(day);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
+		
+		@Autowired
+		private SessionFactory sessionFactory;
+		
+		public Day getDayById(int dayId) {
+				Day day = null;
+				try (Session session = sessionFactory.openSession()) {
+						day = session.get(Day.class, dayId);
+				} catch (Exception e) {
+						e.printStackTrace();
+				}
+				return day;
+		}
+		
+		private void update(Day day) {
+				try (Session session = sessionFactory.openSession()) {
+						session.beginTransaction();
+						session.saveOrUpdate(day);
+						session.getTransaction().commit();
+				} catch (Exception e) {
+						e.printStackTrace();
+				}
+		}
 }
+>>>>>>> kaichun

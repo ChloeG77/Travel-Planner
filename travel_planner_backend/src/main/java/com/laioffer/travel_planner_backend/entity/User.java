@@ -13,7 +13,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +36,10 @@ public class User implements Serializable {
 		
 		@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
 		private List<Trip> allTrips;
+		
+//		@ManyToMany(cascade = CascadeType.PERSIST)
+//		@LazyCollection(LazyCollectionOption.FALSE)
+//		private List<Place> placesVisited;
 		
 		@ElementCollection
 		private Set<Tag> tags;
