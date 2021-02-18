@@ -23,19 +23,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae1dea0e-e62f-4236-bc1d-757c9c3e8f15" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Travel_Planner_war_exploded.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/controller/PlaceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/dao/PlaceDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/service/PlaceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/applicationContext.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/dispatcher-servlet.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Travel-Planner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Travel-Planner.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/controller/DayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/controller/DayController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/dao/DayDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/dao/DayDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/service/DayService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/service/DayService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/controller/PlaceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/controller/PlaceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/dao/PlaceDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/dao/PlaceDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/service/PlaceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/travel_planner_backend/src/main/java/com/laioffer/travel_planner_backend/service/PlaceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel_planner_backend/travel_planner_backend.iml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,13 +44,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
-      </MavenGeneralSettings>
-    </option>
   </component>
   <component name="ProjectId" id="1oSO9kvH7iDq7R7C0fjqUq2tm61" />
   <component name="ProjectLevelVcsManager">
@@ -215,7 +200,8 @@
       <workItem from="1613607014032" duration="312000" />
       <workItem from="1613607442221" duration="1331000" />
       <workItem from="1613608782621" duration="1716000" />
-      <workItem from="1613610596830" duration="1686000" />
+      <workItem from="1613610596830" duration="5241000" />
+      <workItem from="1613618730873" duration="317000" />
     </task>
     <servers />
   </component>
@@ -235,10 +221,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="3132" y="560" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613609000256">
+    <state x="2835" y="608" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613618436258">
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>
-    <state x="3132" y="560" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613609000256" />
+    <state x="2835" y="608" width="1071" height="706" key="#com.intellij.execution.impl.EditConfigurationsDialog/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613618436258" />
     <state x="3191" y="666" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1613609673947">
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>
@@ -247,22 +233,22 @@
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>
     <state x="2932" y="645" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613608925474" />
-    <state width="1551" height="295" key="GridCell.Tab.0.bottom" timestamp="1613610500440">
+    <state width="1901" height="325" key="GridCell.Tab.0.bottom" timestamp="1613618682294">
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>
-    <state width="1551" height="295" key="GridCell.Tab.0.bottom/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613610500440" />
-    <state width="1551" height="295" key="GridCell.Tab.0.center" timestamp="1613610500440">
+    <state width="1901" height="325" key="GridCell.Tab.0.bottom/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613618682294" />
+    <state width="1901" height="325" key="GridCell.Tab.0.center" timestamp="1613618682293">
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>
-    <state width="1551" height="295" key="GridCell.Tab.0.center/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613610500440" />
-    <state width="1551" height="295" key="GridCell.Tab.0.left" timestamp="1613610500439">
+    <state width="1901" height="325" key="GridCell.Tab.0.center/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613618682293" />
+    <state width="1901" height="325" key="GridCell.Tab.0.left" timestamp="1613618682293">
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>
-    <state width="1551" height="295" key="GridCell.Tab.0.left/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613610500439" />
-    <state width="1551" height="295" key="GridCell.Tab.0.right" timestamp="1613610500440">
+    <state width="1901" height="325" key="GridCell.Tab.0.left/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613618682293" />
+    <state width="1901" height="325" key="GridCell.Tab.0.right" timestamp="1613618682293">
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>
-    <state width="1551" height="295" key="GridCell.Tab.0.right/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613610500440" />
+    <state width="1901" height="325" key="GridCell.Tab.0.right/1680.25.2560.1330/0.25.1680.1025@1680.25.2560.1330" timestamp="1613618682293" />
     <state x="2820" y="416" width="670" height="675" key="run.anything.popup" timestamp="1613608606775">
       <screen x="1680" y="25" width="2560" height="1330" />
     </state>

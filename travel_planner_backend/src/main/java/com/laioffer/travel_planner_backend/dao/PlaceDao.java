@@ -1,5 +1,11 @@
 package com.laioffer.travel_planner_backend.dao;
 
+import com.laioffer.travel_planner_backend.entity.Place;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 @Repository
 public class PlaceDao {
     @Autowired

@@ -1,5 +1,11 @@
 package com.laioffer.travel_planner_backend.service;
 
+
+import com.laioffer.travel_planner_backend.dao.PlaceDao;
+import com.laioffer.travel_planner_backend.entity.Place;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 @Service
 public class PlaceService {
 
@@ -15,6 +21,6 @@ public class PlaceService {
     }
 
     public void updatePlace(Place place) {
-        place.updatePlace(place);
+        placeDao.updatePlace(place);
     }
 }
