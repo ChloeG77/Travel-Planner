@@ -29,7 +29,7 @@ public class PlaceController {
     @RequestMapping (value = "delete/{placeId}")
     public String deletePlace(@PathVariable(value = "placeId") int placeId) {
         placeService.deletePlace(placeId);
-        return "redirect:/getAllProduct";
+        return "redirect:/getAllPlace";
     }
 
 }
