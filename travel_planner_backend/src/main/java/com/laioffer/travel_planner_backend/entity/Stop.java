@@ -53,4 +53,12 @@ public class Stop implements Serializable {
 		public void setDay(Day day) {
 				this.day = day;
 		}
+		
+		public StopType getType() {
+				return type;
+		}
+		
+		public void setType(StopType type) {
+				this.type = type;
+		}
 }

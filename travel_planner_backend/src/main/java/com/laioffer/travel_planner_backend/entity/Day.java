@@ -54,11 +54,11 @@ public class Day implements Serializable {
 				this.trip = trip;
 		}
 		
-		public Set<Stop> getPlaces() {
+		public Set<Stop> getStops() {
 				return stops;
 		}
 		
-		public void setPlaces(Set<Stop> stops) {
+		public void setStops(Set<Stop> stops) {
 				this.stops = stops;
 		}
 		
@@ -66,7 +66,8 @@ public class Day implements Serializable {
 				return route;
 		}
 		
-		public void setRoute(ArrayList<Stop> route) {
+		public void setRoute(List<Stop> route) {
 				this.route = route;
 		}
+		
 }

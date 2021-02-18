@@ -22,7 +22,7 @@ public class DayDao {
 				return day;
 		}
 		
-		private void update(Day day) {
+		public void update(Day day) {
 				try (Session session = sessionFactory.openSession()) {
 						session.beginTransaction();
 						session.saveOrUpdate(day);
