@@ -1,4 +1,4 @@
 # java
 ./src/main/resources/config.properties
 ./target
-./.idea/
+./.idea
