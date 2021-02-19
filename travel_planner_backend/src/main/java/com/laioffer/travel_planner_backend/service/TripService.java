@@ -3,10 +3,13 @@ package com.laioffer.travel_planner_backend.service;
 import com.laioffer.travel_planner_backend.dao.TripDao;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TripService {
+
+    @Autowired
     private TripDao tripDao;
 
     public Trip getTripById(long tripId) {

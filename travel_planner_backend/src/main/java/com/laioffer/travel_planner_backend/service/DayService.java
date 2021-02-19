@@ -7,15 +7,19 @@ import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Stop;
 import com.laioffer.travel_planner_backend.entity.StopType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class DayService {
 
     @Autowired
     private DayDao dayDao;
+
+    @Autowired
     private StopDao stopDao;
 
     public void setRoute(Day day, List<Stop> route) {
