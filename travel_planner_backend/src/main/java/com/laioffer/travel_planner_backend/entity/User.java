@@ -1,5 +1,6 @@
 package com.laioffer.travel_planner_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -20,7 +21,10 @@ public class User implements Serializable {
 
     private String password;
 
-    private java.sql.Date dataOfBirth;
+    private boolean enabled;
+
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private java.sql.Date dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -51,12 +55,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Date getDataOfBirth() {
-        return dataOfBirth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDataOfBirth(Date dataOfBirth) {
-        this.dataOfBirth = dataOfBirth;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Gender getGender() {
@@ -89,5 +93,12 @@ public class User implements Serializable {
 
     public void setPlacesVisited(List<Place> placesVisited) {
         this.placesVisited = placesVisited;
+    }
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
