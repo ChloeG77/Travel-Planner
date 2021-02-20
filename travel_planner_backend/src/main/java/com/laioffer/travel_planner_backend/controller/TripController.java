@@ -30,6 +30,13 @@ public class TripController {
         return tripService.getTripById(tripId).getDays();
     }
 
+    @RequestMapping(value = "trip/{tripId}", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteTrip(@PathVariable(value = "tripId") long tripId) {
+        tripService.deleteTrip(tripId);
+        return "redirect:/getAllTrip";
+    }
+
     @RequestMapping(value = "trip/newTrip", method = RequestMethod.POST)
     @ResponseBody
     public String addTrip(@ModelAttribute Trip trip, BindingResult result) {

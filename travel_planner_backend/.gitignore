@@ -1,4 +1,4 @@
 # java
-/travel_planner_backend/src/main/recources/config.properties
-/travel_planner_backend/target
-/travel_planner_backend/.idea/
+./src/main/resources/config.properties
+./target
+./.idea

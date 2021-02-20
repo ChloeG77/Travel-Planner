@@ -5,14 +5,7 @@
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://winter-project.cjchfib6ytfl.us-east-2.rds.amazonaws.com:3306/travelplanner</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="travelplanner2@winter-projects.cds5eud0hxeg.us-east-2.rds.amazonaws.com" uuid="d276c447-ee36-433f-81a2-a435cccd32aa">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://winter-projects.cds5eud0hxeg.us-east-2.rds.amazonaws.com:3306/travelplanner2</jdbc-url>
+      <jdbc-url>jdbc:mysql://winter-project.cjchfib6ytfl.us-east-2.rds.amazonaws.com:3306/travelplanner2</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
