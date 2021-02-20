@@ -20,7 +20,7 @@ public class User implements Serializable {
 
     private String password;
 
-    private java.sql.Date dataOfBirth;
+    private java.sql.Date dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -34,6 +34,8 @@ public class User implements Serializable {
 
     @ElementCollection
     private Set<Tag> tags;
+
+    private boolean enabled;
 
     public String getEmailId() {
         return emailId;
@@ -51,12 +53,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Date getDataOfBirth() {
-        return dataOfBirth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDataOfBirth(Date dataOfBirth) {
-        this.dataOfBirth = dataOfBirth;
+    public void setDateOfBirth(Date dataOfBirth) {
+        this.dateOfBirth = dataOfBirth;
     }
 
     public Gender getGender() {
@@ -89,5 +91,13 @@ public class User implements Serializable {
 
     public void setPlacesVisited(List<Place> placesVisited) {
         this.placesVisited = placesVisited;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

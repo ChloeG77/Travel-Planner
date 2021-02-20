@@ -1,5 +1,6 @@
 package com.laioffer.travel_planner_backend.dao;
 
+import com.laioffer.travel_planner_backend.entity.City;
 import com.laioffer.travel_planner_backend.entity.Place;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

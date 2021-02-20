@@ -14,7 +14,7 @@ public class City implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int cityId;
+    private long cityId;
 
     @Column(name = "city_name")
     private String name;
@@ -27,7 +27,7 @@ public class City implements Serializable {
     @JsonIgnore
     private Set<Place> places;
 
-    public int getCityId() {
+    public long getCityId() {
         return cityId;
     }
 

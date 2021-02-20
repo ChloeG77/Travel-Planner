@@ -1,19 +1,22 @@
 package com.laioffer.travel_planner_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "places")
+@JsonDeserialize(using = PlaceDeserializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Place implements Serializable {
 
     private static final long serialVersionUID = 4416791690796518229L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String placeId;
 
     private String name;
@@ -27,8 +30,12 @@ public class Place implements Serializable {
 
     private String address;
 
+    private String phoneNumber;
+
     @ManyToOne
     private City city;
+
+    private String cityName;
 
     private String state;
 
@@ -36,9 +43,8 @@ public class Place implements Serializable {
 
     private String postcode;
 
-    private java.sql.Time openTime;
-
-    private java.sql.Time closeTime;
+    @ElementCollection
+    private List<String> openingHours;
 
     @Column(name = "place_rating")
     private double rating;
@@ -103,12 +109,28 @@ public class Place implements Serializable {
         this.address = address;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public City getCity() {
         return city;
     }
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getState() {
@@ -135,20 +157,12 @@ public class Place implements Serializable {
         this.postcode = postcode;
     }
 
-    public Time getOpenTime() {
-        return openTime;
+    public List<String> getOpeningHours() {
+        return openingHours;
     }
 
-    public void setOpenTime(Time openTime) {
-        this.openTime = openTime;
-    }
-
-    public Time getCloseTime() {
-        return closeTime;
-    }
-
-    public void setCloseTime(Time closeTime) {
-        this.closeTime = closeTime;
+    public void setOpeningHours(List<String> openingHours) {
+        this.openingHours = openingHours;
     }
 
     public double getRating() {

@@ -1,6 +1,5 @@
 package com.laioffer.travel_planner_backend.entity;
 
-
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
