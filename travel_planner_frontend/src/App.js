@@ -1,7 +1,7 @@
 import React from 'react';
 import TravelHeader from './components/Header'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import './App.css';
+import './styles/App.css';
 import PlannerPage from './components/PlannerPage';
 import HomePage from './components/HomePage'
 import Layout from 'antd/lib/layout/layout';
@@ -15,7 +15,7 @@ const App = () => (
       <div>
         <Layout>
           <TravelHeader />
-          <nav>
+          {/* <nav>
             <ul>
               <li>
                 <Link to="/">HomePage</Link>
@@ -24,7 +24,7 @@ const App = () => (
                 <Link to="/planner">PlannerPage</Link>
               </li>
             </ul>
-          </nav>
+          </nav> */}
         </Layout>
         
         

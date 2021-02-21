@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import MapContainer from './Map'
+import Map from './Map'
 
 export default class PlannerPage extends Component {
   render() {
     return (
-      <MapContainer />
+      <div className="main-wrapper">
+        <Map />
+      </div>
     )
   }
 }

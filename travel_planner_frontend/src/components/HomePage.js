@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React  from "react";
 import { Form, DatePicker, Button, Select, Input } from 'antd';
 import { useHistory } from "react-router-dom";
 
