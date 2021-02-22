@@ -23,10 +23,8 @@ class Map extends Component {
         places: [],
         center: [],
         zoom: 9,
-        address: '',
-        draggable: true,
-        lat: null,
-        lng: null
+        lat: [],
+        lng: []
     };
 
     componentWillMount() {
@@ -34,17 +32,7 @@ class Map extends Component {
     }
 
 
-    onMarkerInteraction = (childKey, childProps, mouse) => {
-        this.setState({
-            draggable: false,
-            lat: mouse.lat,
-            lng: mouse.lng
-        });
-    }
-    onMarkerInteractionMouseUp = (childKey, childProps, mouse) => {
-        this.setState({ draggable: true });
-        this._generateAddress();
-    }
+
 
     _onChange = ({ center, zoom }) => {
         this.setState({
@@ -54,12 +42,7 @@ class Map extends Component {
 
     }
 
-    _onClick = (value) => {
-        this.setState({
-            lat: value.lat,
-            lng: value.lng
-        });
-    }
+
 
     apiHasLoaded = (map, maps) => {
         this.setState({
@@ -68,41 +51,24 @@ class Map extends Component {
             mapApi: maps,
         });
 
-        this._generateAddress();
     };
 
     addPlace = (place) => {
+        // this.setState({
+        //     places: [place],
+        //     lat: place.geometry.location.lat(),
+        //     lng: place.geometry.location.lng()
+        // });
+        
         this.setState({
-            places: [place],
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng()
+            places: [...this.state.places, place],
+            lat: [...this.state.lat, place.geometry.location.lat()],
+            lng: [...this.state.lng, place.geometry.location.lng()]
         });
-        this._generateAddress()
+
     };
 
-    _generateAddress() {
-        const {
-            mapApi
-        } = this.state;
 
-        const geocoder = new mapApi.Geocoder;
-
-        geocoder.geocode({ 'location': { lat: this.state.lat, lng: this.state.lng } }, (results, status) => {
-            console.log(results);
-            console.log(status);
-            if (status === 'OK') {
-                if (results[0]) {
-                    this.zoom = 12;
-                    this.setState({ address: results[0].formatted_address });
-                } else {
-                    window.alert('No results found');
-                }
-            } else {
-                window.alert('Geocoder failed due to: ' + status);
-            }
-
-        });
-    }
 
     // Get Current Location Coordinates
     setCurrentLocation() {
@@ -110,8 +76,8 @@ class Map extends Component {
             navigator.geolocation.getCurrentPosition((position) => {
                 this.setState({
                     center: [position.coords.latitude, position.coords.longitude],
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
+                    lat: [position.coords.latitude],
+                    lng: [position.coords.longitude]
                 });
             });
         }
@@ -133,13 +99,8 @@ class Map extends Component {
                 <GoogleMapReact
                     center={this.state.center}
                     zoom={this.state.zoom}
-                    draggable={this.state.draggable}
                     onChange={this._onChange}
-                    onChildMouseDown={this.onMarkerInteraction}
-                    onChildMouseUp={this.onMarkerInteractionMouseUp}
-                    onChildMouseMove={this.onMarkerInteraction}
                     onChildClick={() => console.log('child click')}
-                    onClick={this._onClick}
                     bootstrapURLKeys={{
                         key: 'AIzaSyBVPTDmI9UqcOBK1mYOFkMv-3sBWypsfsA',
                         libraries: ['places', 'geometry'],
@@ -148,19 +109,24 @@ class Map extends Component {
                     onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
                 >
 
-                    <Marker
-                        text={this.state.address}
-                        lat={this.state.lat}
-                        lng={this.state.lng}
-                    />
-
-
+                    {
+                        this.state.lat.map((lat, idx) => {
+                            return (
+                        <Marker
+                            text={'hello'}
+                            lat={this.state.lat[idx]}
+                            lng={this.state.lng[idx]}
+                        />
+                            )
+                        
+                        })
+                    }
+                    
                 </GoogleMapReact>
 
                 <div className="info-wrapper">
                     <div className="map-details">Latitude: <span>{this.state.lat}</span>, Longitude: <span>{this.state.lng}</span></div>
-                    <div className="map-details">Zoom: <span>{this.state.zoom}</span></div>
-                    <div className="map-details">Address: <span>{this.state.address}</span></div>
+
                 </div>
 
 
