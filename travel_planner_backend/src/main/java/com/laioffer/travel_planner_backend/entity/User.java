@@ -3,10 +3,12 @@ package com.laioffer.travel_planner_backend.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,14 +19,43 @@ public class User implements Serializable {
     private static final long serialVersionUID = 2664312460856584164L;
 
     @Id
-    private String emailId;
+    private String email;
 
+    @NaturalId
+    private String username;
     private String password;
-
     private boolean enabled;
 
+    public User() {
+
+    }
+
+    public User(String email, String username, String password, Date date, Gender gender) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.dateOfBirth = date;
+        this.gender = gender;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "email_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+
     @JsonFormat(pattern="yyyy-MM-dd")
-    private java.sql.Date dateOfBirth;
+    private Date dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -39,12 +70,12 @@ public class User implements Serializable {
     @ElementCollection
     private Set<Tag> tags;
 
-    public String getEmailId() {
-        return emailId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setEmail(String emailId) {
+        this.email = emailId;
     }
 
     public String getPassword() {
@@ -83,6 +114,26 @@ public class User implements Serializable {
         return tags;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", enabled=" + enabled +
+                ", roles=" + roles +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender=" + gender +
+                '}';
+    }
+
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
@@ -101,4 +152,5 @@ public class User implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
 }
