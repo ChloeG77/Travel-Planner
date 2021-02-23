@@ -1,57 +1,61 @@
 package com.laioffer.travel_planner_backend.service;
 
-import com.laioffer.travel_planner_backend.dao.DayDao;
-import com.laioffer.travel_planner_backend.dao.StopDao;
 import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Stop;
 import com.laioffer.travel_planner_backend.entity.StopType;
+import com.laioffer.travel_planner_backend.repository.DayRepository;
+import com.laioffer.travel_planner_backend.repository.StopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DayService {
 
     @Autowired
-    private DayDao dayDao;
+    private DayRepository dayRepository;
 
     @Autowired
-    private StopDao stopDao;
-
+    private StopRepository stopRepository;
+    
+    @Transactional
     public void setRoute(Day day, List<Stop> route) {
         day.setRoute(route);
-        dayDao.update(day);
+        dayRepository.save(day);
     }
-
+    
+    @Transactional
     public void generateDayPath(Day day) {
         Set<Stop> stops = day.getStops();
-        ArrayList<Stop> route = planRoute(stops);
+        List<Stop> route = planRoute(stops);
         day.setRoute(route);
     }
-
-    private ArrayList<Stop> planRoute(Set<Stop> places) {
-        return null;
-    }
-
+    
+    @Transactional
     public Day getDayById(long dayId) {
-        return dayDao.getDayById(dayId);
+        return dayRepository.findById(dayId).orElseThrow(() ->
+            new ItemNotFoundException("Day Not Found with -> DayId : " + dayId)
+        );
     }
-
-    public void addPlace(Day day, Place place) {
+    
+    @Transactional
+    public Stop addPlace(Day day, Place place) {
         Stop newStop = new Stop();
         newStop.setDay(day);
         newStop.setPlace(place);
         newStop.setType(new StopType());
-        stopDao.update(newStop);
+        return stopRepository.save(newStop);
         // Maybe add to day? this should automatically cascade to day
 // 				Set<Stop> stops = day.getStops();
 //				stops.add(newStop);
     }
-
+    
+    @Transactional
     public void deletePlace(Day day, Place place) {
         Set<Stop> stops = day.getStops();
         List<Stop> toDelete = new ArrayList<>();
@@ -60,12 +64,16 @@ public class DayService {
                 toDelete.add(stop);
             }
         }
-        for (Stop stop : toDelete) {
-            this.deleteStop(stop);
-        }
+        stopRepository.deleteAll(toDelete);
     }
-
+    
+    @Transactional
     public void deleteStop(Stop stop) {
-        stopDao.deleteStop(stop);
+        stopRepository.delete(stop);
+    }
+    
+    private List<Stop> planRoute(Set<Stop> places) {
+        List<Stop> route = new ArrayList<>(places);
+        return route;
     }
 }
