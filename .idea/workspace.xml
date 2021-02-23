@@ -23,7 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae1dea0e-e62f-4236-bc1d-757c9c3e8f15" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Travel-Planner.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Travel-Planner.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +42,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1oSO9kvH7iDq7R7C0fjqUq2tm61" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -61,6 +60,11 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/travel_planner_backend" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Tomcat 9.0.40" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote" APPLICATION_SERVER_NAME="Tomcat 9.0.40" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
@@ -206,6 +210,7 @@
       <workItem from="1614046546993" duration="73000" />
       <workItem from="1614046624369" duration="195000" />
       <workItem from="1614046836744" duration="124000" />
+      <workItem from="1614050565299" duration="8000" />
     </task>
     <servers />
   </component>
