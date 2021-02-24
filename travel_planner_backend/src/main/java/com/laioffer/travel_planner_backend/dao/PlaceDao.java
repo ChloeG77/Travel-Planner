@@ -1,6 +1,5 @@
 package com.laioffer.travel_planner_backend.dao;
 
-import com.laioffer.travel_planner_backend.entity.City;
 import com.laioffer.travel_planner_backend.entity.Place;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class PlaceDao {
+    
     @Autowired
     private SessionFactory sessionFactory;
-
+    
     public void addPlace(Place place) {
         Session session = null;
         try {
@@ -28,8 +28,8 @@ public class PlaceDao {
             }
         }
     }
-
-
+    
+    
     public void deletePlace(String placeId) {
         Session session = null;
         try {
@@ -47,7 +47,7 @@ public class PlaceDao {
             }
         }
     }
-
+    
     public void updatePlace(Place place) {
         Session session = null;
         try {
@@ -64,7 +64,7 @@ public class PlaceDao {
             }
         }
     }
-
+    
     public Place getPlaceById(String placeId) {
         Place place = null;
         try (Session session = sessionFactory.openSession()) {

@@ -6,22 +6,25 @@ import com.laioffer.travel_planner_backend.entity.Stop;
 import com.laioffer.travel_planner_backend.entity.StopType;
 import com.laioffer.travel_planner_backend.repository.DayRepository;
 import com.laioffer.travel_planner_backend.repository.StopRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.laioffer.travel_planner_backend.repository.TripRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DayService {
-
+    
     @Autowired
     private DayRepository dayRepository;
-
+    
     @Autowired
     private StopRepository stopRepository;
+    
+    @Autowired
+    private TripRepository tripRepository;
     
     @Transactional
     public void setRoute(Day day, List<Stop> route) {
@@ -30,10 +33,11 @@ public class DayService {
     }
     
     @Transactional
-    public void generateDayPath(Day day) {
+    public List<Stop> generateDayPath(Day day) {
         Set<Stop> stops = day.getStops();
         List<Stop> route = planRoute(stops);
         day.setRoute(route);
+        return route;
     }
     
     @Transactional
@@ -58,22 +62,37 @@ public class DayService {
     @Transactional
     public void deletePlace(Day day, Place place) {
         Set<Stop> stops = day.getStops();
+        System.out.println(stops.toString());
         List<Stop> toDelete = new ArrayList<>();
         for (Stop stop : stops) {
             if (stop.getPlace().equals(place)) {
                 toDelete.add(stop);
             }
         }
-        stopRepository.deleteAll(toDelete);
+        System.out.println(toDelete.toString());
+        for (Stop stop : toDelete) {
+            deleteStop(day, stop);
+        }
     }
     
     @Transactional
-    public void deleteStop(Stop stop) {
-        stopRepository.delete(stop);
+    public void deleteStop(Day day, Stop stop) {
+        Set<Stop> stops = day.getStops();
+        List<Stop> route = day.getRoute();
+        stops.remove(stop);
+        route.remove(stop);
+        dayRepository.save(day);
     }
     
     private List<Stop> planRoute(Set<Stop> places) {
         List<Stop> route = new ArrayList<>(places);
         return route;
+    }
+    
+    @Transactional
+    public Day newDay(long tripId) {
+        Day day = new Day();
+        day.setTrip(tripRepository.findById(tripId));
+        return dayRepository.save(day);
     }
 }

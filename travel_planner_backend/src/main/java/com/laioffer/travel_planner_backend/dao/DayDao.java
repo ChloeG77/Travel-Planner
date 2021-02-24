@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DayDao {
-
-
+    
+    
     @Autowired
     private SessionFactory sessionFactory;
-
+    
     public Day getDayById(long dayId) {
         Day day = null;
         try (Session session = sessionFactory.openSession()) {
@@ -22,7 +22,7 @@ public class DayDao {
         }
         return day;
     }
-
+    
     public void update(Day day) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
