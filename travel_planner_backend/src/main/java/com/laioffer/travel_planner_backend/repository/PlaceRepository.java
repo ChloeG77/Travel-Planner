@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Long> {
+    Place findById(long placeId);
 
+    Place findByName(String name);
 }
