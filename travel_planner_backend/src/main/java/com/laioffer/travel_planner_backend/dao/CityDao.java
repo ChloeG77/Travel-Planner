@@ -1,7 +1,6 @@
 package com.laioffer.travel_planner_backend.dao;
 
 import com.laioffer.travel_planner_backend.entity.City;
-import com.laioffer.travel_planner_backend.entity.Day;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,10 +10,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class CityDao {
-
+    
     @Autowired
     private SessionFactory sessionFactory;
-
+    
     public City getCityById(long cityId) {
         City city = null;
         try (Session session = sessionFactory.openSession()) {
@@ -24,15 +23,15 @@ public class CityDao {
         }
         return city;
     }
-
+    
     public City getCity(String cityName, String state, String country) {
         City city = null;
         try (Session session = sessionFactory.openSession()) {
             Criteria criteria = session.createCriteria(City.class);
             city = (City) criteria.add(Restrictions.eq("name", cityName))
-                    .add(Restrictions.eq("state", state))
-                    .add(Restrictions.eq("country", country))
-                    .uniqueResult();
+                .add(Restrictions.eq("state", state))
+                .add(Restrictions.eq("country", country))
+                .uniqueResult();
             if (city == null) {
                 city = new City();
                 city.setCountry(country);

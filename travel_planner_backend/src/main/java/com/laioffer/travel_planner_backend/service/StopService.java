@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StopService {
-
+    
     @Autowired
     private StopRepository stopRepository;
     
@@ -18,5 +18,5 @@ public class StopService {
             new ItemNotFoundException("Stop Not Found with -> StopId : " + stopId)
         );
     }
-
+    
 }

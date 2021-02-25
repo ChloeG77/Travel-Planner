@@ -1,36 +1,40 @@
 package com.laioffer.travel_planner_backend.security;
 
 import com.laioffer.travel_planner_backend.entity.UserPrinciple;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
 @Component
 public class JwtProvider {
-
+    
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-
+    
     @Value("${travelplanner.app.jwtSecret}")
     private String jwtSecret;
-
+    
     @Value("${travelplanner.app.jwtExpiration}")
     private int jwtExpiration;
-
+    
     public String generateJwtToken(Authentication authentication) {
-
+        
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-
+        
         return Jwts.builder()
-		                .setSubject((userPrincipal.getUsername()))
-		                .setIssuedAt(new Date())
-		                .setExpiration(new Date((new Date()).getTime() + jwtExpiration*1000))
-		                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-		                .compact();
+            .setSubject((userPrincipal.getUsername()))
+            .setIssuedAt(new Date())
+            .setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
+            .signWith(SignatureAlgorithm.HS512, jwtSecret)
+            .compact();
     }
     
     public boolean validateJwtToken(String authToken) {
@@ -54,8 +58,8 @@ public class JwtProvider {
     
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser()
-			                .setSigningKey(jwtSecret)
-			                .parseClaimsJws(token)
-			                .getBody().getSubject();
+            .setSigningKey(jwtSecret)
+            .parseClaimsJws(token)
+            .getBody().getSubject();
     }
 }
