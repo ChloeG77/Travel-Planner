@@ -1,86 +1,111 @@
-//package com.laioffer.travel_planner_backend.controller;
-//
-//import com.laioffer.travel_planner_backend.entity.Day;
-//import com.laioffer.travel_planner_backend.entity.Place;
-//import com.laioffer.travel_planner_backend.entity.Stop;
-//import com.laioffer.travel_planner_backend.entity.StopType;
-//import com.laioffer.travel_planner_backend.service.DayService;
-//import com.laioffer.travel_planner_backend.service.PlaceService;
-//import com.laioffer.travel_planner_backend.service.StopService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//
-//import java.util.List;
-//import java.util.Map;
-//
-//@Controller
-//public class DayController {
-//
-//    @Autowired
-//    private DayService dayService;
-//
-//    @Autowired
-//    private PlaceService placeService;
-//
-//    @Autowired
-//    private StopService stopService;
-//
-//    @RequestMapping(value = "/trip/{dayId}/{placeId}", method = RequestMethod.POST)
-//    public String addPlace(@PathVariable long dayId, @PathVariable String placeId) {
-//        // Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-//        Day day = dayService.getDayById(dayId);
-//        Place place = placeService.getPlaceById(placeId);
-//        dayService.addPlace(day, place);
-//        return "redirect:/getAllDays";
-//    }
-//
-//    @RequestMapping(value = "/trip/{dayId}/{placeId}", method = RequestMethod.DELETE)
-//    public String deletePlace(@PathVariable long dayId, @PathVariable String placeId) {
-//        // Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-//        Day day = dayService.getDayById(dayId);
-//        Place place = placeService.getPlaceById(placeId);
-//        dayService.deletePlace(day, place);
-//        return "redirect:/getAllDays";
-//    }
-//
-//    @RequestMapping(value = "/trip/route/gen/{dayId}", method = RequestMethod.POST)
-//    public String getDayById(@PathVariable(value = "dayId") long dayId) {
-//        Day day = dayService.getDayById(dayId);
-//        dayService.generateDayPath(day);
-//        return "redirect:/getAllDays";
-//    }
-//
-//    @RequestMapping(value = "/trip/route/{dayId}", method = RequestMethod.GET)
-//    public List<Stop> getRoute(@PathVariable(value = "dayId") long dayId) {
-//        Day day = dayService.getDayById(dayId);
-//        return day.getRoute();
-//    }
-//
-//    @RequestMapping(value = "/trip/route/{dayId}", method = RequestMethod.POST)
-//    public String setRoute(@ModelAttribute List<Stop> route, BindingResult result, @PathVariable long dayId) {
-//        if (result.hasErrors()) {
-//            return "setRoute";
-//        }
-//        Day day = dayService.getDayById(dayId);
-//        dayService.setRoute(day, route);
-//        return "redirect:/getAllDays";
-//    }
-//
-//    @RequestMapping(value = "/trip/day/stop/", method = RequestMethod.POST)
-//    public String setStopFuncTyep(@ModelAttribute Map<Long, StopType> stopTypes, BindingResult result) {
-//        if (result.hasErrors()) {
-//            return "setRoute";
-//        }
-//        for (Map.Entry<Long, StopType> entry : stopTypes.entrySet()) {
-//            Stop stop = stopService.getStopById(entry.getKey());
-//            stop.setType(entry.getValue());
-//        }
-//        return "redirect:/getAllDays";
-//    }
-//
-//}
+package com.laioffer.travel_planner_backend.controller;
+
+import com.laioffer.travel_planner_backend.entity.Day;
+import com.laioffer.travel_planner_backend.entity.Place;
+import com.laioffer.travel_planner_backend.entity.Stop;
+import com.laioffer.travel_planner_backend.entity.StopType;
+import com.laioffer.travel_planner_backend.service.DayService;
+import com.laioffer.travel_planner_backend.service.PlaceService;
+import com.laioffer.travel_planner_backend.service.StopService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+public class DayController {
+    
+    @Autowired
+    private DayService dayService;
+    
+    @Autowired
+    private PlaceService placeService;
+    
+    @Autowired
+    private StopService stopService;
+    
+    @PostMapping(value = "/trip/newday/{tripId}")
+    public Day newDay(@PathVariable long tripId) {
+        return dayService.newDay(tripId);
+    }
+    
+    @GetMapping(value = "/trip/day/{dayId}")
+    public Day getDayById(@PathVariable(value = "dayId") long dayId) {
+        return dayService.getDayById(dayId);
+    }
+    
+    @PostMapping(value = "/trip/day/place/{dayId}/{placeId}")
+    public Stop addPlace(@PathVariable long dayId, @PathVariable String placeId) {
+        Day day = dayService.getDayById(dayId);
+        Place place = placeService.getPlaceById(placeId);
+        return dayService.addPlace(day, place);
+    }
+    
+    @DeleteMapping(value = "/trip/day/place/{dayId}/{placeId}")
+    public String deletePlace(@PathVariable long dayId, @PathVariable String placeId) {
+        Day day = dayService.getDayById(dayId);
+        Place place = placeService.getPlaceById(placeId);
+        dayService.deletePlace(day, place);
+        return "redirect:/getAllDays";
+    }
+    
+    @DeleteMapping(value = "/trip/day/stop/{dayId}/{stopId}")
+    public String deleteStop(@PathVariable long dayId, @PathVariable long stopId) {
+        Day day = dayService.getDayById(dayId);
+        Stop stop = stopService.getStopById(stopId);
+        dayService.deleteStop(day, stop);
+        return "redirect:/getAllDays";
+    }
+    
+    @PostMapping(value = "/trip/day/route/gen/{dayId}")
+    public List<Stop> genRoute(@PathVariable(value = "dayId") long dayId) {
+        Day day = dayService.getDayById(dayId);
+        return dayService.generateDayPath(day);
+    }
+    
+    @GetMapping(value = "/trip/day/route/{dayId}")
+    public List<Stop> getRoute(@PathVariable(value = "dayId") long dayId) {
+        Day day = dayService.getDayById(dayId);
+        return day.getRoute();
+    }
+    
+    @PostMapping(value = "/trip/day/route/{dayId}")
+    public String setRoute(@RequestBody List<Long> stopIdLst, BindingResult result,
+        @PathVariable long dayId) {
+        if (result.hasErrors()) {
+            return "setRoute";
+        }
+        System.out.println(stopIdLst.toString());
+        List<Stop> route = new ArrayList<>();
+        for (long stopId : stopIdLst) {
+            route.add(stopService.getStopById(stopId));
+        }
+        
+        Day day = dayService.getDayById(dayId);
+        dayService.setRoute(day, route);
+        return "redirect:/getAllDays";
+    }
+    
+    @PostMapping(value = "/trip/day/stop/")
+    public String setStopFuncTyep(@RequestBody Map<Long, StopType> stopTypes,
+        BindingResult result) {
+        if (result.hasErrors()) {
+            return "Set StopType Error";
+        }
+        for (Map.Entry<Long, StopType> entry : stopTypes.entrySet()) {
+            Stop stop = stopService.getStopById(entry.getKey());
+            stop.setType(entry.getValue());
+        }
+        return "success";
+    }
+    
+}
