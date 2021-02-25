@@ -61,6 +61,8 @@ public class Place implements Serializable {
     
     private String url;
     
+    private String photoRef;
+    
     private Double price;
 
 //    @ManyToMany(mappedBy = "placesVisited")
@@ -200,6 +202,14 @@ public class Place implements Serializable {
     
     public void setUrl(String url) {
         this.url = url;
+    }
+    
+    public String getPhotoRef() {
+        return photoRef;
+    }
+    
+    public void setPhotoRef(String photoRef) {
+        this.photoRef = photoRef;
     }
     
     public Double getPrice() {

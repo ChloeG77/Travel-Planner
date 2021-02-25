@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,22 +42,16 @@ public class PlaceController {
         return "redirect:/ getAllPlace";
     }
     
-    @GetMapping("place/{placeId}")
-    public Place searchPlaceById(@PathVariable(value = "placeId") String placeId) {
+    @GetMapping("place/searchById")
+    public Place searchPlaceById(@RequestParam String placeId) {
         return placeService.searchPlaceById(placeId);
     }
     
-    
-    @GetMapping("place/{city}/{name}")
-    public List<Place> searchPlaceByName(@PathVariable(value = "name") String name,
-        @PathVariable String city) {
+    @GetMapping("place/searchByName")
+    public List<Place> searchPlaceByName(@RequestParam String text,
+        @RequestParam String city) {
         System.out.println(city);
-        System.out.println(name);
-        List<String> allPlaceId = placeService.searchPlaceByName(name, city);
-        List<Place> res = new ArrayList<>();
-        for (String id : allPlaceId) {
-            res.add(placeService.searchPlaceById(id));
-        }
-        return res;
+        System.out.println(text);
+        return placeService.searchPlaceByName(text, city);
     }
 }

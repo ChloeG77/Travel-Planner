@@ -51,7 +51,7 @@ public class PlaceService {
     }
     
     @Transactional
-    public List<String> searchPlaceByName(String name, String city) {
+    public List<Place> searchPlaceByName(String name, String city) {
         return client.searchByName(name, city);
     }
     

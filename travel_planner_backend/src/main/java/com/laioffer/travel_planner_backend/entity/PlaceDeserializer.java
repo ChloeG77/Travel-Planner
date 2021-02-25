@@ -26,7 +26,6 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
         throws IOException {
         
         JsonNode placeNode = jsonParser.getCodec().readTree(jsonParser);
-        placeNode = placeNode.get("result");
         
         Place place = new Place();
         
@@ -39,9 +38,15 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
             place.setLatitude(locNode.get("lat").doubleValue());
             place.setLongitude(locNode.get("lng").doubleValue());
             
+            
+        } catch (NullPointerException e) {
+            throw new GoogleMapException("Crucial place information missing from Google Map API");
+        }
+    
+        try {
             // Address Components
             JsonNode addressComponents = placeNode.get("address_components");
-            
+    
             for (final JsonNode component : addressComponents) {
                 String type = component.get("types").get(0).textValue();
                 switch (type) {
@@ -55,8 +60,7 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
                         place.setPostcode(component.get("short_name").textValue());
                 }
             }
-        } catch (NullPointerException e) {
-            throw new GoogleMapException("Crucial place information missing from Google Map API");
+        } catch (NullPointerException ignored) {
         }
         
         try {
@@ -66,6 +70,11 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
         
         try {
             place.setUrl(placeNode.get("url").textValue());
+        } catch (NullPointerException ignored) {
+        }
+    
+        try {
+            place.setPhotoRef(placeNode.get("photos").get(0).get("photo_reference").textValue());
         } catch (NullPointerException ignored) {
         }
         
