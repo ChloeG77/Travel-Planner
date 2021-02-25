@@ -6,6 +6,8 @@ import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.entity.User;
 import com.laioffer.travel_planner_backend.service.TripService;
 import com.laioffer.travel_planner_backend.service.UserDetailsServiceImpl;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -39,7 +41,7 @@ public class TripController {
         return tripService.getTripByTripName(tripName);
     }
     
-    @GetMapping("trip/username/{userEmail}")
+    @GetMapping("trip/useremail/{userEmail}")
     public List<Trip> getgetTripsByUserEmail(@PathVariable(value = "userEmail") String userEmail) {
         return tripService.getTripsByUserEmail(userEmail);
     }
@@ -62,7 +64,15 @@ public class TripController {
         System.out.println(username);
         User user = userService.getUserByUsername(username);
         System.out.println(user.toString());
+        int numOfDays = trip.getNumDays();
+        List<Day> days = new ArrayList<>();
+        for(int i = 0; i < numOfDays; i++) {
+            Day day = new Day();
+            day.setTrip(trip);
+            days.add(day);
+        }
         trip.setUser(user);
+        trip.setDays(days);
         List<Trip> trips = user.getAllTrips();
         for (Trip userTrip : trips) {
             System.out.print("trip name " + userTrip.getName());
@@ -95,7 +105,7 @@ public class TripController {
         return "redirect:/getAllTrip";
     }
     
-    @DeleteMapping("trip/{tripId}")
+    @DeleteMapping("trip/id/{tripId}")
     public String deleteTrip(@PathVariable(value = "tripId") long tripId) {
         tripService.deleteTrip(tripId);
         return "redirect:/getAllTrip";
