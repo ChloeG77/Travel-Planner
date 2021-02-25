@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+
+
 const Wrapper = styled.div`
   position: relative;
   align-items: center;
@@ -13,7 +15,6 @@ const Wrapper = styled.div`
 class AutoComplete extends Component {
     constructor(props) {
         super(props);
-        this.clearSearchBox = this.clearSearchBox.bind(this);
     }
 
     componentDidMount({ map, mapApi } = this.props) {
@@ -29,6 +30,7 @@ class AutoComplete extends Component {
         );
         this.autoComplete.addListener('place_changed', this.onPlaceChanged);
         this.autoComplete.bindTo('bounds', map);
+        
     }
 
     componentWillUnmount({ mapApi } = this.props) {
@@ -50,7 +52,7 @@ class AutoComplete extends Component {
         this.searchInput.blur();
     };
 
-    clearSearchBox() {
+    clearSearchBox = () => {
         this.searchInput.value = '';
     }
 

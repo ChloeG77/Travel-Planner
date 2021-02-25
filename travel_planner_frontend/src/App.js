@@ -30,7 +30,7 @@ const App = () => (
         
 
         <Switch>
-          <Route path="/planner">
+          <Route path="/planner/:destination">
             <PlannerPage />
           </Route>
           <Route path="/">

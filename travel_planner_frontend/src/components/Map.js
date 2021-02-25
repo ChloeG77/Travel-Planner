@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-
 import GoogleMapReact from 'google-map-react';
-
 import styled from 'styled-components';
-
 import AutoComplete from './Autocomplete';
 import Marker from './Marker';
+import { API_KEY } from '../constants';
+import axios from "axios";
+
+
+
 
 const Wrapper = styled.main`
   width: 100%;
   height: 100%;
 `;
 
+
+
 class Map extends Component {
-
-
     state = {
         mapApiLoaded: false,
         mapInstance: null,
@@ -27,10 +29,19 @@ class Map extends Component {
         lng: []
     };
 
-    componentWillMount() {
-        this.setCurrentLocation();
-    }
 
+    componentWillMount() {
+        const destination  = this.props.destination;
+        const url = `/api/place/findplacefromtext/json?input=${destination}&inputtype=textquery&fields=rating,opening_hours,geometry,place_id&key=${API_KEY}`;
+        axios.get(url)
+            .then(res=> {
+                const place = res.data.candidates[0];
+                this.setMapCenter(place);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
 
 
 
@@ -42,8 +53,6 @@ class Map extends Component {
 
     }
 
-
-
     apiHasLoaded = (map, maps) => {
         this.setState({
             mapApiLoaded: true,
@@ -54,12 +63,6 @@ class Map extends Component {
     };
 
     addPlace = (place) => {
-        // this.setState({
-        //     places: [place],
-        //     lat: place.geometry.location.lat(),
-        //     lng: place.geometry.location.lng()
-        // });
-        
         this.setState({
             places: [...this.state.places, place],
             lat: [...this.state.lat, place.geometry.location.lat()],
@@ -68,24 +71,28 @@ class Map extends Component {
 
     };
 
-
+    setMapCenter = (place) => {
+        this.setState({
+            center: [place.geometry.location.lat, place.geometry.location.lng]
+        })
+    };
 
     // Get Current Location Coordinates
-    setCurrentLocation() {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                this.setState({
-                    center: [position.coords.latitude, position.coords.longitude],
-                    lat: [position.coords.latitude],
-                    lng: [position.coords.longitude]
-                });
-            });
-        }
-    }
+    // setCurrentLocation() {
+    //     if ('geolocation' in navigator) {
+    //         navigator.geolocation.getCurrentPosition((position) => {
+    //             this.setState({
+    //                 center: [position.coords.latitude, position.coords.longitude],
+    //                 // lat: [position.coords.latitude],
+    //                 // lng: [position.coords.longitude]
+    //             });
+    //         });
+    //     }
+    // }
 
     render() {
         const {
-            places, mapApiLoaded, mapInstance, mapApi,
+             mapApiLoaded, mapInstance, mapApi, lat, lng
         } = this.state;
 
 
@@ -101,8 +108,8 @@ class Map extends Component {
                     zoom={this.state.zoom}
                     onChange={this._onChange}
                     onChildClick={() => console.log('child click')}
-                    bootstrapURLKeys={{
-                        key: 'AIzaSyBVPTDmI9UqcOBK1mYOFkMv-3sBWypsfsA',
+                    bootstrapRLKeys={{
+                        key: `${API_KEY}`,
                         libraries: ['places', 'geometry'],
                     }}
                     yesIWantToUseGoogleMapApiInternals
@@ -110,12 +117,13 @@ class Map extends Component {
                 >
 
                     {
-                        this.state.lat.map((lat, idx) => {
+                        lat.map((ele, idx) => {
                             return (
                         <Marker
+                            key={idx}
                             text={'hello'}
-                            lat={this.state.lat[idx]}
-                            lng={this.state.lng[idx]}
+                            lat={lat[idx]}
+                            lng={lng[idx]}
                         />
                             )
                         
@@ -124,10 +132,9 @@ class Map extends Component {
                     
                 </GoogleMapReact>
 
-                <div className="info-wrapper">
-                    <div className="map-details">Latitude: <span>{this.state.lat}</span>, Longitude: <span>{this.state.lng}</span></div>
-
-                </div>
+                {/* <div className="info-wrapper">
+                    <div className="map-details">Latitude: <span>{lat}</span>, Longitude: <span>{lng}</span></div>
+                </div> */}
 
 
             </Wrapper >

@@ -1,6 +1,6 @@
 import React  from "react";
 import { Form, DatePicker, Button, Select, Input } from 'antd';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 const { RangePicker } = DatePicker;
 
@@ -25,7 +25,7 @@ const formItemLayout = {
 
 const cities = [
   { label: 'Beijing', value: 'Beijing' },
-  // { label: 'Shanghai', value: 'Shanghai' },
+
 ];
 
 
@@ -43,7 +43,9 @@ const HomePage = () => {
   const history = useHistory();
 
   const onFinish = (fieldsValue) => {
-    history.push("/planner");
+    const destination = fieldsValue.destination[0];
+    history.push(`planner/${destination}`);
+    
     // Should format date value before submit.
     const rangeValue = fieldsValue['traveldate'];
     console.log(fieldsValue)
