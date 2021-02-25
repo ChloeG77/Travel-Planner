@@ -29,15 +29,16 @@ public class Day implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "tripId")
-    @JsonManagedReference
+    @JsonBackReference
     private Trip trip;
     
     @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private Set<Stop> stops;
     
     @OneToMany
     @JsonIgnoreProperties({"day", "place"})
+    @JsonManagedReference
     private List<Stop> route;
     
     public long getDayId() {

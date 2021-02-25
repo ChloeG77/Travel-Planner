@@ -1,5 +1,6 @@
 package com.laioffer.travel_planner_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import javax.persistence.Embedded;
@@ -24,7 +25,7 @@ public class Stop implements Serializable {
     private Place place;
     
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     private Day day;
     
     @Embedded

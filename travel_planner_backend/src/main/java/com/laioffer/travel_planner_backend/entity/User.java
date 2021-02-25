@@ -3,6 +3,7 @@ package com.laioffer.travel_planner_backend.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
@@ -47,7 +48,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Trip> allTrips;
     @ElementCollection
     private Set<Tag> tags;
