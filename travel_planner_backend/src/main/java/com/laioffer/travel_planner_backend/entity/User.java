@@ -37,6 +37,7 @@ public class User implements Serializable {
     
     @JsonIgnore
     private String password;
+
     private boolean enabled;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
