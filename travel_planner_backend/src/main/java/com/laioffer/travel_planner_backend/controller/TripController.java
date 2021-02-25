@@ -56,6 +56,7 @@ public class TripController {
         String username = loggedInUser.getName();
         System.out.println(username);
         User user = userService.getUserByUsername(username);
+        System.out.println((user.getEmail()));
         trip.setUser(user);
         List<Trip> trips = user.getAllTrips();
         for(Trip userTrip : trips) {
