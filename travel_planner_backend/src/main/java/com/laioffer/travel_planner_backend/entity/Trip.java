@@ -35,7 +35,7 @@ public class Trip implements Serializable {
     
     @ManyToOne
     @JoinColumn(name = "email")
-    @JsonManagedReference
+    @JsonBackReference
     private User user;
     
     @Column(name = "trip_name")
@@ -54,7 +54,7 @@ public class Trip implements Serializable {
     private int numDays;
     
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Day> days = new ArrayList<>();
     
     @ManyToMany
