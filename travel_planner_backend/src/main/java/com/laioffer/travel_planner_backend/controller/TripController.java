@@ -7,7 +7,6 @@ import com.laioffer.travel_planner_backend.entity.User;
 import com.laioffer.travel_planner_backend.service.PlaceService;
 import com.laioffer.travel_planner_backend.service.TripService;
 import com.laioffer.travel_planner_backend.service.UserDetailsServiceImpl;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,24 +34,24 @@ public class TripController {
     @Autowired
     private UserDetailsServiceImpl userService;
     
-    @GetMapping(value="trip/getTrip", params="tripId")
+    @GetMapping(value = "trip/getTrip", params = "tripId")
     public Trip getTripById(@RequestParam long tripId) {
         return tripService.getTripById(tripId);
     }
     
-    @GetMapping(value="trip/getTrip", params="tripName")
+    @GetMapping(value = "trip/getTrip", params = "tripName")
     public Trip getTripByName(@RequestParam String tripName) {
         return tripService.getTripByTripName(tripName);
     }
     
     
-    @GetMapping(value="user/trip/getAll", params="userEmail")
+    @GetMapping(value = "user/trip/getAll", params = "userEmail")
     public List<Trip> getTripsByUserEmail(@RequestParam String userEmail) {
         return tripService.getTripsByUserEmail(userEmail);
     }
     
     
-    @GetMapping(value="trip/day/getAll", params="tripId")
+    @GetMapping(value = "trip/day/getAll", params = "tripId")
     public List<Day> getTripDays(@RequestParam int tripId) {
         return tripService.getTripById(tripId).getDays();
     }
@@ -72,7 +70,7 @@ public class TripController {
         System.out.println(user.toString());
         int numOfDays = trip.getNumDays();
         List<Day> days = new ArrayList<>();
-        for(int i = 0; i < numOfDays; i++) {
+        for (int i = 0; i < numOfDays; i++) {
             Day day = new Day();
             day.setTrip(trip);
             days.add(day);
@@ -93,14 +91,14 @@ public class TripController {
         return "success";
     }
     
-    @PostMapping(value="trip/place", params={"tripId", "placeId"})
+    @PostMapping(value = "trip/place", params = {"tripId", "placeId"})
     public String addPlace(@RequestParam long tripId, @RequestParam String placeId) {
         Place place = placeService.addPlace(placeId);
         tripService.addPlace(tripId, place);
         return "redirect:/getAllTrip";
     }
     
-    @DeleteMapping(value="trip/place", params={"tripId", "placeId"})
+    @DeleteMapping(value = "trip/place", params = {"tripId", "placeId"})
     public String deletePlace(@RequestParam long tripId, @RequestParam String placeId) {
         tripService.deletePlace(tripId, placeId);
         return "redirect:/getAllTrip";
@@ -124,7 +122,7 @@ public class TripController {
         return tripService.getTripById(tripId).isPrivate();
     }
     
-    @PostMapping(value="trip/privacy", params={"tripId", "privacy"})
+    @PostMapping(value = "trip/privacy", params = {"tripId", "privacy"})
     public String setTripPrivacy(@RequestParam long tripId, @RequestParam boolean privacy) {
         tripService.getTripById(tripId).setPrivate(privacy);
         return "redirect:/getAllTrip";
@@ -135,7 +133,7 @@ public class TripController {
         return tripService.getTripById(tripId).getRating();
     }
     
-    @PostMapping(value="trip/rating", params={"tripId", "rating"})
+    @PostMapping(value = "trip/rating", params = {"tripId", "rating"})
     public String setTripRating(@RequestParam long tripId, @RequestParam double rating) {
         tripService.getTripById(tripId).setRating(rating);
         return "redirect:/getAllTrip";
