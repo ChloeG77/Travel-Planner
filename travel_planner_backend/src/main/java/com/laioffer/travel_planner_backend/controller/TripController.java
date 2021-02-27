@@ -42,7 +42,7 @@ public class TripController {
     }
     
     @GetMapping("trip/useremail/{userEmail}")
-    public List<Trip> getgetTripsByUserEmail(@PathVariable(value = "userEmail") String userEmail) {
+    public List<Trip> getTripsByUserEmail(@PathVariable(value = "userEmail") String userEmail) {
         return tripService.getTripsByUserEmail(userEmail);
     }
     
