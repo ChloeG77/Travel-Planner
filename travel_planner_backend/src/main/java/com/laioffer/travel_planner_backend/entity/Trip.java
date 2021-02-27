@@ -146,17 +146,19 @@ public class Trip implements Serializable {
     public void setPlaces(Set<Place> places) {
         this.places = places;
     }
-    
+
     @Override
     public String toString() {
         return "Trip{" +
-            "tripId=" + tripId +
-            ", name='" + name + '\'' +
-            ", numDays=" + numDays +
-            ", isPrivate=" + isPrivate +
-            '}';
+                "tripId=" + tripId +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", startDate=" + startDate +
+                ", numDays=" + numDays +
+                ", isPrivate=" + isPrivate +
+                '}';
     }
-    
+
     public void addPlace(Place place) {
         this.places.add(place);
     }

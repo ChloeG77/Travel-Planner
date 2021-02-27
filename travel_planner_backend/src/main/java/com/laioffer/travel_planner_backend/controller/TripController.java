@@ -79,7 +79,7 @@ public class TripController {
         trip.setDays(days);
         List<Trip> trips = user.getAllTrips();
         for (Trip userTrip : trips) {
-            System.out.print("trip name " + userTrip.getName());
+            System.out.println("trip name " + userTrip.getName());
             if (userTrip.getName().equals(trip.getName())) {
                 return "Trip name exist";
             }

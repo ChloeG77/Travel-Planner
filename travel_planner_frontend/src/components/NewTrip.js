@@ -2,8 +2,11 @@ import React  from "react";
 import { Form, DatePicker, Button, Select, Input, message } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { newTrip } from '../utils/auth';
+import { useState } from 'react';
 
-const { RangePicker } = DatePicker;
+const { Option } = Select;
+
+// const { RangePicker } = DatePicker;
 
 const formItemLayout = {
   labelCol: {
@@ -24,41 +27,28 @@ const formItemLayout = {
   },
 };
 
-const cities = [
-  { label: 'Beijing', value: 'Beijing' },
-
-];
-
-
-const rangeConfig = {
-  rules: [
-    {
-      type: 'array',
-      required: true,
-      message: 'Please select time!',
-    },
-  ],
-};
 
 const NewTrip = (props) => {
   const history = useHistory();
+
+  const [tripType, setTripType] = useState('leisure');
 
   const onFinish = (fieldsValue) => {
     
     
     // Should format date value before submit.
-    const rangeValue = fieldsValue['traveldate'];
-    console.log(fieldsValue)
+    const startDate = fieldsValue['startDate'];
     const values = {
       ...fieldsValue,
-      'traveldate': [rangeValue[0].format('YYYY-MM-DD'), rangeValue[1].format('YYYY-MM-DD')],
+      'startDate': startDate.format('YYYY-MM-DD'),
+      'type' : tripType
     };
     console.log('Received values of form: ', values);
 
-    newTrip(fieldsValue, props.token)
+    newTrip(values, props.token)
       .then((data) => {
         message.success(`add trip`);
-        const destination = fieldsValue.destination[0];
+        const destination = values.destination[0];
         history.push(`planner/${destination}`);
 
       }).catch((err) => {
@@ -72,8 +62,9 @@ const NewTrip = (props) => {
     console.log('Formatted Selected Time: ', dateString);
   }
 
-  const onOk = (value) => {
-    console.log('onOk: ', value);
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+    setTripType(value);
   }
  
     return (
@@ -86,22 +77,26 @@ const NewTrip = (props) => {
           <Input />
         </Form.Item>
 
-        <Form.Item name="traveldate" label="Travel Date" {...rangeConfig}>
-        <DatePicker disabledTime onChange={onChange} onOk={onOk} />
+        <Form.Item name="startDate" label="Travel Date">
+        <DatePicker onChange={onChange} />
         </Form.Item>
 
-        <Form.Item name="numOfDays" label="Number of Days" rules={[{ required: true, message: 'Please enter a trip name!' }]}>
+        <Form.Item name="numDays" label="Number of Days" rules={[{ required: true, message: 'Please enter number of trip days!' }]}>
           <Input />
         </Form.Item>
 
-        {/* <Form.Item name="traveldate" label="Travel Date" {...rangeConfig}>
-          <RangePicker />
-        </Form.Item> */}
-
-        <Form.Item label="Destination City" name="destination"
-            rules={[{ required: true, message: 'Please select your Desination City!' }]}>
-          <Select options={cities} />
+        <Form.Item name="destination" label="Destination City" rules={[{ required: true, message: 'Please select your Desination City!' }]}>
+          <Input />        
         </Form.Item>
+
+        <Form.Item name="type" label="Trip Type" rules={[{ required: false, message: 'Please select your trip type!' }]}>
+          <Select defaultValue="leisure" onChange={handleChange} >
+            <Option value="business">business</Option>
+            <Option value="leisure">leisure</Option>
+          </Select>
+
+        </Form.Item>
+
         <Form.Item
           wrapperCol={{
             xs: { span: 24, offset: 0 },
