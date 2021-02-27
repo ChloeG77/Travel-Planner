@@ -25,17 +25,7 @@ public class PlaceController {
     
     @PostMapping("place/{placeId}")
     public Place addPlace(@PathVariable(value = "placeId") String placeId) {
-        Place place;
-        try {
-            // Check if place already in place table
-            place = placeService.getPlaceById(placeId);
-        } catch (ItemNotFoundException e) {
-            // If not, search using google map api
-            place = placeService.searchPlaceById(placeId);
-            // placeService.addPlace(place);
-            placeService.addCity(place);
-        }
-        return place;
+        return placeService.addPlace(placeId);
     }
     
     @DeleteMapping("place/{placeId}")

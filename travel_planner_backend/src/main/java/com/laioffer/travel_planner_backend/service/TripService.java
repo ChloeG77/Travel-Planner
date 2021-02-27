@@ -1,5 +1,7 @@
 package com.laioffer.travel_planner_backend.service;
 
+import com.laioffer.travel_planner_backend.controller.DayController;
+import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.repository.TripRepository;
@@ -14,6 +16,9 @@ public class TripService {
     
     @Autowired
     private TripRepository tripRepository;
+    
+    @Autowired
+    private DayService dayService;
     
     @Transactional
     public Trip getTripById(long tripId) {
@@ -66,6 +71,9 @@ public class TripService {
         Trip trip = getTripById(tripId);
         Place place = getPlace(tripId, placeId);
         trip.deletePlace(place);
+        for (Day day: trip.getDays()) {
+            dayService.deletePlace(day, place);
+        }
         tripRepository.save(trip);
     }
     
@@ -86,7 +94,6 @@ public class TripService {
         Trip trip = getTripById(tripId);
         trip.getCities();
         Set<Place> places = trip.getPlaces();
-        
         return places;
     }
     
