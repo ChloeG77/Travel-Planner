@@ -3,7 +3,7 @@ module.exports = function(app) {
    app.use(
        '/api',
        createProxyMiddleware({
-           target: 'https://maps.googleapis.com/maps',
+           target: 'http://localhost:8080',
            changeOrigin: true
        })
    );
