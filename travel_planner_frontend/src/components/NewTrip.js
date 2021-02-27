@@ -50,7 +50,11 @@ const NewTrip = (props) => {
         message.success(`add trip`);
         const destination = values.destination[0];
         history.push(`planner/${destination}`);
-
+        const newData = {
+            accessToken: props.token,
+            trips: data.trips
+        }
+        props.onSuccess(true, newData);
       }).catch((err) => {
         console.log(err);
         message.error(err.message);

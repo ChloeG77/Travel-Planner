@@ -37,9 +37,13 @@ const TravelHeader = (props) => {
   // }
 
   const signoutOnClick = () => {
-   
-      props.onSuccess(false, null);  
-      history.push("/");
+      
+    const data = {
+      accessToken: null
+    }
+
+    props.onLoggedInStatus(false, data);  
+    history.push("/");
       
   }
 
@@ -47,7 +51,9 @@ const TravelHeader = (props) => {
     <Header>
       <Row justify="space-between">
         <Col>
-        {props.isLoggedIn && <Trips/>}
+        {props.isLoggedIn && <Trips onLoggedInStatus={props.onLoggedInStatus}
+                                    token={props.token}
+                                    trips={props.trips}/>}
         </Col>
         <Col>
           {

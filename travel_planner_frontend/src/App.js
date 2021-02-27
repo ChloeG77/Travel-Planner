@@ -14,10 +14,12 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
+  const [trips, setTrip] = useState(null);
   
-  const onLoggedInStatusChange =(loggin, token) => {
+  const onLoggedInStatus =(loggin, data) => {
       setIsLoggedIn(loggin);
-      setToken(token);
+      setToken(data.accessToken);
+      setTrip(data.trips);
   }
 
   return (
@@ -49,15 +51,17 @@ const App = () => {
             />
           </Route>
           <Route path="/login">
-            <LoginPage onSuccess={onLoggedInStatusChange}/>
+            <LoginPage onLoggedInStatus={onLoggedInStatus}/>
           </Route>
           <Route path="/signup">
             <SignUpPage />
           </Route>
           <Route path="/">
-            <HomePage isLoggedIn={isLoggedIn}
+            <HomePage onLoggedInStatus={onLoggedInStatus}
+                      isLoggedIn={isLoggedIn}
                       token={token}
-                      onSuccess={onLoggedInStatusChange}          
+                      trips={trips}
+                                
             />
           </Route>
         </Switch>

@@ -9,7 +9,7 @@ import { useHistory } from "react-router";
 const LoginPage = (props) =>{
     const history = useHistory();
 
-    const signinOnSuccess = (isLoggedIn, token) => {
+    const signinOnSuccess = (isLoggedIn, data) => {
         // getFavoriteItem().then((data) => {
         //   this.setState({
         //     loggedIn: true
@@ -18,14 +18,17 @@ const LoginPage = (props) =>{
         //   message.error(err.message);
         // })
         // console.log("login success")
-        props.onSuccess(isLoggedIn, token);
+        props.onLoggedInStatus(isLoggedIn, data);
         history.push('/');
     }
   
     return (
         <div className="login-page">
             <div>
-                <TravelHeader />
+                <TravelHeader onSuccess={props.onLoggedInStatus}
+                         isLoggedIn={props.isLoggedIn}
+                         token={props.token}
+                         trips={props.trips}/>
             </div>
             <div className="login">
                 <Login onSuccess={signinOnSuccess}/>

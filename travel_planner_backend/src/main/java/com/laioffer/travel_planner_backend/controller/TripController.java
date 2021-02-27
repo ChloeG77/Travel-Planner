@@ -4,12 +4,15 @@ import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.entity.User;
+import com.laioffer.travel_planner_backend.message.response.TripsResponse;
 import com.laioffer.travel_planner_backend.service.PlaceService;
 import com.laioffer.travel_planner_backend.service.TripService;
 import com.laioffer.travel_planner_backend.service.UserDetailsServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -58,10 +61,10 @@ public class TripController {
     
     
     @PostMapping("trip/newTrip")
-    public String addTrip(@RequestBody Trip trip, BindingResult result) {
+    public ResponseEntity<?> addTrip(@RequestBody Trip trip, BindingResult result) {
         System.out.println(trip);
         if (result.hasErrors()) {
-            return "addTrip error";
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String username = loggedInUser.getName();
@@ -81,14 +84,14 @@ public class TripController {
         for (Trip userTrip : trips) {
             System.out.println("trip name " + userTrip.getName());
             if (userTrip.getName().equals(trip.getName())) {
-                return "Trip name exist";
+                return new ResponseEntity(HttpStatus.CONFLICT);
             }
         }
         trips.add(trip);
         user.setAllTrips(trips);
         userService.save(user);
         
-        return "success";
+        return ResponseEntity.ok(new TripsResponse(trips));
     }
     
     @PostMapping(value = "trip/place", params = {"tripId", "placeId"})
@@ -105,9 +108,14 @@ public class TripController {
     }
     
     @DeleteMapping("trip/deleteTrip")
-    public String deleteTrip(@RequestParam long tripId) {
+    public ResponseEntity<?> deleteTrip(@RequestParam long tripId) {
         tripService.deleteTrip(tripId);
-        return "redirect:/getAllTrip";
+
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggedInUser.getName();
+        User user = userService.getUserByUsername(username);
+        List<Trip> trips = user.getAllTrips();
+        return ResponseEntity.ok(new TripsResponse(trips));
     }
     
     @PostMapping("trip/editTrip")

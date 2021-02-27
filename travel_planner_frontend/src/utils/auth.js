@@ -51,6 +51,7 @@ export const newTrip = (data, token) => {
     if (response.status !== 200) {
       throw Error('Fail to add trip');
     }
+    return response.json();
   })
 }
 
@@ -65,5 +66,24 @@ export const logout = () => {
     if (response.status !== 200) {
       throw Error('Fail to log out');
     }
+  })
+}
+
+
+const deleteTripUrl = `${SERVER_ORIGIN}/api/trip/deleteTrip?tripId=`;
+
+export const deleteTrip = (data, token) => {
+  return fetch(`${deleteTripUrl}${data.tripId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(data)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to delete trip');
+    }
+    return response.json();
   })
 }
