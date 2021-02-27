@@ -19,4 +19,8 @@ public class StopService {
         );
     }
     
+    @Transactional
+    public void update(Stop stop) {
+        stopRepository.save(stop);
+    }
 }
