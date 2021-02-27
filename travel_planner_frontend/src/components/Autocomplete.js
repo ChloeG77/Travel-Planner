@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 
 
+
 const Wrapper = styled.div`
   position: relative;
   align-items: center;
@@ -51,6 +52,8 @@ class AutoComplete extends Component {
         addplace(place);
         this.searchInput.blur();
     };
+
+    
 
     clearSearchBox = () => {
         this.searchInput.value = '';

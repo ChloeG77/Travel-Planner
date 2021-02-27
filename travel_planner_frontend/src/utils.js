@@ -47,3 +47,10 @@ export const logout = () => {
     }
   })
 }
+
+// export const search = (url) => {
+//   return fetch(url, {
+//     method: 'GET',
+//     credentials: 'include',
+//   })
+// }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Col, Layout, message, Row } from 'antd';
-import { logout } from '../utils/auth';
+import { logout } from '../utils';
 import Login from './Login';
 import Register from './Register'
 
