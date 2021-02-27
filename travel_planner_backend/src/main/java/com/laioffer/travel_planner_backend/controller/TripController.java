@@ -82,9 +82,9 @@ public class TripController {
         trip.setDays(days);
         List<Trip> trips = user.getAllTrips();
         for (Trip userTrip : trips) {
-            System.out.println("trip name " + userTrip.getName());
+//            System.out.println("trip name " + userTrip.getName());
             if (userTrip.getName().equals(trip.getName())) {
-                return new ResponseEntity(HttpStatus.CONFLICT);
+                return new ResponseEntity("trip name exist", HttpStatus.CONFLICT);
             }
         }
         trips.add(trip);
