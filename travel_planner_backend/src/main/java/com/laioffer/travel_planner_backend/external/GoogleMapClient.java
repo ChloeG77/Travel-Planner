@@ -56,9 +56,9 @@ public class GoogleMapClient {
      * @throws GoogleMapException
      */
     public List<Place> searchByName(String input, String city) throws GoogleMapException {
-        input = URLEncoder.encode(input + "%20" + city, StandardCharsets.UTF_8);
+        input = URLEncoder.encode(input + " " + city, StandardCharsets.UTF_8);
         String searchURL = String.format(SEARCH_BY_NAME_TEMPLATE, input, key);
-        System.out.println(searchURL);
+        // System.out.println(searchURL);
         String searchResult = searchGoogleMap(searchURL);
         JSONObject resJSON = new JSONObject(searchResult);
         return getPlaceList(resJSON.get("results").toString());

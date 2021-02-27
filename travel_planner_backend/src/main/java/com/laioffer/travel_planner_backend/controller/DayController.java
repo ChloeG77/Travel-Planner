@@ -67,37 +67,35 @@ public class DayController {
         return "redirect:/getAllDays";
     }
     
-    @PostMapping(value = "/trip/day/route/gen/{dayId}")
-    public List<Stop> genRoute(@PathVariable(value = "dayId") long dayId) {
+    @PostMapping("/trip/day/route/gen")
+    public List<Stop> genRoute(@RequestParam long dayId) {
         Day day = dayService.getDayById(dayId);
         return dayService.generateDayPath(day);
     }
     
-    @GetMapping(value = "/trip/day/route/{dayId}")
-    public List<Stop> getRoute(@PathVariable(value = "dayId") long dayId) {
+    @GetMapping(value = "/trip/day/route")
+    public List<Stop> getRoute(@RequestParam long dayId) {
         Day day = dayService.getDayById(dayId);
         return day.getRoute();
     }
     
-    @PostMapping(value = "/trip/day/route/{dayId}")
+    @PostMapping(value = "/trip/day/route")
     public String setRoute(@RequestBody List<Long> stopIdLst, BindingResult result,
-        @PathVariable long dayId) {
+        @RequestParam long dayId) {
         if (result.hasErrors()) {
             return "setRoute";
         }
-        System.out.println(stopIdLst.toString());
         List<Stop> route = new ArrayList<>();
         for (long stopId : stopIdLst) {
             route.add(stopService.getStopById(stopId));
         }
-        
         Day day = dayService.getDayById(dayId);
         dayService.setRoute(day, route);
         return "redirect:/getAllDays";
     }
     
-    @PostMapping(value = "/trip/day/stop/")
-    public String setStopFuncTyep(@RequestBody Map<Long, StopType> stopTypes,
+    @PostMapping(value = "/trip/day/stop/type")
+    public String setStopFuncType(@RequestBody Map<Long, StopType> stopTypes,
         BindingResult result) {
         if (result.hasErrors()) {
             return "Set StopType Error";
@@ -105,9 +103,9 @@ public class DayController {
         for (Map.Entry<Long, StopType> entry : stopTypes.entrySet()) {
             Stop stop = stopService.getStopById(entry.getKey());
             stop.setType(entry.getValue());
+            stopService.update(stop);
         }
-        return "success";
+        return "redirect:/getAllDays";
     }
-    
     
 }
