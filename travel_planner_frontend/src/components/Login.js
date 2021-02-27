@@ -4,54 +4,39 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { login } from '../utils/auth';
  
 class Login extends React.Component {
-  state = {
-    displayModal: false
-  }
- 
-  handleCancel = () => {
-    this.setState({
-      displayModal: false,
-    })
-  }
- 
-  signinOnClick = () => {
-    this.setState({
-      displayModal: true,
-    })
-  }
- 
+  // state = {
+  //   displayModal: false,
+  //     accessToken : null,
+  //     tokenType : null
+  // }
   onFinish = (data) => {
     login(data)
       .then((data) => {
-        this.setState({
-          displayModal: false,
-        })
-        message.success(`Welcome back, ${data.name}`);
-        this.props.onSuccess();
+        // this.setState({
+        //     displayModal: false,
+        //     accessToken : data.accessToken,
+        //     tokenType : data.tokenType
+        // })
+        // console.log("data", data);
+        message.success(`Welcome back`);
+        this.props.onSuccess(true, data.accessToken);
       }).catch((err) => {
+        console.log(err);
         message.error(err.message);
       })
   }
  
   render = () => {
     return (
-      <>
-        <Button shape="round" onClick={this.signinOnClick} style={{ marginRight: '20px' }}>
-        Login</Button>
-        <Modal
-          title="Log in"
-          visible={this.state.displayModal}
-          onCancel={this.handleCancel}
-          footer={null}
-          destroyOnClose={true}
-        >
+        <div className="login">
+          <h1>Login</h1>
           <Form
             name="normal_login"
             onFinish={this.onFinish}
             preserve={false}
           >
             <Form.Item
-              name="user_id"
+              name="username"
               rules={[{ required: true, message: 'Please input your Username!' }]}
             >
               <Input prefix={<UserOutlined />} placeholder="Username" />
@@ -71,8 +56,7 @@ class Login extends React.Component {
                 Login</Button>
             </Form.Item>
           </Form>
-        </Modal>
-      </>
+        </div>
     )
   }
 }
