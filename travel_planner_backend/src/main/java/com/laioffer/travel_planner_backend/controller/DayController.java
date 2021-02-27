@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,33 +34,33 @@ public class DayController {
     @Autowired
     private StopService stopService;
     
-    @PostMapping(value = "/trip/newday/{tripId}")
-    public Day newDay(@PathVariable long tripId) {
+    @PostMapping(value = "/trip/newDay")
+    public Day newDay(@RequestParam long tripId) {
         return dayService.newDay(tripId);
     }
     
-    @GetMapping(value = "/trip/day/{dayId}")
-    public Day getDayById(@PathVariable(value = "dayId") long dayId) {
+    @GetMapping(value = "/trip/day")
+    public Day getDayById(@RequestParam long dayId) {
         return dayService.getDayById(dayId);
     }
     
-    @PostMapping(value = "/trip/day/place/{dayId}/{placeId}")
-    public Stop addPlace(@PathVariable long dayId, @PathVariable String placeId) {
+    @PostMapping(value = "/trip/day/place", params = {"dayId", "placeId"})
+    public Stop addPlace(@RequestParam long dayId, @RequestParam String placeId) {
         Day day = dayService.getDayById(dayId);
         Place place = placeService.getPlaceById(placeId);
         return dayService.addPlace(day, place);
     }
     
-    @DeleteMapping(value = "/trip/day/place/{dayId}/{placeId}")
-    public String deletePlace(@PathVariable long dayId, @PathVariable String placeId) {
+    @DeleteMapping(value = "/trip/day/place", params = {"dayId", "placeId"})
+    public String deletePlace(@RequestParam long dayId, @RequestParam String placeId) {
         Day day = dayService.getDayById(dayId);
         Place place = placeService.getPlaceById(placeId);
         dayService.deletePlace(day, place);
         return "redirect:/getAllDays";
     }
     
-    @DeleteMapping(value = "/trip/day/stop/{dayId}/{stopId}")
-    public String deleteStop(@PathVariable long dayId, @PathVariable long stopId) {
+    @DeleteMapping(value = "/trip/day/stop", params = {"dayId", "stopId"})
+    public String deleteStop(@RequestParam long dayId, @RequestParam long stopId) {
         Day day = dayService.getDayById(dayId);
         Stop stop = stopService.getStopById(stopId);
         dayService.deleteStop(day, stop);
@@ -107,5 +108,6 @@ public class DayController {
         }
         return "success";
     }
+    
     
 }

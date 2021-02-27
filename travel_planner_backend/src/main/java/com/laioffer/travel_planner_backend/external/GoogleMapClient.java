@@ -28,6 +28,9 @@ public class GoogleMapClient {
         "https://maps.googleapis.com/maps/api/place/details/json?placeid=%s&fields=%s&key=%s";
     private static final String SEARCH_BY_NAME_TEMPLATE =
         "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s";
+    private static final String SEARCH_NEARBY_TEMPLATE =
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=&location=%s&radius=%s&type=%s&key=%s";
+    
     @Value("${external.googleMapKey}")
     private String key;
     
@@ -113,5 +116,13 @@ public class GoogleMapClient {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public List<Place> searchNearby(String locStr, int rad, String type) {
+        String searchURL = String.format(SEARCH_NEARBY_TEMPLATE, locStr, rad, type, this.key);
+        System.out.println(searchURL);
+        String searchResult = searchGoogleMap(searchURL);
+        JSONObject resJSON = new JSONObject(searchResult);
+        return getPlaceList(resJSON.get("results").toString());
     }
 }

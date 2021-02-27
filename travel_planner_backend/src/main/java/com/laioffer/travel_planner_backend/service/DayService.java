@@ -62,14 +62,14 @@ public class DayService {
     @Transactional
     public void deletePlace(Day day, Place place) {
         Set<Stop> stops = day.getStops();
-        System.out.println(stops.toString());
+        // System.out.println(stops.toString());
         List<Stop> toDelete = new ArrayList<>();
         for (Stop stop : stops) {
             if (stop.getPlace().equals(place)) {
                 toDelete.add(stop);
             }
         }
-        System.out.println(toDelete.toString());
+        // System.out.println(toDelete.toString());
         for (Stop stop : toDelete) {
             deleteStop(day, stop);
         }

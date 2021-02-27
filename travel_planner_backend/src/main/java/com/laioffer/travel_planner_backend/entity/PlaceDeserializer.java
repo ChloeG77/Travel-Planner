@@ -30,9 +30,10 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
         Place place = new Place();
         
         try {
+    
+            place.setName(placeNode.get("name").textValue());
             place.setPlaceId(placeNode.get("place_id").textValue());
             place.setAddress(placeNode.get("formatted_address").textValue());
-            place.setName(placeNode.get("name").textValue());
             
             JsonNode locNode = placeNode.get("geometry").get("location");
             place.setLatitude(locNode.get("lat").doubleValue());
