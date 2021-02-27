@@ -3,6 +3,7 @@ package com.laioffer.travel_planner_backend.controller;
 
 import com.laioffer.travel_planner_backend.entity.Role;
 import com.laioffer.travel_planner_backend.entity.RoleName;
+import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.entity.User;
 import com.laioffer.travel_planner_backend.message.request.LoginForm;
 import com.laioffer.travel_planner_backend.message.request.SignUpForm;
@@ -12,7 +13,10 @@ import com.laioffer.travel_planner_backend.repository.UserRepository;
 import com.laioffer.travel_planner_backend.security.JwtProvider;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import com.laioffer.travel_planner_backend.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +40,10 @@ public class AuthRestAPIs {
     
     @Autowired
     UserRepository userRepository;
-    
+
+    @Autowired
+    UserDetailsServiceImpl userService;
+
     @Autowired
     RoleRepository roleRepository;
     
@@ -55,12 +62,30 @@ public class AuthRestAPIs {
                 loginRequest.getPassword()
             )
         );
-        
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+
+        String username = authentication.getName();
+        User user = userService.getUserByUsername(username);
+        List<Trip> trips = user.getAllTrips();
         String jwt = jwtProvider.generateJwtToken(authentication);
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        return ResponseEntity.ok(new JwtResponse(jwt, trips));
     }
+
+    @PostMapping("/logout")
+    public String authenticateUser() {
+//        System.out.print(loginRequest);
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getUsername(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        String jwt = jwtProvider.generateJwtToken(authentication);
+        return "success";
+    }
+
     
     @PostMapping("/signup")
     public ResponseEntity<String> registerUser(@RequestBody SignUpForm signUpRequest) {
