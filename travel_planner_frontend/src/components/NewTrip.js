@@ -1,5 +1,5 @@
 import React  from "react";
-import { Form, DatePicker, Button, Select, Input, message } from 'antd';
+import { Form, DatePicker, Button, Select, Input, message, InputNumber } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { newTrip } from '../utils/auth';
 import { useState } from 'react';
@@ -10,21 +10,13 @@ const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 10,
-    },
+    xs: { span: 24 },
+    sm: { span: 11 }
   },
   wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 4,
-    },
-  },
+    xs: { span: 24 },
+    sm: { span: 13 }
+  }
 };
 
 
@@ -78,23 +70,23 @@ const NewTrip = (props) => {
         destination: ['Beijing']
       }}>
         <Form.Item name="name" label="Trip Name" rules={[{ required: true, message: 'Please enter a trip name!' }]}>
-          <Input />
+          <Input style={{width: "100%", textAlign: "left"}} />
         </Form.Item>
 
         <Form.Item name="startDate" label="Travel Date">
-        <DatePicker onChange={onChange} />
+        <DatePicker style={{width: "100%" }} onChange={onChange} />
         </Form.Item>
 
         <Form.Item name="numDays" label="Number of Days" rules={[{ required: true, message: 'Please enter number of trip days!' }]}>
-          <Input />
+          <InputNumber min={1} max={15} style={{width: "100%", textAlign: "left"}} placeholder="number of travelling days"/>
         </Form.Item>
 
         <Form.Item name="destination" label="Destination City" rules={[{ required: true, message: 'Please select your Desination City!' }]}>
-          <Input />        
+          <Input style={{width: "100%", textAlign: "left"}}/>        
         </Form.Item>
 
         <Form.Item name="type" label="Trip Type" rules={[{ required: false, message: 'Please select your trip type!' }]}>
-          <Select defaultValue="leisure" onChange={handleChange} >
+          <Select defaultValue="leisure" style={{width: "100%", textAlign: "left"}} onChange={handleChange} >
             <Option value="business">business</Option>
             <Option value="leisure">leisure</Option>
           </Select>
@@ -102,12 +94,9 @@ const NewTrip = (props) => {
         </Form.Item>
 
         <Form.Item
-          wrapperCol={{
-            xs: { span: 24, offset: 0 },
-            sm: { span: 16, offset: 4 },
-          }}
+         style={{width: "100%"}}
         > 
-            <Button type="primary" htmlType="submit">
+            <Button className="planning-btn" type="primary" style={{width: "80%"}} htmlType="submit">
               Start Planning
             </Button>
         </Form.Item>

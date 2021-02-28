@@ -48,12 +48,12 @@ const Trips = (props) => {
     }
 
     return (
-        <>
+        <div>
         <Button type='primary' shape="round" onClick={onFavoriteClick} icon={<StarFilled />}>
         My Trips
         </Button>
 
-        <Drawer
+        <Drawer className="trips-drawer"
         title="My Trips"
         placement="right"
         width={520}
@@ -84,7 +84,7 @@ const Trips = (props) => {
             )}
         />
         </Drawer>      
-        </>
+        </div>
     )
 }
 

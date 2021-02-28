@@ -12,7 +12,7 @@ const SignUpPage = () => {
             <div>
                 <TravelHeader />
             </div>
-            <div >
+            <div className="signup-main">
                 <SignUp />
             </div>
             <div>
