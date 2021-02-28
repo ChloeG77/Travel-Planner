@@ -30,7 +30,7 @@ const LoginPage = (props) =>{
                          token={props.token}
                          trips={props.trips}/>
             </div>
-            <div className="login">
+            <div className="login-main">
                 <Login onSuccess={signinOnSuccess}/>
             </div>
             <div>

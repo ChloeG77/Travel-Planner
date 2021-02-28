@@ -1,4 +1,4 @@
-.homepage {
+.homepage, .login-page{
     display: block;
     overflow-y:auto;
     height: 100vh;

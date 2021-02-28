@@ -37,6 +37,7 @@ const TravelHeader = (props) => {
                                     token={props.token}
                                     trips={props.trips}/>}
         </Col>
+        {/* <Col style={{posotion: "relative", fontSize: "40px"}}>Travel Planner</Col> */}
         <Col>
           {
             props.isLoggedIn ? 
