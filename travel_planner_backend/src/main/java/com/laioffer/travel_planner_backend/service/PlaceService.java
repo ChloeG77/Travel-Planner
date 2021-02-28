@@ -6,11 +6,9 @@ import com.laioffer.travel_planner_backend.external.GoogleMapClient;
 import com.laioffer.travel_planner_backend.repository.CityRepository;
 import com.laioffer.travel_planner_backend.repository.PlaceRepository;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class PlaceService {

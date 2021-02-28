@@ -57,13 +57,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     
     @Transactional
     public User getUserByUsername(String username)
-            throws UsernameNotFoundException {
-
+        throws UsernameNotFoundException {
+        
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User Not Found with -> username : " + username)
-                );
-
+            .orElseThrow(() ->
+                new UsernameNotFoundException("User Not Found with -> username : " + username)
+            );
+        
         return user;
     }
     

@@ -1,6 +1,5 @@
 package com.laioffer.travel_planner_backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -37,7 +36,7 @@ public class User implements Serializable {
     
     @JsonIgnore
     private String password;
-
+    
     private boolean enabled;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
