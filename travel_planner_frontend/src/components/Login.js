@@ -1,7 +1,7 @@
 import { Button, Form, Input, message, Modal } from 'antd';
 import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { login } from '../utils';
+import { login } from '../utils/auth';
  
 const Login = (props) =>  {
 
