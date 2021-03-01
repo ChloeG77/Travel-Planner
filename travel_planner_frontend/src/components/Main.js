@@ -7,10 +7,11 @@ import { API_KEY } from '../constants';
 import axios from "axios";
 import SearchBar from './SearchBar';
 import { Table, Button } from 'antd';
+import DailyPlan from './DailyPlan'
 
 
 
-const Wrapper = styled.main`
+const Wrapper = styled.div`
   width: 100%;
   height: 100%;
 `;
@@ -130,59 +131,60 @@ class Main extends Component {
             mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns
         } = this.state;
 
+        const { destination, isLoggedIn, token } = this.props;
+
 
         return (
-            <Wrapper>
-                <GoogleMapReact
-                    center={this.state.center}
-                    zoom={this.state.zoom}
-                    onChange={this._onChange}
-                    onChildClick={() => console.log('child click')}
-                    bootstrapRLKeys={{
-                        key: `${API_KEY}`,
-                        libraries: ['places', 'geometry'],
-                    }}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
-                >
+            <div className='planner-page'>
+                <div className='google-map'>
+                    <GoogleMapReact
+                        center={this.state.center}
+                        zoom={this.state.zoom}
+                        onChange={this._onChange}
+                        onChildClick={() => console.log('child click')}
+                        bootstrapRLKeys={{
+                            key: `${API_KEY}`,
+                            libraries: ['places', 'geometry'],
+                        }}
+                        yesIWantToUseGoogleMapApiInternals
+                        onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
+                    >
 
-                    {
-                        lat.map((ele, idx) => {
-                            return (
-                                <Marker
-                                    key={idx}
-                                    text={'hello'}
-                                    lat={lat[idx]}
-                                    lng={lng[idx]}
-                                />
-                            )
+                        {
+                            lat.map((ele, idx) => {
+                                return (
+                                    <Marker
+                                        key={idx}
+                                        text={'hello'}
+                                        lat={lat[idx]}
+                                        lng={lng[idx]}
+                                    />
+                                )
 
-                        })
-                    }
+                            })
+                        }
 
-                </GoogleMapReact>
+                    </GoogleMapReact>
+                </div>
+                
 
                 {mapApiLoaded && (
-                    <div>
-                        {/* <AutoComplete map={mapInstance} mapApi={mapApi} addplace={this.addPlace} /> */}
-                        <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable} />
-                        <Table
-                            columns={columns}
-                            expandable={{
-                                expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-                                rowExpandable: record => record.name !== 'Not Expandable',
-                            }}
-                            dataSource={placedata}
-                        />
-                    </div>
-                )}
-
-                {/* <div className="info-wrapper">
-                    <div className="map-details">Latitude: <span>{lat}</span>, Longitude: <span>{lng}</span></div>
-                </div> */}
-
-
-            </Wrapper >
+                <div className='search-bar'>
+                    <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable} token={token}/>
+                    <Table
+                        columns={columns}
+                        expandable={{
+                            expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
+                            rowExpandable: record => record.name !== 'Not Expandable',
+                        }}
+                        dataSource={placedata}
+                    />
+                </div>
+            )}
+                <div className="daily-plan">
+                    <DailyPlan />
+                </div>
+            </div >
         );
     }
 }
