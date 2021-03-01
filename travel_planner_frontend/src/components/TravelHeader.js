@@ -1,6 +1,5 @@
 import React, { Component, useState} from "react";
 import { Button, Col, Layout, message, Row } from 'antd';
-import { logout } from '../utils/auth';
 import Trips from './Trips';
 import { useHistory } from 'react-router-dom';
 
