@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,70 +33,68 @@ public class DayController {
     @Autowired
     private StopService stopService;
     
-    @PostMapping(value = "/trip/newday/{tripId}")
-    public Day newDay(@PathVariable long tripId) {
+    @PostMapping(value = "/trip/newDay")
+    public Day newDay(@RequestParam long tripId) {
         return dayService.newDay(tripId);
     }
     
-    @GetMapping(value = "/trip/day/{dayId}")
-    public Day getDayById(@PathVariable(value = "dayId") long dayId) {
+    @GetMapping(value = "/trip/day")
+    public Day getDayById(@RequestParam long dayId) {
         return dayService.getDayById(dayId);
     }
     
-    @PostMapping(value = "/trip/day/place/{dayId}/{placeId}")
-    public Stop addPlace(@PathVariable long dayId, @PathVariable String placeId) {
+    @PostMapping(value = "/trip/day/place", params = {"dayId", "placeId"})
+    public Stop addPlace(@RequestParam long dayId, @RequestParam String placeId) {
         Day day = dayService.getDayById(dayId);
         Place place = placeService.getPlaceById(placeId);
         return dayService.addPlace(day, place);
     }
     
-    @DeleteMapping(value = "/trip/day/place/{dayId}/{placeId}")
-    public String deletePlace(@PathVariable long dayId, @PathVariable String placeId) {
+    @DeleteMapping(value = "/trip/day/place", params = {"dayId", "placeId"})
+    public String deletePlace(@RequestParam long dayId, @RequestParam String placeId) {
         Day day = dayService.getDayById(dayId);
         Place place = placeService.getPlaceById(placeId);
         dayService.deletePlace(day, place);
         return "redirect:/getAllDays";
     }
     
-    @DeleteMapping(value = "/trip/day/stop/{dayId}/{stopId}")
-    public String deleteStop(@PathVariable long dayId, @PathVariable long stopId) {
+    @DeleteMapping(value = "/trip/day/stop", params = {"dayId", "stopId"})
+    public String deleteStop(@RequestParam long dayId, @RequestParam long stopId) {
         Day day = dayService.getDayById(dayId);
         Stop stop = stopService.getStopById(stopId);
         dayService.deleteStop(day, stop);
         return "redirect:/getAllDays";
     }
     
-    @PostMapping(value = "/trip/day/route/gen/{dayId}")
-    public List<Stop> genRoute(@PathVariable(value = "dayId") long dayId) {
+    @PostMapping("/trip/day/route/gen")
+    public List<Stop> genRoute(@RequestParam long dayId) {
         Day day = dayService.getDayById(dayId);
         return dayService.generateDayPath(day);
     }
     
-    @GetMapping(value = "/trip/day/route/{dayId}")
-    public List<Stop> getRoute(@PathVariable(value = "dayId") long dayId) {
+    @GetMapping(value = "/trip/day/route")
+    public List<Stop> getRoute(@RequestParam long dayId) {
         Day day = dayService.getDayById(dayId);
         return day.getRoute();
     }
     
-    @PostMapping(value = "/trip/day/route/{dayId}")
+    @PostMapping(value = "/trip/day/route")
     public String setRoute(@RequestBody List<Long> stopIdLst, BindingResult result,
-        @PathVariable long dayId) {
+        @RequestParam long dayId) {
         if (result.hasErrors()) {
             return "setRoute";
         }
-        System.out.println(stopIdLst.toString());
         List<Stop> route = new ArrayList<>();
         for (long stopId : stopIdLst) {
             route.add(stopService.getStopById(stopId));
         }
-        
         Day day = dayService.getDayById(dayId);
         dayService.setRoute(day, route);
         return "redirect:/getAllDays";
     }
     
-    @PostMapping(value = "/trip/day/stop/")
-    public String setStopFuncTyep(@RequestBody Map<Long, StopType> stopTypes,
+    @PostMapping(value = "/trip/day/stop/type")
+    public String setStopFuncType(@RequestBody Map<Long, StopType> stopTypes,
         BindingResult result) {
         if (result.hasErrors()) {
             return "Set StopType Error";
@@ -104,8 +102,9 @@ public class DayController {
         for (Map.Entry<Long, StopType> entry : stopTypes.entrySet()) {
             Stop stop = stopService.getStopById(entry.getKey());
             stop.setType(entry.getValue());
+            stopService.update(stop);
         }
-        return "success";
+        return "redirect:/getAllDays";
     }
     
 }

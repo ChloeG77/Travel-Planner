@@ -1,6 +1,7 @@
 package com.laioffer.travel_planner_backend.external;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laioffer.travel_planner_backend.entity.Place;
 import java.io.IOException;
@@ -15,7 +16,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,10 @@ public class GoogleMapClient {
     private static final String SEARCH_BY_ID_TEMPLATE =
         "https://maps.googleapis.com/maps/api/place/details/json?placeid=%s&fields=%s&key=%s";
     private static final String SEARCH_BY_NAME_TEMPLATE =
-        "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&inputtype=textquery&key=%s";
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s";
+    private static final String SEARCH_NEARBY_TEMPLATE =
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=&location=%s&radius=%s&type=%s&key=%s";
+    
     @Value("${external.googleMapKey}")
     private String key;
     
@@ -35,32 +38,23 @@ public class GoogleMapClient {
         List<String> fields = new ArrayList<>(
             Arrays.asList("name", "address_components", "formatted_address",
                 "formatted_phone_number", "geometry", "opening_hours", "place_id", "url", "rating",
-                "types", "reviews"));
+                "types", "reviews", "photos"));
         String searchURL = String
             .format(SEARCH_BY_ID_TEMPLATE, place_id, String.join(",", fields), key);
         // System.out.println(searchURL);
-        Place place = getPlace(searchGoogleMap(searchURL));
-        return place;
+        String searchResult = searchGoogleMap(searchURL);
+        JSONObject resJSON = new JSONObject(searchResult);
+        return getPlace(resJSON.get("result").toString());
     }
     
     
-    /**
-     * @param input
-     * @param city
-     * @return A list of strings of place_id
-     * @throws GoogleMapException
-     */
-    public List<String> searchByName(String input, String city) throws GoogleMapException {
-        input = URLEncoder.encode(input + "%20" + city, StandardCharsets.UTF_8);
+    public List<Place> searchByName(String input, String city) throws GoogleMapException {
+        input = URLEncoder.encode(input + " " + city, StandardCharsets.UTF_8);
         String searchURL = String.format(SEARCH_BY_NAME_TEMPLATE, input, key);
-        System.out.println(searchURL);
-        JSONObject response = new JSONObject(searchGoogleMap(searchURL));
-        JSONArray candidates = response.getJSONArray("candidates");
-        List<String> res = new ArrayList<>();
-        for (int i = 0; i < candidates.length(); i++) {
-            res.add(candidates.getJSONObject(i).getString("place_id"));
-        }
-        return res;
+        // System.out.println(searchURL);
+        String searchResult = searchGoogleMap(searchURL);
+        JSONObject resJSON = new JSONObject(searchResult);
+        return getPlaceList(resJSON.get("results").toString());
     }
     
     
@@ -68,6 +62,17 @@ public class GoogleMapClient {
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(data, Place.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new GoogleMapException("Failed to parse game data from Google Map API");
+        }
+    }
+    
+    private List<Place> getPlaceList(String data) throws GoogleMapException {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(data, new TypeReference<List<Place>>() {
+            });
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new GoogleMapException("Failed to parse game data from Google Map API");
@@ -105,5 +110,13 @@ public class GoogleMapClient {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public List<Place> searchNearby(String locStr, int rad, String type) {
+        String searchURL = String.format(SEARCH_NEARBY_TEMPLATE, locStr, rad, type, this.key);
+        System.out.println(searchURL);
+        String searchResult = searchGoogleMap(searchURL);
+        JSONObject resJSON = new JSONObject(searchResult);
+        return getPlaceList(resJSON.get("results").toString());
     }
 }

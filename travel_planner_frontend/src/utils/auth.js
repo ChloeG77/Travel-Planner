@@ -1,6 +1,6 @@
 const SERVER_ORIGIN = '';
 
-const loginUrl = `${SERVER_ORIGIN}/login`;
+const loginUrl = `${SERVER_ORIGIN}/api/auth/login`;
 
 export const login = (credential) => {
   return fetch(loginUrl, {
@@ -19,7 +19,7 @@ export const login = (credential) => {
   })
 }
 
-const registerUrl = `${SERVER_ORIGIN}/register`;
+const registerUrl = `${SERVER_ORIGIN}/api/auth/signup`;
 
 export const register = (data) => {
   return fetch(registerUrl, {
@@ -35,6 +35,27 @@ export const register = (data) => {
   })
 }
 
+
+
+const addTripUrl = `${SERVER_ORIGIN}/api/trip/newTrip`;
+
+export const newTrip = (data, token) => {
+  return fetch(addTripUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(data)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to add trip');
+    }
+    return response.json();
+  })
+}
+
+
 const logoutUrl = `${SERVER_ORIGIN}/logout`;
 
 export const logout = () => {
@@ -45,5 +66,24 @@ export const logout = () => {
     if (response.status !== 200) {
       throw Error('Fail to log out');
     }
+  })
+}
+
+
+const deleteTripUrl = `${SERVER_ORIGIN}/api/trip/deleteTrip?tripId=`;
+
+export const deleteTrip = (data, token) => {
+  return fetch(`${deleteTripUrl}${data.tripId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(data)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to delete trip');
+    }
+    return response.json();
   })
 }

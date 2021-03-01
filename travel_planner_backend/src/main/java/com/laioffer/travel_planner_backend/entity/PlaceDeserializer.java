@@ -26,19 +26,25 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
         throws IOException {
         
         JsonNode placeNode = jsonParser.getCodec().readTree(jsonParser);
-        placeNode = placeNode.get("result");
         
         Place place = new Place();
         
         try {
+            
+            place.setName(placeNode.get("name").textValue());
             place.setPlaceId(placeNode.get("place_id").textValue());
             place.setAddress(placeNode.get("formatted_address").textValue());
-            place.setName(placeNode.get("name").textValue());
             
             JsonNode locNode = placeNode.get("geometry").get("location");
             place.setLatitude(locNode.get("lat").doubleValue());
             place.setLongitude(locNode.get("lng").doubleValue());
             
+            
+        } catch (NullPointerException e) {
+            throw new GoogleMapException("Crucial place information missing from Google Map API");
+        }
+        
+        try {
             // Address Components
             JsonNode addressComponents = placeNode.get("address_components");
             
@@ -55,8 +61,7 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
                         place.setPostcode(component.get("short_name").textValue());
                 }
             }
-        } catch (NullPointerException e) {
-            throw new GoogleMapException("Crucial place information missing from Google Map API");
+        } catch (NullPointerException ignored) {
         }
         
         try {
@@ -66,6 +71,11 @@ public class PlaceDeserializer extends StdDeserializer<Place> {
         
         try {
             place.setUrl(placeNode.get("url").textValue());
+        } catch (NullPointerException ignored) {
+        }
+        
+        try {
+            place.setPhotoRef(placeNode.get("photos").get(0).get("photo_reference").textValue());
         } catch (NullPointerException ignored) {
         }
         

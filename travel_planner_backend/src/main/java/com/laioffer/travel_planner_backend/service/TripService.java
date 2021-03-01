@@ -1,5 +1,6 @@
 package com.laioffer.travel_planner_backend.service;
 
+import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.repository.TripRepository;
@@ -15,6 +16,9 @@ public class TripService {
     @Autowired
     private TripRepository tripRepository;
     
+    @Autowired
+    private DayService dayService;
+    
     @Transactional
     public Trip getTripById(long tripId) {
         return tripRepository.findById(tripId);
@@ -25,8 +29,8 @@ public class TripService {
         tripRepository.save(trip);
     }
     
-    public List<Trip> getTripsByUserEmail(String email) {
-        return tripRepository.findAllByUserEmail(email);
+    public List<Trip> getTripsByUsername(String username) {
+        return tripRepository.findAllByUser_Username(username);
         
     }
     
@@ -38,14 +42,14 @@ public class TripService {
     }
     
     @Transactional
-    public void deleteTrip(String tripName) {
-        Trip trip = getTripByTripName(tripName);
+    public void deleteTrip(String username, String tripName) {
+        Trip trip = getTripByTripName(username, tripName);
         tripRepository.delete(trip);
     }
     
     @Transactional
-    public Trip getTripByTripName(String tripName) {
-        return tripRepository.findByName(tripName);
+    public Trip getTripByTripName(String username, String tripName) {
+        return tripRepository.findByUser_UsernameAndName(username, tripName);
     }
     
     
@@ -66,6 +70,9 @@ public class TripService {
         Trip trip = getTripById(tripId);
         Place place = getPlace(tripId, placeId);
         trip.deletePlace(place);
+        for (Day day : trip.getDays()) {
+            dayService.deletePlace(day, place);
+        }
         tripRepository.save(trip);
     }
     
@@ -86,7 +93,6 @@ public class TripService {
         Trip trip = getTripById(tripId);
         trip.getCities();
         Set<Place> places = trip.getPlaces();
-        
         return places;
     }
     

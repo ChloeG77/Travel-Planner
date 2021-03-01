@@ -41,7 +41,7 @@ public class Trip implements Serializable {
     @Column(name = "trip_name")
     private String name;
     
-    private Date dateCreated;
+    private String dateCreated;
     
     @OneToMany
     private Set<City> cities = new HashSet<>();
@@ -91,11 +91,11 @@ public class Trip implements Serializable {
         this.name = name;
     }
     
-    public Date getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
     
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
     
@@ -152,6 +152,8 @@ public class Trip implements Serializable {
         return "Trip{" +
             "tripId=" + tripId +
             ", name='" + name + '\'' +
+            ", type=" + type +
+            ", startDate=" + startDate +
             ", numDays=" + numDays +
             ", isPrivate=" + isPrivate +
             '}';
