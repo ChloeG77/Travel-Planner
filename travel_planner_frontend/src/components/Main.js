@@ -7,8 +7,10 @@ import { API_KEY } from '../constants';
 import axios from "axios";
 import SearchBar from './SearchBar';
 import { Table, Button } from 'antd';
+import DailyPlan from './DailyPlan'
+import { Layout } from 'antd';
 
-
+const { Sider, Content } = Layout;
 
 const Wrapper = styled.main`
   width: 100%;
@@ -132,57 +134,62 @@ class Main extends Component {
 
 
         return (
-            <Wrapper>
-                <GoogleMapReact
-                    center={this.state.center}
-                    zoom={this.state.zoom}
-                    onChange={this._onChange}
-                    onChildClick={() => console.log('child click')}
-                    bootstrapRLKeys={{
-                        key: `${API_KEY}`,
-                        libraries: ['places', 'geometry'],
-                    }}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
-                >
-
-                    {
-                        lat.map((ele, idx) => {
-                            return (
-                                <Marker
-                                    key={idx}
-                                    text={'hello'}
-                                    lat={lat[idx]}
-                                    lng={lng[idx]}
-                                />
-                            )
-
-                        })
-                    }
-
-                </GoogleMapReact>
+            <Layout
+                style={{ height: "100%", width: "100%" }}
+            >
 
                 {mapApiLoaded && (
-                    <div>
-                        {/* <AutoComplete map={mapInstance} mapApi={mapApi} addplace={this.addPlace} /> */}
-                        <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable} />
-                        <Table
-                            columns={columns}
-                            expandable={{
-                                expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-                                rowExpandable: record => record.name !== 'Not Expandable',
-                            }}
-                            dataSource={placedata}
-                        />
-                    </div>
+                    <Sider
+                        width={500}
+                        theme={"light"}
+                    >
+                            {/* <AutoComplete map={mapInstance} mapApi={mapApi} addplace={this.addPlace} /> */}
+                            <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable} />
+                            <Table
+                                columns={columns}
+                                expandable={{
+                                    expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
+                                    rowExpandable: record => record.name !== 'Not Expandable',
+                                }}
+                                dataSource={placedata}
+                                pagination={{pageSize: 3}}
+                            />
+                            <DailyPlan />
+                    </Sider>
                 )}
 
                 {/* <div className="info-wrapper">
                     <div className="map-details">Latitude: <span>{lat}</span>, Longitude: <span>{lng}</span></div>
                 </div> */}
+                <Content>
+                    <GoogleMapReact
+                        center={this.state.center}
+                        zoom={this.state.zoom}
+                        onChange={this._onChange}
+                        onChildClick={() => console.log('child click')}
+                        bootstrapRLKeys={{
+                            key: `${API_KEY}`,
+                            libraries: ['places', 'geometry'],
+                        }}
+                        yesIWantToUseGoogleMapApiInternals
+                        onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
+                    >
+                        {
+                            lat.map((ele, idx) => {
+                                return (
+                                    <Marker
+                                        key={idx}
+                                        text={'hello'}
+                                        lat={lat[idx]}
+                                        lng={lng[idx]}
+                                    />
+                                )
 
-
-            </Wrapper >
+                            })
+                        }
+                    </GoogleMapReact>
+                </Content>
+            </Layout>
         );
     }
 }
