@@ -85,5 +85,7 @@ export const deleteTrip = (data, token) => {
       throw Error('Fail to delete trip');
     }
     return response.json();
-  })
+  }) 
 }
+
+// const deleteTripUrl = `${SERVER_ORIGIN}/api/trip/deleteTrip?tripId=`;
