@@ -5,7 +5,7 @@ import '../styles/App.css';
 import PlannerPage from './PlannerPage';
 import HomePage from './HomePage'
 import Layout from 'antd/lib/layout/layout';
-
+import DailyPlan from './DailyPlan';
 
 const App = () => (
   <div className="App">
@@ -26,16 +26,20 @@ const App = () => (
             </ul>
           </nav> */}
         </Layout>
-        
-        
+
+
 
         <Switch>
           <Route path="/planner/:destination">
             <PlannerPage />
           </Route>
+          <Route path="/dailyplan">
+            <DailyPlan />
+          </Route>
           <Route path="/">
             <HomePage />
           </Route>
+
         </Switch>
       </div>
     </Router>

@@ -31,7 +31,7 @@ class Main extends Component {
         lat: [],
         lng: [],
         placedata: [],
-        selectedId:[],
+        selectedId: [],
         columns: [
             { title: 'Name', dataIndex: 'name', key: 'name' },
             { title: 'Rating', dataIndex: 'rating', key: 'rating' },
@@ -41,26 +41,26 @@ class Main extends Component {
                 dataIndex: '',
                 key: 'x',
                 render: (record) => <Button type="primary" onClick={() => this.addMarker(record.key)} disabled={this.state.selectedId.includes(this.state.placedata[record.key].id)}>Add Marker</Button>,
-              }
-            ]
+            }
+        ]
     };
 
 
     componentWillMount() {
-        const destination  = this.props.destination;
+        const destination = this.props.destination;
         // const url = `/api/place/findplacefromtext/json?input=${destination}&inputtype=textquery&fields=geometry&key=${API_KEY}`;
 
         const url = `/api/place/searchByName?text=${destination}&city=${destination}`;
 
         const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4bWEiLCJpYXQiOjE2MTQzODMxMjgsImV4cCI6MTYxNDg4Mzc4Mn0.7X82EB-u1TOVl9auv0ZvIwwHzsKQxBTUp9qFFwQbxYwXoUUCQ00vUT_tVyXxdr0ZQ31YZ0vibTYA5LgR20Wnvw";
-        
+
 
         axios.get(url, {
             headers: {
                 'Authorization': 'Bearer ' + token
-               }
-            })
-            .then(res=> {
+            }
+        })
+            .then(res => {
                 const place = res.data[0];
                 this.setMapCenter(place);
             })
@@ -96,24 +96,24 @@ class Main extends Component {
 
     // };
 
-     addMarker = (key) => {
+    addMarker = (key) => {
         const { placedata, mapInstance } = this.state;
         const lat = placedata[key].lat;
         const lng = placedata[key].lng;
         // mapInstance.fitBounds(placedata[key].viewport);
-        this.setState({center:[lat, lng]})
+        this.setState({ center: [lat, lng] })
         mapInstance.setZoom(13);
 
-        
+
         this.setState({
             lat: [...this.state.lat, lat],
             lng: [...this.state.lng, lng],
-            selectedId:[...this.state.selectedId, placedata[key].id]
+            selectedId: [...this.state.selectedId, placedata[key].id]
         });
     };
 
     clearTable = () => {
-        this.setState({placedata: []});
+        this.setState({ placedata: [] });
     }
 
     setMapCenter = (place) => {
@@ -123,14 +123,14 @@ class Main extends Component {
     };
 
     addPlaceToTable = (data) => {
-        this.setState({placedata: [...this.state.placedata, data]});
+        this.setState({ placedata: [...this.state.placedata, data] });
     }
 
 
 
     render() {
         const {
-             mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns
+            mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns
         } = this.state;
 
 
@@ -152,28 +152,28 @@ class Main extends Component {
                     {
                         lat.map((ele, idx) => {
                             return (
-                        <Marker
-                            key={idx}
-                            text={'hello'}
-                            lat={lat[idx]}
-                            lng={lng[idx]}
-                        />
+                                <Marker
+                                    key={idx}
+                                    text={'hello'}
+                                    lat={lat[idx]}
+                                    lng={lng[idx]}
+                                />
                             )
-                        
+
                         })
                     }
-                    
+
                 </GoogleMapReact>
 
                 {mapApiLoaded && (
                     <div>
                         {/* <AutoComplete map={mapInstance} mapApi={mapApi} addplace={this.addPlace} /> */}
-                        <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable}/>
+                        <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable} />
                         <Table
                             columns={columns}
                             expandable={{
-                            expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-                            rowExpandable: record => record.name !== 'Not Expandable',
+                                expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
+                                rowExpandable: record => record.name !== 'Not Expandable',
                             }}
                             dataSource={placedata}
                         />
