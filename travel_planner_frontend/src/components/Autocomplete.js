@@ -52,9 +52,11 @@
 //         this.searchInput.blur();
 //     };
 
-//     clearSearchBox = () => {
-//         this.searchInput.value = '';
-//     }
+    
+
+    // clearSearchBox = () => {
+    //     this.searchInput.value = '';
+    // }
 
 //     render() {
 //         return (

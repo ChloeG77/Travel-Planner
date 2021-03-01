@@ -1,20 +1,32 @@
 import React from 'react';
-import TravelHeader from './Header'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import '../styles/App.css';
 import PlannerPage from './PlannerPage';
-import HomePage from './HomePage'
-import Layout from 'antd/lib/layout/layout';
-import DailyPlan from './DailyPlan';
+import HomePage from './HomePage';
+import LoginPage from './LoginPage';
+import SignUpPage from './SignUpPage';
+import { useState } from 'react';
 
-const App = () => (
+const App = () => {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
+  const [trips, setTrip] = useState(null);
+  
+  const onLoggedInStatus =(loggin, data) => {
+      setIsLoggedIn(loggin);
+      setToken(data.accessToken);
+      setTrip(data.trips);
+  }
+
+  return (
   <div className="App">
 
 
     <Router>
       <div>
-        <Layout>
-          <TravelHeader />
+        {/* <Layout>
+          {/* <TravelHeader /> */}
           {/* <nav>
             <ul>
               <li>
@@ -25,25 +37,35 @@ const App = () => (
               </li>
             </ul>
           </nav> */}
-        </Layout>
-
-
-
+        {/* </Layout> */}
+         {/* */}
+        
+          {/* comm */}
         <Switch>
           <Route path="/planner/:destination">
-            <PlannerPage />
+            <PlannerPage isLoggedIn={isLoggedIn}
+                         token={token}  
+            />
           </Route>
-          <Route path="/dailyplan">
-            <DailyPlan />
+          <Route path="/login">
+            <LoginPage onLoggedInStatus={onLoggedInStatus}/>
+          </Route>
+          <Route path="/signup">
+            <SignUpPage />
           </Route>
           <Route path="/">
-            <HomePage />
+            <HomePage onLoggedInStatus={onLoggedInStatus}
+                      isLoggedIn={isLoggedIn}
+                      token={token}
+                      trips={trips}
+                                
+            />
           </Route>
-
         </Switch>
       </div>
     </Router>
   </div>
-);
+  )
+};
 
 export default App;
