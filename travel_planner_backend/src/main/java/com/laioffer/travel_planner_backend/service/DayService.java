@@ -8,8 +8,6 @@ import com.laioffer.travel_planner_backend.repository.DayRepository;
 import com.laioffer.travel_planner_backend.repository.StopRepository;
 import com.laioffer.travel_planner_backend.repository.TripRepository;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,34 +85,9 @@ public class DayService {
     }
     
     private List<Stop> planRoute(Set<Stop> places) {
-        List<Stop> placeList = new ArrayList<>(places);
-        List<Stop> route = new ArrayList<>();
-        if (placeList.size()==0) {
-            return route;
-        }
-        Stop curr = placeList.get(0);
-        while (placeList.size()>0) {
-            route.add(curr);
-            placeList.remove(curr);
-            Stop next = null;
-            double dist = Double.POSITIVE_INFINITY;
-            for (Stop stop: placeList) {
-                double d = getDist(stop, curr);
-                if (d < dist) {
-                    dist = d;
-                    next = stop;
-                }
-            }
-            curr = next;
-        }
+        List<Stop> route = new ArrayList<>(places);
         return route;
     }
-    
-    private double getDist(Stop stop1, Stop stop2) {
-        return Math.pow(2, (stop1.getPlace().getLatitude() - stop2.getPlace().getLatitude())) + Math
-            .pow(2, (stop1.getPlace().getLongitude() - stop2.getPlace().getLongitude()));
-    }
-    
     
     @Transactional
     public Day newDay(long tripId) {

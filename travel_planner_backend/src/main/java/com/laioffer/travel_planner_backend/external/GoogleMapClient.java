@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,12 @@ public class GoogleMapClient {
     }
     
     
+    /**
+     * @param input
+     * @param city
+     * @return A list of strings of place_id
+     * @throws GoogleMapException
+     */
     public List<Place> searchByName(String input, String city) throws GoogleMapException {
         input = URLEncoder.encode(input + " " + city, StandardCharsets.UTF_8);
         String searchURL = String.format(SEARCH_BY_NAME_TEMPLATE, input, key);
@@ -71,8 +78,7 @@ public class GoogleMapClient {
     private List<Place> getPlaceList(String data) throws GoogleMapException {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return mapper.readValue(data, new TypeReference<List<Place>>() {
-            });
+            return mapper.readValue(data, new TypeReference<List<Place>>() {});
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new GoogleMapException("Failed to parse game data from Google Map API");

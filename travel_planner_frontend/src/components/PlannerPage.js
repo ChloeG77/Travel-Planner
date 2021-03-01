@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Map from './Map'
+import Main from './Main'
 import { useParams } from "react-router-dom";
 
 const PlannerPage = () => {
@@ -7,7 +7,7 @@ const PlannerPage = () => {
   
   return (
     <div className="main-wrapper">
-      <Map destination={destination}/>
+      <Main destination={destination}/>
     </div>
   )
 }

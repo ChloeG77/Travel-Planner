@@ -1,9 +1,9 @@
 import { Button, Form, Input, message, Modal } from 'antd';
 import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { login } from '../utils';
+import { register } from '../utils';
  
-class Login extends React.Component {
+class Register extends React.Component {
   state = {
     displayModal: false
   }
@@ -14,20 +14,19 @@ class Login extends React.Component {
     })
   }
  
-  signinOnClick = () => {
+  signupOnClick = () => {
     this.setState({
       displayModal: true,
     })
   }
  
   onFinish = (data) => {
-    login(data)
-      .then((data) => {
+    register(data)
+      .then(() => {
         this.setState({
           displayModal: false,
         })
-        message.success(`Welcome back, ${data.name}`);
-        this.props.onSuccess();
+        message.success(`Successfully signed up`);
       }).catch((err) => {
         message.error(err.message);
       })
@@ -36,17 +35,18 @@ class Login extends React.Component {
   render = () => {
     return (
       <>
-        <Button shape="round" onClick={this.signinOnClick} style={{ marginRight: '20px' }}>
-        Login</Button>
+        <Button shape="round" type="primary" onClick={this.signupOnClick}>
+          Register</Button>
         <Modal
-          title="Log in"
+          title="Register"
           visible={this.state.displayModal}
           onCancel={this.handleCancel}
           footer={null}
           destroyOnClose={true}
         >
           <Form
-            name="normal_login"
+            name="normal_register"
+            initialValues={{ remember: true }}
             onFinish={this.onFinish}
             preserve={false}
           >
@@ -65,10 +65,26 @@ class Login extends React.Component {
                 placeholder="Password"
               />
             </Form.Item>
+            <Form.Item
+              name="first_name"
+              rules={[{ required: true, message: 'Please input your Firstname!' }]}
+            >
+              <Input
+                placeholder="firstname"
+              />
+            </Form.Item>
+            <Form.Item
+              name="last_name"
+              rules={[{ required: true, message: 'Please input your Lastname!' }]}
+            >
+              <Input
+                placeholder="lastname"
+              />
+            </Form.Item>
  
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Login</Button>
+                Register</Button>
             </Form.Item>
           </Form>
         </Modal>
@@ -77,4 +93,4 @@ class Login extends React.Component {
   }
 }
  
-export default Login;
+export default Register;

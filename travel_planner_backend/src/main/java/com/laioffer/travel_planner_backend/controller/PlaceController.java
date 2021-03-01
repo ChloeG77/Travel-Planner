@@ -1,6 +1,5 @@
 package com.laioffer.travel_planner_backend.controller;
 
-import com.laioffer.travel_planner_backend.entity.City;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.service.PlaceService;
 import java.util.List;
@@ -49,10 +48,5 @@ public class PlaceController {
     @GetMapping(value = "place/recommendation", params = {"loc"})
     public List<Place> getRecNearby(@RequestParam String loc) {
         return placeService.searchNearby(loc);
-    }
-    
-    @GetMapping("place/loadCities")
-    public List<City> getAllCities() {
-        return placeService.getAllCities();
     }
 }

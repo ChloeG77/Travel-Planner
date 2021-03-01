@@ -4,18 +4,12 @@ import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.entity.User;
-import com.laioffer.travel_planner_backend.message.response.TripsResponse;
 import com.laioffer.travel_planner_backend.service.PlaceService;
 import com.laioffer.travel_planner_backend.service.TripService;
 import com.laioffer.travel_planner_backend.service.UserDetailsServiceImpl;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -32,11 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TripController {
     
     @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
     private TripService tripService;
+    
     @Autowired
     private PlaceService placeService;
+    
     @Autowired
     private UserDetailsServiceImpl userService;
     
@@ -47,17 +41,13 @@ public class TripController {
     
     @GetMapping(value = "trip/getTrip", params = "tripName")
     public Trip getTripByName(@RequestParam String tripName) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        return tripService.getTripByTripName(username, tripName);
+        return tripService.getTripByTripName(tripName);
     }
     
     
-    @GetMapping(value = "user/trip/getAll")
-    public List<Trip> getAllTrips() {
-        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-        String username = loggedInUser.getName();
-        return tripService.getTripsByUsername(username);
+    @GetMapping(value = "user/trip/getAll", params = "userEmail")
+    public List<Trip> getTripsByUserEmail(@RequestParam String userEmail) {
+        return tripService.getTripsByUserEmail(userEmail);
     }
     
     
@@ -68,22 +58,16 @@ public class TripController {
     
     
     @PostMapping("trip/newTrip")
-    public ResponseEntity<?> addTrip(@RequestBody Trip trip, BindingResult result) {
-//        System.out.println(trip);
+    public String addTrip(@RequestBody Trip trip, BindingResult result) {
+        System.out.println(trip);
         if (result.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return "addTrip error";
         }
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String username = loggedInUser.getName();
+        System.out.println(username);
         User user = userService.getUserByUsername(username);
-        List<Trip> trips = user.getAllTrips();
-        for (Trip userTrip : trips) {
-//            System.out.println("trip name " + userTrip.getName());
-            if (userTrip.getName().equals(trip.getName())) {
-                return new ResponseEntity<>("trip name exist", HttpStatus.CONFLICT);
-            }
-        }
-        
+        System.out.println(user.toString());
         int numOfDays = trip.getNumDays();
         List<Day> days = new ArrayList<>();
         for (int i = 0; i < numOfDays; i++) {
@@ -93,15 +77,18 @@ public class TripController {
         }
         trip.setUser(user);
         trip.setDays(days);
-        
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime now = LocalDateTime.now();
-        trip.setDateCreated(dtf.format(now));
+        List<Trip> trips = user.getAllTrips();
+        for (Trip userTrip : trips) {
+            System.out.print("trip name " + userTrip.getName());
+            if (userTrip.getName().equals(trip.getName())) {
+                return "Trip name exist";
+            }
+        }
         trips.add(trip);
         user.setAllTrips(trips);
         userService.save(user);
         
-        return ResponseEntity.ok(new TripsResponse(trips));
+        return "success";
     }
     
     @PostMapping(value = "trip/place", params = {"tripId", "placeId"})
@@ -118,14 +105,9 @@ public class TripController {
     }
     
     @DeleteMapping("trip/deleteTrip")
-    public ResponseEntity<?> deleteTrip(@RequestParam long tripId) {
+    public String deleteTrip(@RequestParam long tripId) {
         tripService.deleteTrip(tripId);
-        
-        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-        String username = loggedInUser.getName();
-        User user = userService.getUserByUsername(username);
-        List<Trip> trips = user.getAllTrips();
-        return ResponseEntity.ok(new TripsResponse(trips));
+        return "redirect:/getAllTrip";
     }
     
     @PostMapping("trip/editTrip")

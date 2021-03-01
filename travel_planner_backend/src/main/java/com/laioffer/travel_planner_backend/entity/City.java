@@ -30,10 +30,6 @@ public class City implements Serializable {
     
     private String country;
     
-    private double longitude;
-    
-    private double latitude;
-    
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Place> places;
@@ -73,22 +69,6 @@ public class City implements Serializable {
     
     public void setCountry(String country) {
         this.country = country;
-    }
-    
-    public double getLongitude() {
-        return longitude;
-    }
-    
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-    
-    public double getLatitude() {
-        return latitude;
-    }
-    
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
     }
     
     public Set<Place> getPlaces() {
