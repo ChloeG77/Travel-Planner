@@ -1,0 +1,13 @@
+.trip-box {
+    border: 2px solid #ccc;
+    height: 200px;
+    margin-top: 10px;
+    padding: 5px;
+  }
+
+.trip-list {
+    height: 100%;
+    overflow: scroll;
+
+}
+

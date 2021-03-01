@@ -1,0 +1,15 @@
+.signup-page {
+    display: block;
+    overflow-y:auto;
+    height: 100vh;
+    background-image: url(../assets/images/bg.jpg);
+    background-position: center;
+    background-size: cover;
+    background-color: #cccccc
+}
+
+.signup-page h1 {
+    padding-top:50px;
+    width: 100%;
+    text-align: center;
+}

@@ -1,0 +1,15 @@
+.newtrip { 
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    padding-left: 0px;
+    padding-right: 20px;
+    /* text-align: ; */
+    /* border: 2px; */
+}
+
+
+.planning-btn {
+    left: 135px;
+}

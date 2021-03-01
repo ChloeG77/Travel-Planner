@@ -3,6 +3,7 @@ package com.laioffer.travel_planner_backend.controller;
 
 import com.laioffer.travel_planner_backend.entity.Role;
 import com.laioffer.travel_planner_backend.entity.RoleName;
+import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.entity.User;
 import com.laioffer.travel_planner_backend.message.request.LoginForm;
 import com.laioffer.travel_planner_backend.message.request.SignUpForm;
@@ -10,8 +11,10 @@ import com.laioffer.travel_planner_backend.message.response.JwtResponse;
 import com.laioffer.travel_planner_backend.repository.RoleRepository;
 import com.laioffer.travel_planner_backend.repository.UserRepository;
 import com.laioffer.travel_planner_backend.security.JwtProvider;
+import com.laioffer.travel_planner_backend.service.UserDetailsServiceImpl;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +40,9 @@ public class AuthRestAPIs {
     UserRepository userRepository;
     
     @Autowired
+    UserDetailsServiceImpl userService;
+    
+    @Autowired
     RoleRepository roleRepository;
     
     @Autowired
@@ -48,7 +53,7 @@ public class AuthRestAPIs {
     
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginForm loginRequest) {
-        System.out.print(loginRequest);
+        // System.out.print(loginRequest);
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
@@ -56,22 +61,40 @@ public class AuthRestAPIs {
             )
         );
         
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+        String username = authentication.getName();
+        User user = userService.getUserByUsername(username);
+        List<Trip> trips = user.getAllTrips();
         String jwt = jwtProvider.generateJwtToken(authentication);
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        return ResponseEntity.ok(new JwtResponse(jwt, trips));
     }
+    
+    @PostMapping("/logout")
+    public String authenticateUser() {
+//        System.out.print(loginRequest);
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getUsername(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        String jwt = jwtProvider.generateJwtToken(authentication);
+        return "success";
+    }
+    
     
     @PostMapping("/signup")
     public ResponseEntity<String> registerUser(@RequestBody SignUpForm signUpRequest) {
         System.out.println(signUpRequest);
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<String>("Fail -> Username is already taken!",
+            return new ResponseEntity<>("Fail -> Username is already taken!",
                 HttpStatus.BAD_REQUEST);
         }
         
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<String>("Fail -> Email is already in use!",
+            return new ResponseEntity<>("Fail -> Email is already in use!",
                 HttpStatus.BAD_REQUEST);
         }
         

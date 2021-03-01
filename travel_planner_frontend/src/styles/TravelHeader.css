@@ -1,0 +1,8 @@
+.login-btn, .register-btn {
+    text-transform: none;
+    background-color: #e6eff5;
+    font-size: 1em;
+    color: rgb(0, 0, 0);
+    border-color: #c4cbd3;
+}
+

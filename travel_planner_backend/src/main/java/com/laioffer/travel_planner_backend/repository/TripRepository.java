@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
     
-    List<Trip> findAllByUserEmail(String email);
+    List<Trip> findAllByUser_Username(String username);
+    
+    Trip findByUser_UsernameAndName(String username, String name);
     
     Trip findById(long tripId);
     
-    Trip findByName(String name);
 }
