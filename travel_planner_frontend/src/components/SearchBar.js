@@ -41,7 +41,7 @@ const SearchBar = (props) => {
 
     return (
         <Space direction="vertical">
-            <Search placeholder="input search text" onSearch={handleSearch} enterButton />
+            <Search style={{ width: 500 }} placeholder="input search text" onSearch={handleSearch} enterButton />
         </Space>
     )
 }

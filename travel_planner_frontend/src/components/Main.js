@@ -8,8 +8,12 @@ import axios from "axios";
 import SearchBar from './SearchBar';
 import { Table, Button } from 'antd';
 import DailyPlan from './DailyPlan'
+<<<<<<< HEAD
+=======
+import { Layout } from 'antd';
+>>>>>>> bfb766114dec9cb337e4b44d6da9a2972a730a8d
 
-
+const { Sider, Content } = Layout;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -135,8 +139,34 @@ class Main extends Component {
 
 
         return (
-            <div className='planner-page'>
-                <div className='google-map'>
+            <Layout
+                style={{ height: "100%", width: "100%" }}
+            >
+
+                {mapApiLoaded && (
+                    <Sider
+                        width={500}
+                        theme={"light"}
+                    >
+                            {/* <AutoComplete map={mapInstance} mapApi={mapApi} addplace={this.addPlace} /> */}
+                            <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable} />
+                            <Table
+                                columns={columns}
+                                expandable={{
+                                    expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
+                                    rowExpandable: record => record.name !== 'Not Expandable',
+                                }}
+                                dataSource={placedata}
+                                pagination={{pageSize: 3}}
+                            />
+                            <DailyPlan />
+                    </Sider>
+                )}
+
+                {/* <div className="info-wrapper">
+                    <div className="map-details">Latitude: <span>{lat}</span>, Longitude: <span>{lng}</span></div>
+                </div> */}
+                <Content>
                     <GoogleMapReact
                         center={this.state.center}
                         zoom={this.state.zoom}
@@ -149,7 +179,6 @@ class Main extends Component {
                         yesIWantToUseGoogleMapApiInternals
                         onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
                     >
-
                         {
                             lat.map((ele, idx) => {
                                 return (
@@ -163,28 +192,9 @@ class Main extends Component {
 
                             })
                         }
-
                     </GoogleMapReact>
-                </div>
-                
-
-                {mapApiLoaded && (
-                <div className='search-bar'>
-                    <SearchBar destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} clearTable={this.clearTable} token={token}/>
-                    <Table
-                        columns={columns}
-                        expandable={{
-                            expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-                            rowExpandable: record => record.name !== 'Not Expandable',
-                        }}
-                        dataSource={placedata}
-                    />
-                </div>
-            )}
-                <div className="daily-plan">
-                    <DailyPlan />
-                </div>
-            </div >
+                </Content>
+            </Layout>
         );
     }
 }
