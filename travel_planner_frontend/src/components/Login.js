@@ -47,7 +47,7 @@ const Login = (props) =>  {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button className="login-btn" shape="round" type="primary" htmlType="submit">
               Login</Button>
           </Form.Item>
         </Form>

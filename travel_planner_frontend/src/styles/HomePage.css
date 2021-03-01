@@ -1,11 +1,14 @@
-.homepage {
+.homepage, .login-page{
     display: block;
-    background-color: antiquewhite;
     overflow-y:auto;
     height: 100vh;
+    background-image: url(../assets/images/bg.jpg);
+    background-position: center;
+    background-size: cover;
+    background-color: #cccccc
 }
 
-h1 {
+.homepage h1 {
     padding-top:100px;
     width: 100%;
     bottom: 0;
@@ -14,15 +17,26 @@ h1 {
     text-align: center;
 }
 
-.homepage-main {
-    /* margin-top: 150px; */
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.homepage-main  {
+    position: relative;
+    width: 30rem;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
+    background-color: rgba(210, 218, 226, 0.17);
 }
 
 .homepage p {
-    padding-top: 250px;
+    padding-top: 200px;
 }
+
+/* #homepage-header {
+    background-color: aliceblue;
+} */
+
+.ant-layout-header {
+    background-color: rgb(175, 187, 208);
+}
+
+

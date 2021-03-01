@@ -9,24 +9,10 @@ import NewTrip from './NewTrip';
 import Login from './Login';
 
 const HomePage = (props) => {
-    
-    // let history = useHistory();
-
-    // const newTripOnClick=()=> {
-    //     console.log('new trip');
-    //     let path = `newtrip`
-    //     history.push(path);
-    // }
-
-    // const showTrips=() =>{
-    //     <Link to="/planner">PlannerPage</Link>
-    //     console.log('show trips');
-    // }
-
 
     return (
         <div className="homepage">
-            <div>
+            <div id="homepage-header">
             <TravelHeader onLoggedInStatus={props.onLoggedInStatus}
                          isLoggedIn={props.isLoggedIn}
                          token={props.token}
@@ -36,12 +22,6 @@ const HomePage = (props) => {
             <div>
             <h1>TravelPlanner</h1>
             <div className="homepage-main">  
-                {/* <Button shape="round" onClick={newTripOnClick} size={'large'} style={{ marginRight: '30px' }}>
-                New Trip
-                </Button>
-                {/* <Button shape="round" onClick={showTrips}>
-                My Trips
-                </Button> */} 
                 {
                     props.isLoggedIn ? 
                     <div>
