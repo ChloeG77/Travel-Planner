@@ -3,17 +3,6 @@
 
 
 
-<<<<<<< HEAD
-
-const Wrapper = styled.div`
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 20px;
-  text-align:center;
-`;
-=======
 // const Wrapper = styled.div`
 //   position: relative;
 //   align-items: center;
@@ -22,7 +11,6 @@ const Wrapper = styled.div`
 //   padding: 20px;
 //   text-align:center;
 // `;
->>>>>>> 45dde9cb81677ecff814c2dbe8fb90703b83b26f
 
 // class AutoComplete extends Component {
 //     constructor(props) {
@@ -66,9 +54,9 @@ const Wrapper = styled.div`
 
     
 
-    clearSearchBox = () => {
-        this.searchInput.value = '';
-    }
+    // clearSearchBox = () => {
+    //     this.searchInput.value = '';
+    // }
 
 //     render() {
 //         return (
