@@ -1,21 +1,23 @@
-import { Input, Space } from 'antd';
-import { API_KEY } from '../constants'
+import { Input, Space, Spin } from 'antd';
 import axios from "axios";
 
 const { Search } = Input;
 
 
 const SearchBar = (props) => {
-    const { destination, addPlaceToTable, clearTable } = props;
+    const { destination, addPlaceToTable, clearTable, token, toggleLoading } = props;
+
 
     const handleSearch = text => {
-        // const searchUrl = `/api/place/search?text=${text}&city=${destination}`
 
         const searchUrl = `/api/place/searchByName?text=${text}&city=${destination}`
 
+        // const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4bWEiLCJpYXQiOjE2MTQxOTM3MjEsImV4cCI6MTYxNDY5NDM3NX0.42nGjPcsd94jhiQKc3uuW5srnKicH0G8h6-NpkLKCHhZW6AXC9h914SwiHP5m2YM0kly0OeWx-qMIq2skcvkXw";
+
         clearTable();
 
-        const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4bWEiLCJpYXQiOjE2MTQzODMxMjgsImV4cCI6MTYxNDg4Mzc4Mn0.7X82EB-u1TOVl9auv0ZvIwwHzsKQxBTUp9qFFwQbxYwXoUUCQ00vUT_tVyXxdr0ZQ31YZ0vibTYA5LgR20Wnvw";
+        toggleLoading();
+
 
         axios.get(searchUrl, {
             headers: {
@@ -37,13 +39,13 @@ const SearchBar = (props) => {
                     }
                     addPlaceToTable(placedata);
                 });
-
+                toggleLoading();
             })
     }
 
     return (
         <Space direction="vertical">
-            <Search placeholder="input search text" onSearch={handleSearch} enterButton />
+            <Search style={{ width: 500 }} placeholder="input search text" onSearch={handleSearch} enterButton />
         </Space>
     )
 }

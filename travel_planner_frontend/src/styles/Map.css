@@ -1,10 +1,23 @@
 .main-wrapper {
-        height: 60vh;
-        margin: 10px 50px;
-        filter: drop-shadow(-1px 5px 3px #ccc);
+	height: 100vh;
 }
 
-.search-input {
-font-size: 1.2em;
-width: 80%;
+.search-table {
+	height: 400px;
+	overflow: auto;
 }
+
+.to-add-list {
+	margin-top:auto;
+	height: 500px;
+	overflow: auto;
+}
+
+.spin-box {
+	height: 400px;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+}
+
+

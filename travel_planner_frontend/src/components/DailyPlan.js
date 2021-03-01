@@ -30,28 +30,19 @@ export default class DailyPlan extends Component {
 
         return (
             <div>
-                <Button type="primary" onClick={showDrawer}> Daily Plan </Button>
 
-                <Drawer
-                    title="Daily Plan"
-                    width={500}
-                    placement="right"
-                    closable={true}
-                    onClose={onClose}
-                    visible={visible}
-                >
-                    <Tabs defaultActiveKey="1" tabPosition="left" style={{ height: 500, width: 300 }}>
-                        {[...Array.from({ length: 10 }, (v, i) => i)].map(i => (
-                            <TabPane tab={`Day ${i}`} key={i}>
-                                Content of day {i}
+                <Tabs defaultActiveKey="1" tabPosition="left" style={{ height: 400, width: 300 }}>
+                    {[...Array.from({ length: 10 }, (v, i) => i)].map(i => (
+                        <TabPane tab={`Day ${i}`} key={i}>
+                            Content of day {i}
 
-                            </TabPane>
-                        ))}
-                    </Tabs>
+                        </TabPane>
+                    ))}
+                </Tabs>
 
 
-                    <Button type="primary">Save Plan</Button>
-                </Drawer>
+                <Button type="primary">Save Plan</Button>
+
             </div>
         );
     }

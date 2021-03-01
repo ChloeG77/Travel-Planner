@@ -40,7 +40,7 @@ const NewTrip = (props) => {
     newTrip(values, props.token)
       .then((data) => {
         message.success(`add trip`);
-        const destination = values.destination[0];
+        const destination = values.destination;
         history.push(`planner/${destination}`);
         const newData = {
             accessToken: props.token,
