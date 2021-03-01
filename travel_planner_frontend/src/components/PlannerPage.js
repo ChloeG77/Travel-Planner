@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import Main from './Main'
 import { useParams } from "react-router-dom";
 
-const PlannerPage = () => {
+const PlannerPage = ({isLoggedIn , token }) => {
   let { destination } = useParams();
   
   return (
     <div className="main-wrapper">
-      <Main destination={destination}/>
+      <Main destination={destination} isLoggedIn={isLoggedIn} token={token}/>
     </div>
   )
 }

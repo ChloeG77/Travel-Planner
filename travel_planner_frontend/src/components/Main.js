@@ -47,13 +47,10 @@ class Main extends Component {
 
 
     componentWillMount() {
-        const destination = this.props.destination;
+        const { destination, isLoggedIn, token } = this.props;
         // const url = `/api/place/findplacefromtext/json?input=${destination}&inputtype=textquery&fields=geometry&key=${API_KEY}`;
 
         const url = `/api/place/searchByName?text=${destination}&city=${destination}`;
-
-        const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4bWEiLCJpYXQiOjE2MTQzODMxMjgsImV4cCI6MTYxNDg4Mzc4Mn0.7X82EB-u1TOVl9auv0ZvIwwHzsKQxBTUp9qFFwQbxYwXoUUCQ00vUT_tVyXxdr0ZQ31YZ0vibTYA5LgR20Wnvw";
-
 
         axios.get(url, {
             headers: {
