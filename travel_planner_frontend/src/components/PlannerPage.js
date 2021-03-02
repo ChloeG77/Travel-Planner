@@ -5,7 +5,7 @@ import Main from './Main'
 const PlannerPage = (props) => {
   // let { destination } = useParams();
   const { isLoggedIn, token, curTrip } = props;
-  console.log("curtrip", curTrip)
+  // console.log("curtrip", curTrip)
   return (
     <div className="main-wrapper">
       <Main isLoggedIn={isLoggedIn} 

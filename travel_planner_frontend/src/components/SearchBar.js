@@ -27,6 +27,7 @@ const SearchBar = (props) => {
             .then(res => {
                 const placeList = res.data;
                 placeList.forEach((ele, idx) => {
+                    console.log(ele);
                     const placedata = {
                         key: idx,
                         name: ele.name,
@@ -34,8 +35,8 @@ const SearchBar = (props) => {
                         address: ele.address,
                         lat: ele.latitude,
                         lng: ele.longitude,
+                        placeId: ele.placeId
                         // viewport: ele.geometry.viewport,
-                        id: ele.placeId
                     }
                     addPlaceToTable(placedata);
                 });

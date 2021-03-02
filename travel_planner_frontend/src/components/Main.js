@@ -11,32 +11,38 @@ import { addPlaceToTrip, deletePlaceToTrip } from '../utils/auth.js';
 const { Sider, Content } = Layout;
 
 class Main extends Component {
-    state = {
-        isLoading: false,
-        mapApiLoaded: false,
-        mapInstance: null,
-        mapApi: null,
-        geoCoder: null,
-        center: [],
-        zoom: 9,
-        lat: [],
-        lng: [],
-        placedata: [],
-        toAddPlace: this.props.curTrip.places,
-        placeInPlanner : [],
-        selectedId: [],
-        columns: [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Rating', dataIndex: 'rating', key: 'rating' },
-            {
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: (record) => <Button type="primary" onClick={() => this.insertToAdd(record.key)} disabled={this.state.selectedId.includes(this.state.placedata[record.key].id)}>Add</Button>,
-            }
-        ],
-        curTrip: this.props.curTrip
-    };
+    constructor(props){
+        super(props);
+        let tempSelected = [];
+        this.props.curTrip.places.map(item => tempSelected.push(item.placeId));
+        this.state = {
+            isLoading: false,
+            mapApiLoaded: false,
+            mapInstance: null,
+            mapApi: null,
+            geoCoder: null,
+            center: [],
+            zoom: 9,
+            lat: [],
+            lng: [],
+            placedata: [],
+            toAddPlace: this.props.curTrip.places,
+            placeInPlanner : [],
+            selectedId: tempSelected,
+            columns: [
+                { title: 'Name', dataIndex: 'name', key: 'name' },
+                { title: 'Rating', dataIndex: 'rating', key: 'rating' },
+                {
+                    title: 'Action',
+                    dataIndex: '',
+                    key: 'x',
+                    render: (record) => <Button type="primary" onClick={() => this.insertToAdd(record.key)} disabled={this.state.selectedId.includes(this.state.placedata[record.key].placeId)}>Add</Button>,
+                }
+            ],
+            curTrip: this.props.curTrip
+        };
+    }
+    
 
 
     componentWillMount() {
@@ -53,8 +59,8 @@ class Main extends Component {
             }
         })
             .then(res => {
-                const place = res.data[0];
-                this.setMapCenter(place);
+                const curPlace = res.data[0];
+                this.setMapCenter(curPlace);
             })
             .catch(e => {
                 console.log(e);
@@ -90,12 +96,13 @@ class Main extends Component {
 
     insertToAdd = (key) => {
         const { placedata, toAddPlace, curTrip } = this.state;
+        console.log(placedata);
         this.setState({
             toAddPlace : [...toAddPlace, placedata[key]],
-            selectedId: [...this.state.selectedId, placedata[key].id]
+            selectedId: [...this.state.selectedId, placedata[key].placeId]
         })
         // curTrip.tripId, placedata[key].id
-        addPlaceToTrip(curTrip.tripId, placedata[key].id, this.props.token)
+        addPlaceToTrip(curTrip.tripId, placedata[key].placeId, this.props.token)
             .then((data) => {
                 message.success('add place to trip');
                 console.log("addplace", data.places);
@@ -132,11 +139,14 @@ class Main extends Component {
     onDeletePlace = (place) => {
         // this.addMarker(place);
         console.log(place);
-        let list = this.state.toAddPlace.filter(item => item.id !== place.id);
+        let list = this.state.toAddPlace.filter(item => item.placeId !== place.placeId);
+        let tempSelected = this.state.selectedId.filter(item => item !== place.placeId);
+
         this.setState({
             toAddPlace : list,
+            selectedId: tempSelected
         })
-        deletePlaceToTrip(this.state.curTrip.tripId, place.id, this.props.token)
+        deletePlaceToTrip(this.state.curTrip.tripId, place.placeId, this.props.token)
             .then((data) => {
                 message.success('delete place');
                 console.log("deleteplace", data.places);
@@ -174,7 +184,7 @@ class Main extends Component {
             mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns, isLoading
         } = this.state;
         // console.log(placedata)
-        console.log(this.state.curTrip);
+        // console.log(this.state.curTrip);
 
         return (
             <Layout
