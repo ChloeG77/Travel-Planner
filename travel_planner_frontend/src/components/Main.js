@@ -134,7 +134,7 @@ class Main extends Component {
         this.setState({ placedata: [...this.state.placedata, data] });
     };
 
-    
+
 
 
     render() {
@@ -155,12 +155,12 @@ class Main extends Component {
                     >
                             <SearchBar
                                 className='search-bar'
-                                destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} 
-                                clearTable={this.clearTable} 
-                                toggleLoading = {this.toggleLoading} 
+                                destination={this.props.destination} addPlaceToTable={this.addPlaceToTable}
+                                clearTable={this.clearTable}
+                                toggleLoading = {this.toggleLoading}
                                 token={this.props.token}/>
                             {
-                                isLoading ? 
+                                isLoading ?
                                 <div className="spin-box">
                                     <Spin tip="Loading..." size="large" />
                                 </div>
@@ -190,14 +190,14 @@ class Main extends Component {
                                             title={<p>{place.name}</p>}
                                             // description={`Launch Date: ${item.launchDate}`}
                                         />
-                                        <Button type="primary" 
+                                        <Button type="primary"
                                             onClick={() => this.addToPlanner(place)}
                                             disabled={this.state.placeInPlanner.includes(place)}>Add to planner
                                         </Button>
                                     </List.Item>
                                 )}
                             />
-                            
+
                     </Sider>
                 )}
 
@@ -237,10 +237,10 @@ class Main extends Component {
                     mapApiLoaded &&
                         <Sider width={500}
                                 theme={"light"}>
-                            <DailyPlan />
+                            <DailyPlan tripData={this.props.tripInfo}/>
                         </Sider>
                 }
-                
+
 
             </Layout>
         );
