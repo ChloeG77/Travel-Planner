@@ -4,12 +4,11 @@ import Marker from './Marker';
 import { API_KEY } from '../constants';
 import axios from "axios";
 import SearchBar from './SearchBar';
-import { Table, Button, List, Layout, Spin } from 'antd';
-import DailyPlan from './DailyPlan'
+import { Table, Button, List, Layout, Spin, message } from 'antd';
+import DailyPlan from './DailyPlan';
+import { addPlaceToTrip, deletePlaceToTrip } from '../utils/auth.js';
 
 const { Sider, Content } = Layout;
-
-
 
 class Main extends Component {
     state = {
@@ -23,7 +22,7 @@ class Main extends Component {
         lat: [],
         lng: [],
         placedata: [],
-        toAddPlace:[],
+        toAddPlace: this.props.curTrip.places,
         placeInPlanner : [],
         selectedId: [],
         columns: [
@@ -35,13 +34,15 @@ class Main extends Component {
                 key: 'x',
                 render: (record) => <Button type="primary" onClick={() => this.insertToAdd(record.key)} disabled={this.state.selectedId.includes(this.state.placedata[record.key].id)}>Add</Button>,
             }
-        ]
+        ],
+        curTrip: this.props.curTrip
     };
 
 
     componentWillMount() {
-        const { destination, isLoggedIn, token } = this.props;
-
+        const { isLoggedIn, token, curTrip} = this.props;
+        const destination = curTrip.startCity;
+        console.log(destination)
         const url = `/api/place/searchByName?text=${destination}&city=${destination}`;
 
         // const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4bWEiLCJpYXQiOjE2MTQxOTM3MjEsImV4cCI6MTYxNDY5NDM3NX0.42nGjPcsd94jhiQKc3uuW5srnKicH0G8h6-NpkLKCHhZW6AXC9h914SwiHP5m2YM0kly0OeWx-qMIq2skcvkXw";
@@ -88,11 +89,21 @@ class Main extends Component {
     // };
 
     insertToAdd = (key) => {
-        const { placedata, toAddPlace } = this.state;
+        const { placedata, toAddPlace, curTrip } = this.state;
         this.setState({
             toAddPlace : [...toAddPlace, placedata[key]],
             selectedId: [...this.state.selectedId, placedata[key].id]
         })
+        // curTrip.tripId, placedata[key].id
+        addPlaceToTrip(curTrip.tripId, placedata[key].id, this.props.token)
+            .then((data) => {
+                message.success('add place to trip');
+                console.log("addplace", data.places);
+            }).catch((err) => {
+                console.log(err);
+                message.error(err.message);
+              })
+
     }
 
     addMarker = (place) => {
@@ -114,6 +125,27 @@ class Main extends Component {
     addToPlanner = (place) => {
         this.addMarker(place);
     }
+
+    removePlace = (place) => {
+
+    }
+    onDeletePlace = (place) => {
+        // this.addMarker(place);
+        console.log(place);
+        let list = this.state.toAddPlace.filter(item => item.id !== place.id);
+        this.setState({
+            toAddPlace : list,
+        })
+        deletePlaceToTrip(this.state.curTrip.tripId, place.id, this.props.token)
+            .then((data) => {
+                message.success('delete place');
+                console.log("deleteplace", data.places);
+            }).catch((err) => {
+                console.log(err);
+                message.error(err.message);
+              })
+    }
+
 
     toggleLoading = () => {
         this.setState((state) => ({ isLoading: !state.isLoading }));
@@ -141,7 +173,8 @@ class Main extends Component {
         const {
             mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns, isLoading
         } = this.state;
-
+        // console.log(placedata)
+        console.log(this.state.curTrip);
 
         return (
             <Layout
@@ -150,9 +183,9 @@ class Main extends Component {
 
                 {mapApiLoaded && (
                     <Sider
-                        width={500}
+                        width={400}
                         theme={"light"}
-                    >
+                    >       
                             <SearchBar
                                 className='search-bar'
                                 destination={this.props.destination} addPlaceToTable={this.addPlaceToTable} 
@@ -192,7 +225,12 @@ class Main extends Component {
                                         />
                                         <Button type="primary" 
                                             onClick={() => this.addToPlanner(place)}
-                                            disabled={this.state.placeInPlanner.includes(place)}>Add to planner
+                                            disabled={this.state.placeInPlanner.includes(place)}
+                                            style={{marginRight:"10px"}}>Add to planner
+                                        </Button>
+                                        <Button type="primary" 
+                                            onClick={() => this.onDeletePlace(place)}
+                                            >Delete
                                         </Button>
                                     </List.Item>
                                 )}
@@ -235,8 +273,10 @@ class Main extends Component {
 
                 {
                     mapApiLoaded &&
-                        <Sider width={500}
+                        <Sider width={200}
                                 theme={"light"}>
+                            <div className="main-trip-name">Trip Name {this.state.curTrip.name}</div>
+                            <hr/>
                             <DailyPlan />
                         </Sider>
                 }

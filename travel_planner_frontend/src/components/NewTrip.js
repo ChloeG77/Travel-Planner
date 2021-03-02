@@ -25,9 +25,10 @@ const NewTrip = (props) => {
 
   const [tripType, setTripType] = useState('leisure');
 
+  const {onSuccess, token, onCurTrip} = props;
   const onFinish = (fieldsValue) => {
     
-    
+  
     // Should format date value before submit.
     const startDate = fieldsValue['startDate'];
     const values = {
@@ -37,26 +38,34 @@ const NewTrip = (props) => {
     };
     console.log('Received values of form: ', values);
 
-    newTrip(values, props.token)
+    newTrip(values, token)
       .then((data) => {
         message.success(`add trip`);
         const destination = values.destination;
-        history.push(`planner/${destination}`);
+        console.log("de",destination);
+        
         const newData = {
-            accessToken: props.token,
+            accessToken: token,
             trips: data.trips
         }
-        props.onSuccess(true, newData);
+        const newTrip = {
+            ...data.newTrip,
+            startCity: destination[0]
+        }
+        // console.log(newTrip);
+        onCurTrip(newTrip);
+        onSuccess(true, newData);
+        history.push(`planner`);
       }).catch((err) => {
         console.log(err);
         message.error(err.message);
       })
   };
 
-  const onChange = (value, dateString) => {
-    console.log('Selected Time: ', value);
-    console.log('Formatted Selected Time: ', dateString);
-  }
+  // const onChange = (value, dateString) => {
+  //   console.log('Selected Time: ', value);
+  //   console.log('Formatted Selected Time: ', dateString);
+  // }
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -74,7 +83,7 @@ const NewTrip = (props) => {
         </Form.Item>
 
         <Form.Item name="startDate" label="Travel Date">
-        <DatePicker style={{width: "100%" }} onChange={onChange} />
+        <DatePicker style={{width: "100%" }} />
         </Form.Item>
 
         <Form.Item name="numDays" label="Number of Days" rules={[{ required: true, message: 'Please enter number of trip days!' }]}>

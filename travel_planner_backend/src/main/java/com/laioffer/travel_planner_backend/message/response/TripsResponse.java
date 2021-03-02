@@ -6,11 +6,20 @@ import java.util.List;
 public class TripsResponse {
     
     private List<Trip> trips;
-    
-    public TripsResponse(List<Trip> trips) {
+    private Trip newTrip;
+    public TripsResponse(List<Trip> trips, Trip newTrip) {
         this.trips = trips;
+        this.newTrip = newTrip;
     }
-    
+
+    public Trip getNewTrip() {
+        return newTrip;
+    }
+
+    public void setNewTrip(Trip newTrip) {
+        this.newTrip = newTrip;
+    }
+
     public List<Trip> getTrips() {
         return trips;
     }
