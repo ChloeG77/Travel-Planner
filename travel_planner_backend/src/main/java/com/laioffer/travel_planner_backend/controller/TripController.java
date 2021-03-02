@@ -4,6 +4,7 @@ import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Trip;
 import com.laioffer.travel_planner_backend.entity.User;
+import com.laioffer.travel_planner_backend.message.response.PlaceResponse;
 import com.laioffer.travel_planner_backend.message.response.TripsResponse;
 import com.laioffer.travel_planner_backend.service.PlaceService;
 import com.laioffer.travel_planner_backend.service.TripService;
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,21 +103,31 @@ public class TripController {
         trips.add(trip);
         user.setAllTrips(trips);
         userService.save(user);
-        
-        return ResponseEntity.ok(new TripsResponse(trips));
+        trips = user.getAllTrips();
+        for(Trip newTrip : trips) {
+            if (newTrip.getName().equals(trip.getName())) {
+                return ResponseEntity.ok(new TripsResponse(trips, newTrip));
+            }
+        }
+        return new ResponseEntity<>("add Trip faild, cannot find the id of the new trip", HttpStatus.UNAUTHORIZED);
+
     }
     
     @PostMapping(value = "trip/place", params = {"tripId", "placeId"})
-    public String addPlace(@RequestParam long tripId, @RequestParam String placeId) {
+    public ResponseEntity<?> addPlace(@RequestParam long tripId, @RequestParam String placeId) {
         Place place = placeService.addPlace(placeId);
         tripService.addPlace(tripId, place);
-        return "redirect:/getAllTrip";
+        Trip trip = tripService.getTripById(tripId);
+        Set<Place> places = trip.getPlaces();
+        return ResponseEntity.ok(new PlaceResponse(places));
     }
     
     @DeleteMapping(value = "trip/place", params = {"tripId", "placeId"})
-    public String deletePlace(@RequestParam long tripId, @RequestParam String placeId) {
+    public ResponseEntity<?> deletePlace(@RequestParam long tripId, @RequestParam String placeId) {
         tripService.deletePlace(tripId, placeId);
-        return "redirect:/getAllTrip";
+        Trip trip = tripService.getTripById(tripId);
+        Set<Place> places = trip.getPlaces();
+        return ResponseEntity.ok(new PlaceResponse(places));
     }
     
     @DeleteMapping("trip/deleteTrip")
@@ -125,7 +138,7 @@ public class TripController {
         String username = loggedInUser.getName();
         User user = userService.getUserByUsername(username);
         List<Trip> trips = user.getAllTrips();
-        return ResponseEntity.ok(new TripsResponse(trips));
+        return ResponseEntity.ok(new TripsResponse(trips, null));
     }
     
     @PostMapping("trip/editTrip")
