@@ -8,6 +8,8 @@ const { Header, Content, Sider } = Layout;
 
 const TravelHeader = (props) => {
 
+  const {onLoggedInStatus, isLoggedIn, token, trips, onCurTrip} = props;
+
   const history = useHistory();
 
   const signupOnClick = () => {
@@ -22,24 +24,26 @@ const TravelHeader = (props) => {
       accessToken: null
     }
 
-    props.onLoggedInStatus(false, data);  
+    onLoggedInStatus(false, data);  
     history.push("/");
       
   }
+
 
   return (
     <Header>
       <Row justify="space-between">
         <Col>
-        {props.isLoggedIn && <Trips onLoggedInStatus={props.onLoggedInStatus}
-                                    isLoggedIn={props.isLoggedIn}
-                                    token={props.token}
-                                    trips={props.trips}/>}
+        {isLoggedIn && <Trips onLoggedInStatus={onLoggedInStatus}
+                                    isLoggedIn={isLoggedIn}
+                                    token={token}
+                                    trips={trips}
+                                    onCurTrip={onCurTrip}/>}
         </Col>
         {/* <Col style={{posotion: "relative", fontSize: "40px"}}>Travel Planner</Col> */}
         <Col>
           {
-            props.isLoggedIn ? 
+            isLoggedIn ? 
             <Button shape="round" onClick={signoutOnClick}>
               Logout</Button> :
             (

@@ -3,12 +3,15 @@ import { Button, Drawer, List, Checkbox, Avatar, message, Modal} from 'antd';
 import { StarFilled, MinusOutlined } from '@ant-design/icons';
 import satellite from "../assets/images/satellite.svg";
 import { deleteTrip } from '../utils/auth';
+import { useHistory } from 'react-router';
 
 const Trips = (props) => {
     // const [trips, setTrips] = useState(props.trips);
+    const history = useHistory();
 
     const [displayDrawer, setDisplayDrawer] = useState(false);
     const [displayModal, setDisplayModal] = useState(false);
+    const { trips, token, onLoggedInStatus, onCurTrip } = props;
 
     const onFavoriteClick = () => {
         setDisplayDrawer(true);
@@ -26,25 +29,28 @@ const Trips = (props) => {
     }
 
     const onDelete = (e) => {
-        console.log('delete', e);
-       deleteTrip(e, props.token)
+       deleteTrip(e, token)
         .then((data) => {
-            console.log(data);
+            // console.log(data);
             message.success(`success delete trip ${e.name}`);
             const newData = {
-                accessToken: props.token,
+                accessToken: token,
                 trips: data.trips,
             }
-            props.onLoggedInStatus(true, newData);
+            onLoggedInStatus(true, newData);
           }).catch((err) => {
             console.log(err);
             message.error(err.message);
           })
+          setDisplayModal(false);
+
     }
 
 
     const onPlan = (e) => {
-        console.log('plan', e);
+        e.startCity = "Ottawa";
+        history.push("planner");
+        onCurTrip(e);
     }
 
     return (
@@ -65,7 +71,7 @@ const Trips = (props) => {
             className="trip-list"
             itemLayout="horizontal"
             size="small"
-            dataSource={props.trips}
+            dataSource={trips}
             renderItem={item => (
             <List.Item
                 actions={[

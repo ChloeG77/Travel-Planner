@@ -8,6 +8,8 @@ import { useHistory } from "react-router";
 
 const LoginPage = (props) =>{
     const history = useHistory();
+    const {onLoggedInStatus, isLoggedIn, token, trips, onCurTrip} = props;
+
 
     const signinOnSuccess = (isLoggedIn, data) => {
         // getFavoriteItem().then((data) => {
@@ -25,10 +27,11 @@ const LoginPage = (props) =>{
     return (
         <div className="login-page">
             <div>
-                <TravelHeader onSuccess={props.onLoggedInStatus}
-                         isLoggedIn={props.isLoggedIn}
-                         token={props.token}
-                         trips={props.trips}/>
+                <TravelHeader onLoggedInStatus={onLoggedInStatus}
+                         isLoggedIn={isLoggedIn}
+                         token={token}
+                         trips={trips}
+                         onCurTrip={onCurTrip}/>
             </div>
             <div className="login-main">
                 <Login onSuccess={signinOnSuccess}/>

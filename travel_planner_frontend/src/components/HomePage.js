@@ -9,28 +9,31 @@ import NewTrip from './NewTrip';
 import Login from './Login';
 
 const HomePage = (props) => {
+    const { onLoggedInStatus, isLoggedIn, token, trips, onCurTrip } = props;
 
     return (
         <div className="homepage">
             <div id="homepage-header">
-            <TravelHeader onLoggedInStatus={props.onLoggedInStatus}
-                         isLoggedIn={props.isLoggedIn}
-                         token={props.token}
-                         trips={props.trips}
+            <TravelHeader onLoggedInStatus={onLoggedInStatus}
+                         isLoggedIn={isLoggedIn}
+                         token={token}
+                         trips={trips}
+                         onCurTrip={onCurTrip}
             />
             </div>
             <div>
             <h1>TravelPlanner</h1>
             <div className="homepage-main">  
                 {
-                    props.isLoggedIn ? 
+                    isLoggedIn ? 
                     <div>
-                        <NewTrip onSuccess={props.onLoggedInStatus}
-                                 token={props.token} />
+                        <NewTrip onSuccess={onLoggedInStatus}
+                                 token={token}
+                                 onCurTrip={onCurTrip} />
                     </div>
                     :
                     <div>
-                        <Login onSuccess={props.onLoggedInStatus}/>
+                        <Login onSuccess={onLoggedInStatus}/>
                     </div>
                 }
                 <p>A new way of planning your trip</p>
