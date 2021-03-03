@@ -4,11 +4,14 @@ import Marker from './Marker';
 import { API_KEY } from '../constants';
 import axios from "axios";
 import SearchBar from './SearchBar';
-import { Table, Button, List, Layout, Spin } from 'antd';
+import { Table, Button, List, Layout, Spin, Menu } from 'antd';
+import { DownOutlined, ArrowRightOutlined } from '@ant-design/icons';
+
 import DailyPlan from './DailyPlan'
 
-const { Sider, Content } = Layout;
 
+const { Sider, Content } = Layout;
+const { SubMenu } = Menu;
 
 
 class Main extends Component {
@@ -23,8 +26,8 @@ class Main extends Component {
         lat: [],
         lng: [],
         placedata: [],
-        toAddPlace:[],
-        placeInPlanner : [],
+        toAddPlace: [],
+        placeInPlanner: [],
         selectedId: [],
         columns: [
             { title: 'Name', dataIndex: 'name', key: 'name' },
@@ -40,7 +43,7 @@ class Main extends Component {
 
 
     componentWillMount() {
-        const { destination, isLoggedIn, token } = this.props;
+        const { destination, isLoggedIn, token, tripInfo } = this.props;
 
         const url = `/api/place/searchByName?text=${destination}&city=${destination}`;
 
@@ -58,6 +61,11 @@ class Main extends Component {
             .catch(e => {
                 console.log(e);
             });
+
+
+        this.setState({
+            dayPlan: Array.from(Array(3)).forEach((x, i) => i)
+        })
     }
 
 
@@ -90,7 +98,7 @@ class Main extends Component {
     insertToAdd = (key) => {
         const { placedata, toAddPlace } = this.state;
         this.setState({
-            toAddPlace : [...toAddPlace, placedata[key]],
+            toAddPlace: [...toAddPlace, placedata[key]],
             selectedId: [...this.state.selectedId, placedata[key].id]
         })
     }
@@ -106,13 +114,17 @@ class Main extends Component {
 
         this.setState({
             lat: [...this.state.lat, lat],
-            lng: [...this.state.lng, lng],
-            placeInPlanner: [...this.state.placeInPlanner, place]
+            lng: [...this.state.lng, lng]
         });
     };
 
-    addToPlanner = (place) => {
+    addToPlanner = (e, place) => {
+        console.log('click', e.key);
+        console.log('click', place);
         this.addMarker(place);
+        this.setState({
+            placeInPlanner: [...this.state.placeInPlanner, { "day": e.key, "place": place }]
+        })
     }
 
     toggleLoading = () => {
@@ -135,13 +147,19 @@ class Main extends Component {
     };
 
 
-
-
     render() {
         const {
-            mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns, isLoading
+            mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns, isLoading, placeInPlanner
         } = this.state;
 
+        // Generate Dropdown menu on AddToPlanner button according to trip days
+        const numDays = this.props.tripInfo.numDays;
+        // const menu = (
+        //     <Menu onClick={this.handleMenuClick}>
+        //         {[...Array.from({ length: numDays }, (v, i) => i + 1)]
+        //             .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}
+        //     </Menu>
+        // );
 
         return (
             <Layout
@@ -150,17 +168,17 @@ class Main extends Component {
 
                 {mapApiLoaded && (
                     <Sider
-                        width={500}
+                        width={400}
                         theme={"light"}
                     >
-                            <SearchBar
-                                className='search-bar'
-                                destination={this.props.destination} addPlaceToTable={this.addPlaceToTable}
-                                clearTable={this.clearTable}
-                                toggleLoading = {this.toggleLoading}
-                                token={this.props.token}/>
-                            {
-                                isLoading ?
+                        <SearchBar
+                            className='search-bar'
+                            destination={this.props.destination} addPlaceToTable={this.addPlaceToTable}
+                            clearTable={this.clearTable}
+                            toggleLoading={this.toggleLoading}
+                            token={this.props.token} />
+                        {
+                            isLoading ?
                                 <div className="spin-box">
                                     <Spin tip="Loading..." size="large" />
                                 </div>
@@ -172,31 +190,33 @@ class Main extends Component {
                                         rowExpandable: record => record.name !== 'Not Expandable',
                                     }}
                                     dataSource={placedata}
-                                    pagination={{pageSize: 3}}
+                                    pagination={{ pageSize: 3 }}
                                 />
-                            }
+                        }
 
-                            <List
-                                className="to-add-list"
-                                itemLayout="horizontal"
-                                size="small"
-                                dataSource={this.state.toAddPlace}
-                                renderItem={place => (
-                                    <List.Item
-                                        // actions={[<Checkbox dataInfo={item} onChange={this.onChange}/>]}
-                                    >
-                                        <List.Item.Meta
-                                            // avatar={<Avatar size={50} src={satellite} />}
-                                            title={<p>{place.name}</p>}
-                                            // description={`Launch Date: ${item.launchDate}`}
-                                        />
-                                        <Button type="primary"
-                                            onClick={() => this.addToPlanner(place)}
-                                            disabled={this.state.placeInPlanner.includes(place)}>Add to planner
-                                        </Button>
-                                    </List.Item>
-                                )}
-                            />
+                        <List
+                            className="to-add-list"
+                            itemLayout="horizontal"
+                            size="small"
+                            dataSource={this.state.toAddPlace}
+                            renderItem={place => (
+                                <List.Item
+                                // actions={[<Checkbox dataInfo={item} onChange={this.onChange}/>]}
+                                >
+                                    <List.Item.Meta
+                                        // avatar={<Avatar size={50} src={satellite} />}
+                                        title={<p>{place.name}</p>}
+                                    // description={`Launch Date: ${item.launchDate}`}
+                                    />
+                                    <Menu onClick={(e) => this.addToPlanner(e, place)}>
+                                        <SubMenu title="Add to planner">
+                                            {[...Array.from({ length: numDays }, (v, i) => i + 1)]
+                                                .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}
+                                        </SubMenu>
+                                    </Menu>
+                                </List.Item>
+                            )}
+                        />
 
                     </Sider>
                 )}
@@ -235,10 +255,10 @@ class Main extends Component {
 
                 {
                     mapApiLoaded &&
-                        <Sider width={500}
-                                theme={"light"}>
-                            <DailyPlan tripData={this.props.tripInfo}/>
-                        </Sider>
+                    <Sider width={400}
+                        theme={"light"}>
+                        <DailyPlan tripData={this.props.tripInfo} placeInPlanner={placeInPlanner} />
+                    </Sider>
                 }
 
 
