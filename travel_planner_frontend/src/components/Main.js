@@ -152,14 +152,7 @@ class Main extends Component {
             mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns, isLoading, placeInPlanner
         } = this.state;
 
-        // Generate Dropdown menu on AddToPlanner button according to trip days
         const numDays = this.props.tripInfo.numDays;
-        // const menu = (
-        //     <Menu onClick={this.handleMenuClick}>
-        //         {[...Array.from({ length: numDays }, (v, i) => i + 1)]
-        //             .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}
-        //     </Menu>
-        // );
 
         return (
             <Layout
@@ -200,16 +193,14 @@ class Main extends Component {
                             size="small"
                             dataSource={this.state.toAddPlace}
                             renderItem={place => (
-                                <List.Item
-                                // actions={[<Checkbox dataInfo={item} onChange={this.onChange}/>]}
-                                >
+                                <List.Item>
                                     <List.Item.Meta
-                                        // avatar={<Avatar size={50} src={satellite} />}
                                         title={<p>{place.name}</p>}
-                                    // description={`Launch Date: ${item.launchDate}`}
                                     />
-                                    <Menu onClick={(e) => this.addToPlanner(e, place)}>
-                                        <SubMenu title="Add to planner">
+                                    <Menu
+                                        onClick={(e) => this.addToPlanner(e, place)}
+                                    >
+                                        <SubMenu title="Add to planner" disabled={placeInPlanner.some(a => a.place === place)}>
                                             {[...Array.from({ length: numDays }, (v, i) => i + 1)]
                                                 .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}
                                         </SubMenu>
