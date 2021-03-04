@@ -29,7 +29,7 @@ class Main extends Component {
             lng: [],
             placedata: [],
             toAddPlace: this.props.curTrip.places,
-            placeInPlanner: [],
+            placeInPlanner: {},
             selectedId: tempSelected,
             columns: [
                 { title: 'Name', dataIndex: 'name', key: 'name' },
@@ -138,25 +138,37 @@ class Main extends Component {
     };
 
     addToPlanner = (e, place) => {
-        console.log('click', e.key);
-        console.log('click', place);
+
         this.addMarker(place);
-        this.setState({
-            placeInPlanner: [...this.state.placeInPlanner, { "day": e.key, "place": place }]
-        })
+
+        const dayKey = "day" + e.key;
+
+        if (dayKey in this.state.placeInPlanner) {
+            this.setState({
+                placeInPlanner: {
+                    [dayKey]: [...this.state.placeInPlanner[dayKey], place]
+                }
+            })
+        } else {
+            this.setState({
+                placeInPlanner: {
+                    [dayKey]: [place]
+                }
+            })
+        }
     }
 
     onAddPlaceToDay = (dayId, key) => {
         const { placedata, toAddPlace, curTrip } = this.state;
 
         addPlaceToDay(dayId, placedata[key].placeId, this.props.token)
-        .then((data) => {
-            message.success('add place to trip');
-            console.log("addplace", data.places);
-        }).catch((err) => {
-            console.log(err);
-            message.error(err.message);
-          })
+            .then((data) => {
+                message.success('add place to trip');
+                console.log("addplace", data.places);
+            }).catch((err) => {
+                console.log(err);
+                message.error(err.message);
+            })
 
 
     }
@@ -169,7 +181,7 @@ class Main extends Component {
             }).catch((err) => {
                 console.log(err);
                 message.error(err.message);
-              })
+            })
     }
 
     removePlace = (place) => {
@@ -285,7 +297,7 @@ class Main extends Component {
                             /> */}
                                         <Button type="primary"
                                             onClick={(e) => this.onDeletePlaceFromTrip(e, place)}>
-                                                Delete
+                                            Delete
                                         </Button>
                                         {/* disabled={placeInPlanner.some(a => a.place === place)} */}
                                         <SubMenu title="Add to planner" >
