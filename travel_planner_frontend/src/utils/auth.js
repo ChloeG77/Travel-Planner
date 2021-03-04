@@ -184,3 +184,20 @@ export const getAllCities = (token) => {
     return response.json();
   }) 
 }
+
+const getRouteUrl = `${SERVER_ORIGIN}/api/trip/day/route?`;
+
+export const getRouteUrl = (dayId, token) => {
+  return fetch(`${getRouteUrl}dayId=${dayId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to get route');
+    }
+    return response.json();
+  }) 
+}
