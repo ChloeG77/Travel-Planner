@@ -72,7 +72,7 @@ public class TripController {
     
     @PostMapping("trip/newTrip")
     public ResponseEntity<?> addTrip(@RequestBody Trip trip, BindingResult result) {
-//        System.out.println(trip);
+        System.out.println(trip);
         if (result.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

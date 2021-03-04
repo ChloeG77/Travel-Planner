@@ -43,7 +43,7 @@ public class Trip implements Serializable {
     
     private String dateCreated;
     
-    @OneToMany
+    @ManyToMany
     private Set<City> cities = new HashSet<>();
     
     @Enumerated(EnumType.STRING)
