@@ -63,10 +63,13 @@ const NewTrip = (props) => {
 
     // Should format date value before submit.
     const startDate = fieldsValue['startDate'];
+    const des = cities.filter(item => item.cityId === fieldsValue.destination);
+
     const values = {
       ...fieldsValue,
       'startDate': startDate.format('YYYY-MM-DD'),
-      'type' : tripType
+      'type' : tripType,
+      cities: des
     };
     console.log('Received values of form: ', values);
 
@@ -74,20 +77,23 @@ const NewTrip = (props) => {
       .then((data) => {
         message.success(`add trip`);
         console.log("val,de", values.destination);
-        const destination = cities.filter(item => item.cityId === values.destination);
-        console.log(cities);
-        console.log("de", destination);
+        // const destination = cities.filter(item => item.cityId === values.destination);
+        // console.log(cities);
+        // console.log("de", destination);
 
         const newData = {
             accessToken: token,
             trips: data.trips
         }
-        const newTrip = {
-            ...data.newTrip,
-            startCity: destination[0]
-        }
-        console.log(newTrip);
-        onCurTrip(newTrip);
+        // const newTrip = {
+        //     ...data.newTrip,
+        //     startCity: destination[0],
+        //     cities: destination
+        // }
+
+
+        console.log("newtrip", data.newTrip);
+        onCurTrip(data.newTrip);
         onSuccess(true, newData);
         history.push(`planner`);
       }).catch((err) => {
@@ -118,7 +124,7 @@ const NewTrip = (props) => {
       <div className="newtrip">
       <h1> New Trip</h1>
       <Form name="time_related_controls" {...formItemLayout} onFinish={onFinish} initialValues={{
-        destination: ['Ottawa']
+       
       }}>
         <Form.Item name="name" label="Trip Name" rules={[{ required: true, message: 'Please enter a trip name!' }]}>
           <Input style={{width: "100%", textAlign: "left"}} />

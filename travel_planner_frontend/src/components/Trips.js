@@ -73,7 +73,7 @@ const Trips = (props) => {
             size="small"
             dataSource={trips}
             renderItem={item => { 
-                
+                console.log(item);
                 return (
                 <List.Item
                     actions={[
@@ -87,7 +87,7 @@ const Trips = (props) => {
                 <List.Item.Meta
                 avatar={<Avatar size={40} src={satellite} />}
                 title={<p>{item.name}</p>}
-                description={`ID: ${item.tripId}, Start Date: ${item.startDate}, Days: ${item.numDays}, City: ${item.cities}, Trip Type: ${item.type}`}
+                description={`ID: ${item.tripId}, Start Date: ${item.startDate}, Days: ${item.numDays}, City: ${item.cities[0].name}, Trip Type: ${item.type}`}
                 />
             </List.Item>
             )}}

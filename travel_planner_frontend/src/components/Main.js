@@ -49,7 +49,7 @@ class Main extends Component {
 
     componentWillMount() {
         const { isLoggedIn, token, curTrip } = this.props;
-        const destination = curTrip.startCity;
+        const destination = curTrip.cities[0];
         console.log("will mount" + destination)
 
         const url = `/api/place/searchByName?text=${destination}&city=${destination}`;
@@ -236,7 +236,7 @@ class Main extends Component {
                     >
                         <SearchBar
                             className='search-bar'
-                            destination={this.props.curTrip.startCity} addPlaceToTable={this.addPlaceToTable}
+                            destination={this.props.curTrip.cities[0].name} addPlaceToTable={this.addPlaceToTable}
                             clearTable={this.clearTable}
                             toggleLoading={this.toggleLoading}
                             token={this.props.token} />
