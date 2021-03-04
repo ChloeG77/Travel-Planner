@@ -51,8 +51,13 @@ public class PlaceController {
         return placeService.searchNearby(loc);
     }
     
-    @GetMapping("place/loadCities")
+    @GetMapping("city/getAllCities")
     public List<City> getAllCities() {
         return placeService.getAllCities();
+    }
+    
+    @GetMapping("city/getCity")
+    public City getCityById(@RequestParam long cityId) {
+        return placeService.getCityById(cityId);
     }
 }

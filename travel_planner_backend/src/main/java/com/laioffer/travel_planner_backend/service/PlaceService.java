@@ -107,4 +107,10 @@ public class PlaceService {
         return cityRepository.findAll();
     }
     
+    @Transactional
+    public City getCityById(long cityId) {
+        return cityRepository.findById(cityId).orElseThrow(() ->
+            new ItemNotFoundException("City Not Found with -> PlaceId : " + cityId)
+        );
+    }
 }
