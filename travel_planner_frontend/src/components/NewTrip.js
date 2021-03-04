@@ -48,44 +48,52 @@ const NewTrip = (props) => {
 
   // }, [props.token]);
   
-  const cities = [{cityId: 10000, name: "Houston", state: "TX", country: "US", longitude: -95.3698028, latitude: 29.7604267},
-                  {cityId: 10001, name: "New York", state: "NY", country: "US", longitude: -95.3698028, latitude: 40.7127753}, 
-                  {cityId: 10002, name: "Atlanta", state: "GA", country: "US", longitude: -84.3879824, latitude: 33.7489954},
-                  {cityId: 10003, name: "Winnipeg", state: "MB", country: "CA", longitude: -97.1383744, latitude: 49.895136},
-                  {cityId: 10004, name: "Ottawa", state: "ON", country: "CA", longitude: -75.6971931, latitude: 45.4215296},
-                  {cityId: 10005, name: "Seattle", state: "WA", country: "US", longitude: -122.3320708, latitude: 47.6062095},
-                  {cityId: 10006, name: "Los Angeles", state: "CA", country: "US", longitude: -118.2436849, latitude: 34.0522342},
-                  {cityId: 10007, name: "San Francisco", state: "CA", country: "US", longitude: -122.4194155, latitude: 37.7749295},  
+  const cities = [{cityId: "10000", name: "Houston", state: "TX", country: "US", longitude: -95.3698028, latitude: 29.7604267},
+                  {cityId: "10001", name: "New York", state: "NY", country: "US", longitude: -95.3698028, latitude: 40.7127753}, 
+                  {cityId: "10002", name: "Atlanta", state: "GA", country: "US", longitude: -84.3879824, latitude: 33.7489954},
+                  {cityId: "10003", name: "Winnipeg", state: "MB", country: "CA", longitude: -97.1383744, latitude: 49.895136},
+                  {cityId: "10004", name: "Ottawa", state: "ON", country: "CA", longitude: -75.6971931, latitude: 45.4215296},
+                  {cityId: "10005", name: "Seattle", state: "WA", country: "US", longitude: -122.3320708, latitude: 47.6062095},
+                  {cityId: "10006", name: "Los Angeles", state: "CA", country: "US", longitude: -118.2436849, latitude: 34.0522342},
+                  {cityId: "10007", name: "San Francisco", state: "CA", country: "US", longitude: -122.4194155, latitude: 37.7749295},  
                 ]
-  const cityOptions = cities.map(city => <Option key={city.name}>{city.name}</Option>);
+  const cityOptions = cities.map(city => <Option key={city.cityId}>{city.name}</Option>);
 
   const onFinish = (fieldsValue) => {
 
     // Should format date value before submit.
     const startDate = fieldsValue['startDate'];
+    const des = cities.filter(item => item.cityId === fieldsValue.destination);
+
     const values = {
       ...fieldsValue,
       'startDate': startDate.format('YYYY-MM-DD'),
-      'type' : tripType
+      'type' : tripType,
+      cities: des
     };
     console.log('Received values of form: ', values);
 
     newTrip(values, token)
       .then((data) => {
         message.success(`add trip`);
-        const destination = values.destination;
-        console.log("de",destination);
+        console.log("val,de", values.destination);
+        // const destination = cities.filter(item => item.cityId === values.destination);
+        // console.log(cities);
+        // console.log("de", destination);
 
         const newData = {
             accessToken: token,
             trips: data.trips
         }
-        const newTrip = {
-            ...data.newTrip,
-            startCity: destination[0]
-        }
-        // console.log(newTrip);
-        onCurTrip(newTrip);
+        // const newTrip = {
+        //     ...data.newTrip,
+        //     startCity: destination[0],
+        //     cities: destination
+        // }
+
+
+        console.log("newtrip", data.newTrip);
+        onCurTrip(data.newTrip);
         onSuccess(true, newData);
         history.push(`planner`);
       }).catch((err) => {
@@ -104,9 +112,7 @@ const NewTrip = (props) => {
   //   console.log('Selected Time: ', value);
   //   console.log('Formatted Selected Time: ', dateString);
   // }
-  const onCityOptions = () => {
-    
-  }
+
 
 
   const handleChange = (value) => {
@@ -118,7 +124,7 @@ const NewTrip = (props) => {
       <div className="newtrip">
       <h1> New Trip</h1>
       <Form name="time_related_controls" {...formItemLayout} onFinish={onFinish} initialValues={{
-        destination: ['Beijing']
+       
       }}>
         <Form.Item name="name" label="Trip Name" rules={[{ required: true, message: 'Please enter a trip name!' }]}>
           <Input style={{width: "100%", textAlign: "left"}} />
