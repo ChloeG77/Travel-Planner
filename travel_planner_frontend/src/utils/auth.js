@@ -187,7 +187,7 @@ export const getAllCities = (token) => {
 
 const getRouteUrl = `${SERVER_ORIGIN}/api/trip/day/route?`;
 
-export const getRouteUrl = (dayId, token) => {
+export const getRoute = (dayId, token) => {
   return fetch(`${getRouteUrl}dayId=${dayId}`, {
     method: 'GET',
     headers: {
