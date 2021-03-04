@@ -4,6 +4,7 @@ import com.laioffer.travel_planner_backend.entity.Day;
 import com.laioffer.travel_planner_backend.entity.Place;
 import com.laioffer.travel_planner_backend.entity.Stop;
 import com.laioffer.travel_planner_backend.entity.StopType;
+import com.laioffer.travel_planner_backend.message.response.RouteResponse;
 import com.laioffer.travel_planner_backend.service.DayService;
 import com.laioffer.travel_planner_backend.service.PlaceService;
 import com.laioffer.travel_planner_backend.service.StopService;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,10 +75,13 @@ public class DayController {
     }
     
     @GetMapping(value = "/trip/day/route")
-    public List<Stop> getRoute(@RequestParam long dayId) {
+    public ResponseEntity<?> getRoute(@RequestParam long dayId) {
         Day day = dayService.getDayById(dayId);
-        return day.getRoute();
+        List<Stop> route = day.getRoute();
+        return ResponseEntity.ok(new RouteResponse(route));
     }
+
+
     
     @PostMapping(value = "/trip/day/route")
     public String setRoute(@RequestBody List<Long> stopIdLst, BindingResult result,
