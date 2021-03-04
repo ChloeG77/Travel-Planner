@@ -111,10 +111,10 @@ export const addPlaceToTrip = (tripId, placeId, token) => {
 
 
 
-const deletePlaceToTripUrl = `${SERVER_ORIGIN}/api/trip/place?`;
+const deletePlaceFromTripUrl = `${SERVER_ORIGIN}/api/trip/place?`;
 
-export const deletePlaceToTrip = (tripId, placeId, token) => {
-  return fetch(`${deletePlaceToTripUrl}tripId=${tripId}&&placeId=${placeId}`, {
+export const deletePlaceFromTrip = (tripId, placeId, token) => {
+  return fetch(`${deletePlaceFromTripUrl}tripId=${tripId}&&placeId=${placeId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -129,3 +129,58 @@ export const deletePlaceToTrip = (tripId, placeId, token) => {
   }) 
 }
 
+
+const addPlaceToDayUrl = `${SERVER_ORIGIN}/api/trip/day/place?`;
+
+export const addPlaceToDay = (dayId, placeId, token) => {
+  return fetch(`${addPlaceToDayUrl}dayId=${dayId}&&placeId=${placeId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(null)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to add place to day');
+    }
+    return response.json();
+  }) 
+}
+
+
+const deletePlaceFromDayUrl = `${SERVER_ORIGIN}/api/day/place?`;
+
+export const deletePlaceFromDay = (dayId, placeId, token) => {
+  return fetch(`${deletePlaceFromDayUrl}dayId=${dayId}&&placeId=${placeId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(null)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to delete place from day');
+    }
+    return response.json();
+  }) 
+}
+
+
+const getAllCitiesUrl = `${SERVER_ORIGIN}/api/city/getAllCities`;
+
+export const getAllCities = (token) => {
+  return fetch(`${getAllCitiesUrl}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    }
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to get all cities');
+    }
+    return response.json();
+  }) 
+}

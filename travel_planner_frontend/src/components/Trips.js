@@ -72,22 +72,25 @@ const Trips = (props) => {
             itemLayout="horizontal"
             size="small"
             dataSource={trips}
-            renderItem={item => (
-            <List.Item
-                actions={[
-                <Button type="default"  size="small" danger onClick={onModalClick} icon={<MinusOutlined />} ></Button>
-              , <Button type="primary" onClick={() => onPlan(item)}>Plan</Button>]}
-            >
-            <Modal title="Delete Trip" visible={displayModal} onOk={()=> onDelete(item)} onCancel={onModalClose}>
-            <p>Do you confirm to delete trip {item.name}</p>
-            </Modal>
+            renderItem={item => { 
+                
+                return (
+                <List.Item
+                    actions={[
+                    <Button type="default"  size="small" danger onClick={()=> onDelete(item)} icon={<MinusOutlined />} ></Button>,
+                    <Button type="primary" onClick={() => onPlan(item)}>Plan</Button>,            
+                    // <Modal title="Delete Trip" visible={displayModal} onOk={()=> onDelete(item)} onCancel={onModalClose}>
+                    // <p>Do you confirm to delete trip {item.name}</p></Modal>
+                    
+                ]}
+                >
                 <List.Item.Meta
                 avatar={<Avatar size={40} src={satellite} />}
                 title={<p>{item.name}</p>}
                 description={`ID: ${item.tripId}, Start Date: ${item.startDate}, Days: ${item.numDays}, City: ${item.cities}, Trip Type: ${item.type}`}
                 />
             </List.Item>
-            )}
+            )}}
         />
         </Drawer>      
         </div>

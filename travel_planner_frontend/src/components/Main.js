@@ -6,7 +6,7 @@ import axios from "axios";
 import SearchBar from './SearchBar';
 import { Table, Button, List, Layout, Spin, message, Menu } from 'antd';
 import DailyPlan from './DailyPlan';
-import { addPlaceToTrip, deletePlaceToTrip } from '../utils/auth.js';
+import { addPlaceToTrip, deletePlaceFromTrip, addPlaceToDay, deletePlaceFromDay } from '../utils/auth.js';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
 const { Sider, Content } = Layout;
@@ -62,8 +62,8 @@ class Main extends Component {
         })
             .then(res => {
                 const curPlace = res.data[0];
-                console.log(curPlace);
-                console.log(res.data);
+                // console.log(curPlace);
+                // console.log(res.data);
                 this.setMapCenter(curPlace);
             })
             .catch(e => {
@@ -146,10 +146,36 @@ class Main extends Component {
         })
     }
 
+    onAddPlaceToDay = (dayId, key) => {
+        const { placedata, toAddPlace, curTrip } = this.state;
+
+        addPlaceToDay(dayId, placedata[key].placeId, this.props.token)
+        .then((data) => {
+            message.success('add place to trip');
+            console.log("addplace", data.places);
+        }).catch((err) => {
+            console.log(err);
+            message.error(err.message);
+          })
+        
+
+    }
+
+    onDeletePlaceFromDay = (dayId, place) => {
+        deletePlaceFromDay(dayId, place.placeId, this.props.token)
+            .then((data) => {
+                message.success('delete place');
+                console.log("deleteplace", data.places);
+            }).catch((err) => {
+                console.log(err);
+                message.error(err.message);
+              })
+    }
+
     removePlace = (place) => {
 
     }
-    onDeletePlace = (place) => {
+    onDeletePlaceFromTrip = (place) => {
         // this.addMarker(place);
         console.log(place);
         let list = this.state.toAddPlace.filter(item => item.placeId !== place.placeId);
@@ -159,7 +185,7 @@ class Main extends Component {
             toAddPlace: list,
             selectedId: tempSelected
         })
-        deletePlaceToTrip(this.state.curTrip.tripId, place.placeId, this.props.token)
+        deletePlaceFromTrip(this.state.curTrip.tripId, place.placeId, this.props.token)
             .then((data) => {
                 message.success('delete place');
                 console.log("deleteplace", data.places);
@@ -241,6 +267,24 @@ class Main extends Component {
                                     <Menu
                                         onClick={(e) => this.addToPlanner(e, place)}
                                     >
+                                        {/* <List.Item.Meta
+                                            // avatar={<Avatar size={50} src={satellite} />}
+                                            title={<p>{place.name}</p>}
+                                            // description={`Launch Date: ${item.launchDate}`}
+                                        />
+                                        <Button type="primary" 
+                                            onClick={() => this.addToPlanner(place)}
+                                            disabled={this.state.placeInPlanner.includes(place)}
+                                            style={{marginRight:"10px"}}>Add to planner
+                                        </Button>
+                                        
+                                    </List.Item>
+                                )}
+                            /> */}
+                                        <Button type="primary" 
+                                            onClick={() => this.onDeletePlaceFromTrip(place)}>
+                                                Delete
+                                        </Button>
                                         <SubMenu title="Add to planner" disabled={placeInPlanner.some(a => a.place === place)}>
                                             {[...Array.from({ length: this.state.curTrip.numDays }, (v, i) => i + 1)]
                                                 .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}

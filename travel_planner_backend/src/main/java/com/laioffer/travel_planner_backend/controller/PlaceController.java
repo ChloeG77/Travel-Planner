@@ -2,9 +2,12 @@ package com.laioffer.travel_planner_backend.controller;
 
 import com.laioffer.travel_planner_backend.entity.City;
 import com.laioffer.travel_planner_backend.entity.Place;
+import com.laioffer.travel_planner_backend.message.response.CityResponse;
+import com.laioffer.travel_planner_backend.message.response.PlaceResponse;
 import com.laioffer.travel_planner_backend.service.PlaceService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,8 +55,9 @@ public class PlaceController {
     }
     
     @GetMapping("city/getAllCities")
-    public List<City> getAllCities() {
-        return placeService.getAllCities();
+    public ResponseEntity<?> getAllCities() {
+        List<City> cities = placeService.getAllCities();
+        return ResponseEntity.ok(new CityResponse(cities));
     }
     
     @GetMapping("city/getCity")
