@@ -9,7 +9,7 @@ import NewTrip from './NewTrip';
 import Login from './Login';
 
 const HomePage = (props) => {
-    const { onLoggedInStatus, isLoggedIn, token, trips, onCurTrip } = props;
+    const { onLoggedInStatus, isLoggedIn, token, trips, onCurTrip, cities } = props;
 
     return (
         <div className="homepage">
@@ -29,7 +29,8 @@ const HomePage = (props) => {
                     <div>
                         <NewTrip onSuccess={onLoggedInStatus}
                                  token={token}
-                                 onCurTrip={onCurTrip} />
+                                 onCurTrip={onCurTrip}
+                                 cities={cities} />
                     </div>
                     :
                     <div>

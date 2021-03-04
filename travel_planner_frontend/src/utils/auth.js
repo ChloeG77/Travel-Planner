@@ -166,3 +166,21 @@ export const deletePlaceFromDay = (dayId, placeId, token) => {
     return response.json();
   }) 
 }
+
+
+const getAllCitiesUrl = `${SERVER_ORIGIN}/api/city/getAllCities`;
+
+export const getAllCities = (token) => {
+  return fetch(`${getAllCitiesUrl}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    }
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to get all cities');
+    }
+    return response.json();
+  }) 
+}

@@ -62,8 +62,8 @@ class Main extends Component {
         })
             .then(res => {
                 const curPlace = res.data[0];
-                console.log(curPlace);
-                console.log(res.data);
+                // console.log(curPlace);
+                // console.log(res.data);
                 this.setMapCenter(curPlace);
             })
             .catch(e => {

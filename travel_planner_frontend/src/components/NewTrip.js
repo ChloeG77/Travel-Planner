@@ -1,8 +1,8 @@
 import React  from "react";
 import { Form, DatePicker, Button, Select, Input, message, InputNumber } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { newTrip } from '../utils/auth';
-import { useState } from 'react';
+import { newTrip, getAllCities } from '../utils/auth';
+import { useState, useEffect } from 'react';
 
 const { Option } = Select;
 
@@ -22,12 +22,33 @@ const formItemLayout = {
 
 const NewTrip = (props) => {
   const history = useHistory();
-
+  
   const [tripType, setTripType] = useState('leisure');
+  const [cities, setCities] = useState(null);
+  const [city, setCity] = useState(null);
+  const [cityOptions, setCityOptions] = useState(null);
 
   const {onSuccess, token, onCurTrip} = props;
-  const onFinish = (fieldsValue) => {
+  
+  useEffect(() => {
+    console.log(props.token)
+    if (props.token !== null) {
+      getAllCities(props.token)
+      .then((data) => {
+        console.log("get city", data);
+        const tempCities = data.cities;
+        setCities(cities);
+        setCityOptions(tempCities.map(city => <Option key={city.name}>{city.name}</Option>)); 
+     
+      }).catch((err) => {
+        console.log(err);
+        message.error(err.message);
+      }); 
+    }
 
+  }, [props.token]);
+
+  const onFinish = (fieldsValue) => {
 
     // Should format date value before submit.
     const startDate = fieldsValue['startDate'];
@@ -62,10 +83,20 @@ const NewTrip = (props) => {
       })
   };
 
+
+  const handleCityChange = (value) => {
+    console.log(`selected ${value}`);
+    setCity(value);
+  }
+
   // const onChange = (value, dateString) => {
   //   console.log('Selected Time: ', value);
   //   console.log('Formatted Selected Time: ', dateString);
   // }
+  const onCityOptions = () => {
+    
+  }
+
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -91,7 +122,9 @@ const NewTrip = (props) => {
         </Form.Item>
 
         <Form.Item name="destination" label="Destination City" rules={[{ required: true, message: 'Please select your Desination City!' }]}>
-          <Input style={{width: "100%", textAlign: "left"}}/>
+        <Select defaultValue="" style={{width: "100%", textAlign: "left"}} onChange={handleCityChange} >
+            {cityOptions}
+          </Select>
         </Form.Item>
 
         <Form.Item name="type" label="Trip Type" rules={[{ required: false, message: 'Please select your trip type!' }]}>

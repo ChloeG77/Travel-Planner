@@ -84,7 +84,6 @@ const Trips = (props) => {
                     
                 ]}
                 >
-
                 <List.Item.Meta
                 avatar={<Avatar size={40} src={satellite} />}
                 title={<p>{item.name}</p>}
