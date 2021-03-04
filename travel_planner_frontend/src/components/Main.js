@@ -251,6 +251,7 @@ class Main extends Component {
         let result = this.state.placeInPlanner[key].filter((p) => p.placeId !== place.placeId)
         this.setState({
           placeInPlanner: {
+            ...this.state.placeInPlanner,
             [key]: result
           }
         })
