@@ -8,7 +8,6 @@ export default class DailyPlan extends Component {
     render() {
         const { curTrip, placeInPlanner } = this.props
 
-        console.log(placeInPlanner)
         return (
             <div>
                 <Tabs defaultActiveKey="1" tabPosition="left" style={{ height: 400, width: 300 }}>
