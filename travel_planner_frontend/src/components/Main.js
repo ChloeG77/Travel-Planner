@@ -6,7 +6,7 @@ import axios from "axios";
 import SearchBar from './SearchBar';
 import { Table, Button, List, Layout, Spin, message } from 'antd';
 import DailyPlan from './DailyPlan';
-import { addPlaceToTrip, deletePlaceToTrip } from '../utils/auth.js';
+import { addPlaceToTrip, deletePlaceFromTrip, addPlaceToDay, deletePlaceFromDay } from '../utils/auth.js';
 
 const { Sider, Content } = Layout;
 
@@ -133,10 +133,36 @@ class Main extends Component {
         this.addMarker(place);
     }
 
+    onAddPlaceToDay = (dayId, key) => {
+        const { placedata, toAddPlace, curTrip } = this.state;
+
+        addPlaceToDay(dayId, placedata[key].placeId, this.props.token)
+        .then((data) => {
+            message.success('add place to trip');
+            console.log("addplace", data.places);
+        }).catch((err) => {
+            console.log(err);
+            message.error(err.message);
+          })
+        
+
+    }
+
+    onDeletePlaceFromDay = (dayId, place) => {
+        deletePlaceFromDay(dayId, place.placeId, this.props.token)
+            .then((data) => {
+                message.success('delete place');
+                console.log("deleteplace", data.places);
+            }).catch((err) => {
+                console.log(err);
+                message.error(err.message);
+              })
+    }
+
     removePlace = (place) => {
 
     }
-    onDeletePlace = (place) => {
+    onDeletePlaceFromTrip = (place) => {
         // this.addMarker(place);
         console.log(place);
         let list = this.state.toAddPlace.filter(item => item.placeId !== place.placeId);
@@ -146,7 +172,7 @@ class Main extends Component {
             toAddPlace : list,
             selectedId: tempSelected
         })
-        deletePlaceToTrip(this.state.curTrip.tripId, place.placeId, this.props.token)
+        deletePlaceFromTrip(this.state.curTrip.tripId, place.placeId, this.props.token)
             .then((data) => {
                 message.success('delete place');
                 console.log("deleteplace", data.places);
@@ -239,7 +265,7 @@ class Main extends Component {
                                             style={{marginRight:"10px"}}>Add to planner
                                         </Button>
                                         <Button type="primary" 
-                                            onClick={() => this.onDeletePlace(place)}
+                                            onClick={() => this.onDeletePlaceFromTrip(place)}
                                             >Delete
                                         </Button>
                                     </List.Item>
