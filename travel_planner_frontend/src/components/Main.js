@@ -50,7 +50,7 @@ class Main extends Component {
     componentWillMount() {
         const { isLoggedIn, token, curTrip } = this.props;
         const destination = curTrip.startCity;
-        console.log(destination)
+        console.log("will mount" + destination)
         const url = `/api/place/searchByName?text=${destination}&city=${destination}`;
 
         // const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4bWEiLCJpYXQiOjE2MTQxOTM3MjEsImV4cCI6MTYxNDY5NDM3NX0.42nGjPcsd94jhiQKc3uuW5srnKicH0G8h6-NpkLKCHhZW6AXC9h914SwiHP5m2YM0kly0OeWx-qMIq2skcvkXw";
@@ -62,6 +62,8 @@ class Main extends Component {
         })
             .then(res => {
                 const curPlace = res.data[0];
+                console.log(curPlace);
+                console.log(res.data);
                 this.setMapCenter(curPlace);
             })
             .catch(e => {
@@ -205,7 +207,7 @@ class Main extends Component {
                     >
                         <SearchBar
                             className='search-bar'
-                            destination={this.props.destination} addPlaceToTable={this.addPlaceToTable}
+                            destination={this.props.curTrip.startCity} addPlaceToTable={this.addPlaceToTable}
                             clearTable={this.clearTable}
                             toggleLoading={this.toggleLoading}
                             token={this.props.token} />
