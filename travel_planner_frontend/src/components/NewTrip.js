@@ -27,8 +27,8 @@ const NewTrip = (props) => {
 
   const {onSuccess, token, onCurTrip} = props;
   const onFinish = (fieldsValue) => {
-    
-  
+
+
     // Should format date value before submit.
     const startDate = fieldsValue['startDate'];
     const values = {
@@ -43,7 +43,7 @@ const NewTrip = (props) => {
         message.success(`add trip`);
         const destination = values.destination;
         console.log("de",destination);
-        
+
         const newData = {
             accessToken: token,
             trips: data.trips
@@ -71,7 +71,7 @@ const NewTrip = (props) => {
     console.log(`selected ${value}`);
     setTripType(value);
   }
- 
+
     return (
       <div className="newtrip">
       <h1> New Trip</h1>
@@ -91,7 +91,7 @@ const NewTrip = (props) => {
         </Form.Item>
 
         <Form.Item name="destination" label="Destination City" rules={[{ required: true, message: 'Please select your Desination City!' }]}>
-          <Input style={{width: "100%", textAlign: "left"}}/>        
+          <Input style={{width: "100%", textAlign: "left"}}/>
         </Form.Item>
 
         <Form.Item name="type" label="Trip Type" rules={[{ required: false, message: 'Please select your trip type!' }]}>
@@ -104,14 +104,14 @@ const NewTrip = (props) => {
 
         <Form.Item
          style={{width: "100%"}}
-        > 
+        >
             <Button className="planning-btn" type="primary" style={{width: "80%"}} htmlType="submit">
               Start Planning
             </Button>
         </Form.Item>
       </Form>
     </div>
-    ) 
+    )
   }
 
 

@@ -1,43 +1,36 @@
 import React, { Component } from "react";
-import { Tabs, DatePicker, Drawer, Button } from 'antd';
-
-const { RangePicker } = DatePicker;
+import { Tabs, DatePicker, Drawer, Button, List } from 'antd';
 
 const { TabPane } = Tabs;
 
 export default class DailyPlan extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            visible: false,
-            startDate: new Date(2020, 2, 1),
-            numOfDays: 3,
-        };
+
+    dayFilter = (placeInPlanner, i) => {
+        return placeInPlanner.filter(a => parseInt(a.day) === i)
     }
 
-
-
     render() {
-        const { visible, startDate, numOfDays } = this.state;
+        const { tripData, placeInPlanner } = this.props
 
-        const showDrawer = () => {
-            this.setState({ visible: true });
-        };
-
-        const onClose = () => {
-            this.setState({ visible: false });
-        };
-
+        console.log(this.dayFilter(placeInPlanner, 1))
         return (
             <div>
 
                 <Tabs defaultActiveKey="1" tabPosition="left" style={{ height: 400, width: 300 }}>
-                    {[...Array.from({ length: 10 }, (v, i) => i)].map(i => (
-                        <TabPane tab={`Day ${i}`} key={i}>
-                            Content of day {i}
 
-                        </TabPane>
-                    ))}
+                    {[...Array.from({ length: tripData.numDays }, (v, i) => i + 1)]
+                        .map(i => {
+                            return <TabPane tab={"Day " + i} key={i}>
+                                <List>
+                                    {this.dayFilter(placeInPlanner, i)
+                                        .map(p => {
+                                            return <List.Item key={p.place.key}>{p.place.name}</List.Item>
+                                        })
+                                    }
+                                </List>
+                            </TabPane>
+                        })}
+
                 </Tabs>
 
 

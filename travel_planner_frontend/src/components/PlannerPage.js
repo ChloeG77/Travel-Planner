@@ -8,7 +8,7 @@ const PlannerPage = (props) => {
   // console.log("curtrip", curTrip)
   return (
     <div className="main-wrapper">
-      <Main isLoggedIn={isLoggedIn} 
+      <Main isLoggedIn={isLoggedIn}
             token={token}
             curTrip={curTrip}/>
     </div>
