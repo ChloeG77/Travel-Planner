@@ -157,7 +157,7 @@ class Main extends Component {
             console.log(err);
             message.error(err.message);
           })
-        
+
 
     }
 
@@ -175,7 +175,9 @@ class Main extends Component {
     removePlace = (place) => {
 
     }
-    onDeletePlaceFromTrip = (place) => {
+    onDeletePlaceFromTrip = (e, place) => {
+        e.stopPropagation();
+
         // this.addMarker(place);
         console.log(place);
         let list = this.state.toAddPlace.filter(item => item.placeId !== place.placeId);
@@ -272,20 +274,21 @@ class Main extends Component {
                                             title={<p>{place.name}</p>}
                                             // description={`Launch Date: ${item.launchDate}`}
                                         />
-                                        <Button type="primary" 
+                                        <Button type="primary"
                                             onClick={() => this.addToPlanner(place)}
                                             disabled={this.state.placeInPlanner.includes(place)}
                                             style={{marginRight:"10px"}}>Add to planner
                                         </Button>
-                                        
+
                                     </List.Item>
                                 )}
                             /> */}
-                                        <Button type="primary" 
-                                            onClick={() => this.onDeletePlaceFromTrip(place)}>
+                                        <Button type="primary"
+                                            onClick={(e) => this.onDeletePlaceFromTrip(e, place)}>
                                                 Delete
                                         </Button>
-                                        <SubMenu title="Add to planner" disabled={placeInPlanner.some(a => a.place === place)}>
+                                        {/* disabled={placeInPlanner.some(a => a.place === place)} */}
+                                        <SubMenu title="Add to planner" >
                                             {[...Array.from({ length: this.state.curTrip.numDays }, (v, i) => i + 1)]
                                                 .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}
                                         </SubMenu>
