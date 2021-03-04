@@ -5,8 +5,10 @@ const { TabPane } = Tabs;
 
 export default class DailyPlan extends Component {
 
+
+
     render() {
-        const { curTrip, placeInPlanner } = this.props
+        const { curTrip, placeInPlanner, onDelete } = this.props
 
         return (
             <div>
@@ -19,7 +21,11 @@ export default class DailyPlan extends Component {
                                     {
                                         ["day" + i] in placeInPlanner &&
                                         placeInPlanner["day" + i].map(place => {
-                                            return <List.Item key={place.key}>{place.name}</List.Item>
+                                            return <List.Item key={place.key}>
+                                                {place.name}
+                                                <Button type="primary" onClick={(e) => onDelete(e,place)}>Delete</Button>
+                                            </List.Item>
+
                                         })
                                     }
                                 </List>

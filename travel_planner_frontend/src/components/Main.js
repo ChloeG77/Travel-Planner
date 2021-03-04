@@ -243,6 +243,21 @@ class Main extends Component {
     }
   };
 
+  onDeletePlaceFromPlanner = (e, place) => {
+    e.stopPropagation();
+
+    for (let key in this.state.placeInPlanner) {
+      if (this.state.placeInPlanner[key].includes(place)) {
+        let result = this.state.placeInPlanner[key].filter((p) => p.placeId !== place.placeId)
+        this.setState({
+          placeInPlanner: {
+            [key]: result
+          }
+        })
+      }
+    }
+  }
+
 
   render() {
     const {
@@ -348,7 +363,7 @@ class Main extends Component {
           <Sider width={400}
             theme={"light"}>
             <div className="main-trip-name">Trip Name {this.state.curTrip.name}</div>
-            <DailyPlan curTrip={this.state.curTrip} placeInPlanner={placeInPlanner} />
+            <DailyPlan curTrip={this.state.curTrip} placeInPlanner={placeInPlanner} onDelete={this.onDeletePlaceFromPlanner} />
           </Sider>
         }
 
