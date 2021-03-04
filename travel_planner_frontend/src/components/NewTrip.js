@@ -24,29 +24,40 @@ const NewTrip = (props) => {
   const history = useHistory();
   
   const [tripType, setTripType] = useState('leisure');
-  const [cities, setCities] = useState(null);
   const [city, setCity] = useState(null);
-  const [cityOptions, setCityOptions] = useState(null);
+  // const [cities, setCities] = useState(null);
+  // const [cityOptions, setCityOptions] = useState(null);
 
   const {onSuccess, token, onCurTrip} = props;
   
-  useEffect(() => {
-    console.log(props.token)
-    if (props.token !== null) {
-      getAllCities(props.token)
-      .then((data) => {
-        console.log("get city", data);
-        const tempCities = data.cities;
-        setCities(cities);
-        setCityOptions(tempCities.map(city => <Option key={city.name}>{city.name}</Option>)); 
+  // useEffect(() => {
+  //   console.log(props.token)
+  //   if (props.token !== null) {
+  //     getAllCities(props.token)
+  //     .then((data) => {
+  //       console.log("get city", data);
+  //       const tempCities = data.cities;
+  //       setCities(cities);
+  //       setCityOptions(tempCities.map(city => <Option key={city.name}>{city.name}</Option>)); 
      
-      }).catch((err) => {
-        console.log(err);
-        message.error(err.message);
-      }); 
-    }
+  //     }).catch((err) => {
+  //       console.log(err);
+  //       message.error(err.message);
+  //     }); 
+  //   }
 
-  }, [props.token]);
+  // }, [props.token]);
+  
+  const cities = [{cityId: 10000, name: "Houston", state: "TX", country: "US", longitude: -95.3698028, latitude: 29.7604267},
+                  {cityId: 10001, name: "New York", state: "NY", country: "US", longitude: -95.3698028, latitude: 40.7127753}, 
+                  {cityId: 10002, name: "Atlanta", state: "GA", country: "US", longitude: -84.3879824, latitude: 33.7489954},
+                  {cityId: 10003, name: "Winnipeg", state: "MB", country: "CA", longitude: -97.1383744, latitude: 49.895136},
+                  {cityId: 10004, name: "Ottawa", state: "ON", country: "CA", longitude: -75.6971931, latitude: 45.4215296},
+                  {cityId: 10005, name: "Seattle", state: "WA", country: "US", longitude: -122.3320708, latitude: 47.6062095},
+                  {cityId: 10006, name: "Los Angeles", state: "CA", country: "US", longitude: -118.2436849, latitude: 34.0522342},
+                  {cityId: 10007, name: "San Francisco", state: "CA", country: "US", longitude: -122.4194155, latitude: 37.7749295},  
+                ]
+  const cityOptions = cities.map(city => <Option key={city.name}>{city.name}</Option>);
 
   const onFinish = (fieldsValue) => {
 
@@ -85,7 +96,7 @@ const NewTrip = (props) => {
 
 
   const handleCityChange = (value) => {
-    console.log(`selected ${value}`);
+    console.log(`selected city ${value}`);
     setCity(value);
   }
 
