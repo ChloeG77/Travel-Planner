@@ -149,12 +149,14 @@ class Main extends Component {
         if (dayKey in this.state.placeInPlanner) {
             this.setState({
                 placeInPlanner: {
+                    ...this.state.placeInPlanner,
                     [dayKey]: [...this.state.placeInPlanner[dayKey], place]
                 }
             })
         } else {
             this.setState({
                 placeInPlanner: {
+                    ...this.state.placeInPlanner,
                     [dayKey]: [place]
                 }
             })
@@ -352,7 +354,7 @@ class Main extends Component {
                     <Sider width={400}
                         theme={"light"}>
                         <div className="main-trip-name">Trip Name {this.state.curTrip.name}</div>
-                        <DailyPlan tripData={this.state.curTrip} placeInPlanner={placeInPlanner} />
+                        <DailyPlan curTrip={this.state.curTrip} placeInPlanner={placeInPlanner} />
                     </Sider>
                 }
 

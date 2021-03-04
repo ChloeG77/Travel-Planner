@@ -1,35 +1,33 @@
 import React, { Component } from "react";
-import { Tabs, DatePicker, Drawer, Button, List } from 'antd';
+import { Tabs, Button, List } from 'antd';
 
 const { TabPane } = Tabs;
 
 export default class DailyPlan extends Component {
 
-    dayFilter = (placeInPlanner, i) => {
-        return placeInPlanner.filter(a => parseInt(a.day) === i)
-    }
-
     render() {
-        const { tripData, placeInPlanner } = this.props
+        const { curTrip, placeInPlanner } = this.props
 
-        console.log(this.dayFilter(placeInPlanner, 1))
+        console.log(placeInPlanner)
         return (
             <div>
-
                 <Tabs defaultActiveKey="1" tabPosition="left" style={{ height: 400, width: 300 }}>
 
-                    {[...Array.from({ length: tripData.numDays }, (v, i) => i + 1)]
+                    {[...Array.from({ length: curTrip.numDays }, (v, i) => i + 1)]
                         .map(i => {
                             return <TabPane tab={"Day " + i} key={i}>
                                 <List>
-                                    {this.dayFilter(placeInPlanner, i)
-                                        .map(p => {
-                                            return <List.Item key={p.place.key}>{p.place.name}</List.Item>
+                                    {
+                                        ["day" + i] in placeInPlanner &&
+                                        placeInPlanner["day" + i].map(place => {
+                                            return <List.Item key={place.key}>{place.name}</List.Item>
                                         })
                                     }
                                 </List>
                             </TabPane>
                         })}
+
+
 
                 </Tabs>
 
