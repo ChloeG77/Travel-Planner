@@ -89,3 +89,43 @@ export const deleteTrip = (data, token) => {
 }
 
 // const deleteTripUrl = `${SERVER_ORIGIN}/api/trip/deleteTrip?tripId=`;
+
+
+const addPlaceToTripUrl = `${SERVER_ORIGIN}/api/trip/place?`;
+
+export const addPlaceToTrip = (tripId, placeId, token) => {
+  return fetch(`${addPlaceToTripUrl}tripId=${tripId}&&placeId=${placeId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(null)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to add place to trip');
+    }
+    return response.json();
+  }) 
+}
+
+
+
+const deletePlaceToTripUrl = `${SERVER_ORIGIN}/api/trip/place?`;
+
+export const deletePlaceToTrip = (tripId, placeId, token) => {
+  return fetch(`${deletePlaceToTripUrl}tripId=${tripId}&&placeId=${placeId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(null)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to delete place from trip');
+    }
+    return response.json();
+  }) 
+}
+

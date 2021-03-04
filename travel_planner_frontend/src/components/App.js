@@ -12,11 +12,15 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
   const [trips, setTrip] = useState(null);
+  const [curTrip, setCurTrip] = useState(null);
   
-  const onLoggedInStatus =(loggin, data) => {
+  const onLoggedInStatus = (loggin, data) => {
       setIsLoggedIn(loggin);
       setToken(data.accessToken);
       setTrip(data.trips);
+  }
+  const onCurTrip = (curTrip) => {
+      setCurTrip(curTrip);
   }
 
   return (
@@ -42,13 +46,16 @@ const App = () => {
         
           {/* comm */}
         <Switch>
-          <Route path="/planner/:destination">
+          <Route path="/planner">
             <PlannerPage isLoggedIn={isLoggedIn}
-                         token={token}  
+                         token={token}
+                         curTrip={curTrip}
             />
           </Route>
           <Route path="/login">
-            <LoginPage onLoggedInStatus={onLoggedInStatus}/>
+            <LoginPage onLoggedInStatus={onLoggedInStatus}
+                       onCurTrip={onCurTrip}      
+                      />
           </Route>
           <Route path="/signup">
             <SignUpPage />
@@ -58,7 +65,7 @@ const App = () => {
                       isLoggedIn={isLoggedIn}
                       token={token}
                       trips={trips}
-                                
+                      onCurTrip={onCurTrip}        
             />
           </Route>
         </Switch>

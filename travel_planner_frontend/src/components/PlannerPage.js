@@ -1,17 +1,20 @@
 import React from "react";
 import Main from './Main'
-import { useParams, useLocation } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
-const PlannerPage = ({isLoggedIn , token }) => {
-  let { destination } = useParams();
-  const tripInfo = useLocation();
+const PlannerPage = (props) => {
+  // let { destination } = useParams();
+  const { isLoggedIn, token, curTrip } = props;
+  // console.log("curtrip", curTrip)
   return (
     <div className="main-wrapper">
-      <Main destination={destination} isLoggedIn={isLoggedIn} token={token} tripInfo={tripInfo.state}/>
+      <Main isLoggedIn={isLoggedIn}
+            token={token}
+            curTrip={curTrip}/>
     </div>
   )
 }
 
 
 
-export default PlannerPage
+export default PlannerPage;

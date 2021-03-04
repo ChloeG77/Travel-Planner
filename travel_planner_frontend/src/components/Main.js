@@ -4,47 +4,53 @@ import Marker from './Marker';
 import { API_KEY } from '../constants';
 import axios from "axios";
 import SearchBar from './SearchBar';
-import { Table, Button, List, Layout, Spin, Menu } from 'antd';
-import { DownOutlined, ArrowRightOutlined } from '@ant-design/icons';
-
-import DailyPlan from './DailyPlan'
-
+import { Table, Button, List, Layout, Spin, message, Menu } from 'antd';
+import DailyPlan from './DailyPlan';
+import { addPlaceToTrip, deletePlaceToTrip } from '../utils/auth.js';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 const { Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
-
 class Main extends Component {
-    state = {
-        isLoading: false,
-        mapApiLoaded: false,
-        mapInstance: null,
-        mapApi: null,
-        geoCoder: null,
-        center: [],
-        zoom: 9,
-        lat: [],
-        lng: [],
-        placedata: [],
-        toAddPlace: [],
-        placeInPlanner: [],
-        selectedId: [],
-        columns: [
-            { title: 'Name', dataIndex: 'name', key: 'name' },
-            { title: 'Rating', dataIndex: 'rating', key: 'rating' },
-            {
-                title: 'Action',
-                dataIndex: '',
-                key: 'x',
-                render: (record) => <Button type="primary" onClick={() => this.insertToAdd(record.key)} disabled={this.state.selectedId.includes(this.state.placedata[record.key].id)}>Add</Button>,
-            }
-        ]
-    };
+    constructor(props) {
+        super(props);
+        let tempSelected = [];
+        this.props.curTrip.places.map(item => tempSelected.push(item.placeId));
+        this.state = {
+            isLoading: false,
+            mapApiLoaded: false,
+            mapInstance: null,
+            mapApi: null,
+            geoCoder: null,
+            center: [],
+            zoom: 9,
+            lat: [],
+            lng: [],
+            placedata: [],
+            toAddPlace: this.props.curTrip.places,
+            placeInPlanner: [],
+            selectedId: tempSelected,
+            columns: [
+                { title: 'Name', dataIndex: 'name', key: 'name' },
+                { title: 'Rating', dataIndex: 'rating', key: 'rating' },
+                {
+                    title: 'Action',
+                    dataIndex: '',
+                    key: 'x',
+                    render: (record) => <Button type="primary" onClick={() => this.insertToAdd(record.key)} disabled={this.state.selectedId.includes(this.state.placedata[record.key].placeId)}>Add</Button>,
+                }
+            ],
+            curTrip: this.props.curTrip
+        };
+    }
+
 
 
     componentWillMount() {
-        const { destination, isLoggedIn, token, tripInfo } = this.props;
-
+        const { isLoggedIn, token, curTrip } = this.props;
+        const destination = curTrip.startCity;
+        console.log(destination)
         const url = `/api/place/searchByName?text=${destination}&city=${destination}`;
 
         // const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4bWEiLCJpYXQiOjE2MTQxOTM3MjEsImV4cCI6MTYxNDY5NDM3NX0.42nGjPcsd94jhiQKc3uuW5srnKicH0G8h6-NpkLKCHhZW6AXC9h914SwiHP5m2YM0kly0OeWx-qMIq2skcvkXw";
@@ -55,8 +61,8 @@ class Main extends Component {
             }
         })
             .then(res => {
-                const place = res.data[0];
-                this.setMapCenter(place);
+                const curPlace = res.data[0];
+                this.setMapCenter(curPlace);
             })
             .catch(e => {
                 console.log(e);
@@ -96,11 +102,22 @@ class Main extends Component {
     // };
 
     insertToAdd = (key) => {
-        const { placedata, toAddPlace } = this.state;
+        const { placedata, toAddPlace, curTrip } = this.state;
+        console.log(placedata);
         this.setState({
             toAddPlace: [...toAddPlace, placedata[key]],
-            selectedId: [...this.state.selectedId, placedata[key].id]
+            selectedId: [...this.state.selectedId, placedata[key].placeId]
         })
+        // curTrip.tripId, placedata[key].id
+        addPlaceToTrip(curTrip.tripId, placedata[key].placeId, this.props.token)
+            .then((data) => {
+                message.success('add place to trip');
+                console.log("addplace", data.places);
+            }).catch((err) => {
+                console.log(err);
+                message.error(err.message);
+            })
+
     }
 
     addMarker = (place) => {
@@ -127,6 +144,30 @@ class Main extends Component {
         })
     }
 
+    removePlace = (place) => {
+
+    }
+    onDeletePlace = (place) => {
+        // this.addMarker(place);
+        console.log(place);
+        let list = this.state.toAddPlace.filter(item => item.placeId !== place.placeId);
+        let tempSelected = this.state.selectedId.filter(item => item !== place.placeId);
+
+        this.setState({
+            toAddPlace: list,
+            selectedId: tempSelected
+        })
+        deletePlaceToTrip(this.state.curTrip.tripId, place.placeId, this.props.token)
+            .then((data) => {
+                message.success('delete place');
+                console.log("deleteplace", data.places);
+            }).catch((err) => {
+                console.log(err);
+                message.error(err.message);
+            })
+    }
+
+
     toggleLoading = () => {
         this.setState((state) => ({ isLoading: !state.isLoading }));
     };
@@ -151,8 +192,6 @@ class Main extends Component {
         const {
             mapApiLoaded, mapInstance, mapApi, lat, lng, placedata, columns, isLoading, placeInPlanner
         } = this.state;
-
-        const numDays = this.props.tripInfo.numDays;
 
         return (
             <Layout
@@ -201,7 +240,7 @@ class Main extends Component {
                                         onClick={(e) => this.addToPlanner(e, place)}
                                     >
                                         <SubMenu title="Add to planner" disabled={placeInPlanner.some(a => a.place === place)}>
-                                            {[...Array.from({ length: numDays }, (v, i) => i + 1)]
+                                            {[...Array.from({ length: this.state.curTrip.numDays }, (v, i) => i + 1)]
                                                 .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}
                                         </SubMenu>
                                     </Menu>
@@ -248,7 +287,8 @@ class Main extends Component {
                     mapApiLoaded &&
                     <Sider width={400}
                         theme={"light"}>
-                        <DailyPlan tripData={this.props.tripInfo} placeInPlanner={placeInPlanner} />
+                        <div className="main-trip-name">Trip Name {this.state.curTrip.name}</div>
+                        <DailyPlan tripData={this.state.curTrip} placeInPlanner={placeInPlanner} />
                     </Sider>
                 }
 
