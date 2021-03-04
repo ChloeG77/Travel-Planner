@@ -14,23 +14,22 @@ export default class DailyPlan extends Component {
             <div>
                 <Tabs defaultActiveKey="1" tabPosition="left" style={{ height: 400, width: 300 }}>
 
-                    {[...Array.from({ length: curTrip.numDays }, (v, i) => i + 1)]
-                        .map(i => {
-                            return <TabPane tab={"Day " + i} key={i}>
-                                <List>
-                                    {
-                                        ["day" + i] in placeInPlanner &&
-                                        placeInPlanner["day" + i].map(place => {
-                                            return <List.Item key={place.key}>
-                                                {place.name}
-                                                <Button type="primary" onClick={(e) => onDelete(e,place)}>Delete</Button>
-                                            </List.Item>
+                    {curTrip.days.map((d, i) => {
+                        return <TabPane tab={"Day " + (i + 1)} key={d.dayId}>
+                            <List>
+                                {
+                                    d.dayId in placeInPlanner &&
+                                    placeInPlanner[d.dayId].map(place => {
+                                        return <List.Item key={place.key}>
+                                            {place.name}
+                                            <Button type="primary" onClick={(e) => onDelete(e, place)}>Delete</Button>
+                                        </List.Item>
 
-                                        })
-                                    }
-                                </List>
-                            </TabPane>
-                        })}
+                                    })
+                                }
+                            </List>
+                        </TabPane>
+                    })}
 
 
 

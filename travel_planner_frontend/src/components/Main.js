@@ -141,32 +141,32 @@ class Main extends Component {
   };
 
   addToPlanner = (e, place) => {
+    // this.onAddPlaceToDay(e.key, place)
 
     this.addMarker(place);
 
-    const dayKey = "day" + e.key;
+    const dayId = e.key;
 
-    if (dayKey in this.state.placeInPlanner) {
+    if (dayId in this.state.placeInPlanner) {
       this.setState({
         placeInPlanner: {
           ...this.state.placeInPlanner,
-          [dayKey]: [...this.state.placeInPlanner[dayKey], place]
+          [dayId]: [...this.state.placeInPlanner[dayId], place]
         }
       })
     } else {
       this.setState({
         placeInPlanner: {
           ...this.state.placeInPlanner,
-          [dayKey]: [place]
+          [dayId]: [place]
         }
       })
     }
   }
 
-  onAddPlaceToDay = (dayId, key) => {
+  onAddPlaceToDay = (dayId, place) => {
     const { placedata, toAddPlace, curTrip } = this.state;
-
-    addPlaceToDay(dayId, placedata[key].placeId, this.props.token)
+    addPlaceToDay(dayId, place.placeId, this.props.token)
       .then((data) => {
         message.success('add place to trip');
         console.log("addplace", data.places);
@@ -174,8 +174,6 @@ class Main extends Component {
         console.log(err);
         message.error(err.message);
       })
-
-
   }
 
   onDeletePlaceFromDay = (dayId, place) => {
@@ -316,8 +314,7 @@ class Main extends Component {
                       Delete
                                         </Button>
                     <SubMenu title="Add to planner" disabled={this.placeExistInPlanner(place)} >
-                      {[...Array.from({ length: this.state.curTrip.numDays }, (v, i) => i + 1)]
-                        .map(i => { return <Menu.Item key={i} icon={<ArrowRightOutlined />}>Day {i}</Menu.Item> })}
+                      { this.state.curTrip.days.map((d, i) => { return <Menu.Item key={d.dayId} icon={<ArrowRightOutlined />}>Day {i + 1}</Menu.Item> })}
                     </SubMenu>
                   </Menu>
                 </List.Item>
