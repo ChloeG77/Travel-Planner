@@ -146,6 +146,7 @@ class Main extends Component {
     this.addMarker(place);
 
     const dayId = e.key;
+    this.onAddPlaceToDay(dayId, place);
 
     if (dayId in this.state.placeInPlanner) {
       this.setState({
@@ -166,6 +167,8 @@ class Main extends Component {
 
   onAddPlaceToDay = (dayId, place) => {
     const { placedata, toAddPlace, curTrip } = this.state;
+
+
     addPlaceToDay(dayId, place.placeId, this.props.token)
       .then((data) => {
         message.success('add place to trip');
@@ -174,6 +177,8 @@ class Main extends Component {
         console.log(err);
         message.error(err.message);
       })
+
+    console.log(curTrip)
   }
 
   onDeletePlaceFromDay = (dayId, place) => {
@@ -243,6 +248,8 @@ class Main extends Component {
 
   onDeletePlaceFromPlanner = (e, place) => {
     e.stopPropagation();
+
+    this.onDeletePlaceFromDay(e.dayId, place.placeId);
 
     for (let key in this.state.placeInPlanner) {
       if (this.state.placeInPlanner[key].includes(place)) {
@@ -361,7 +368,7 @@ class Main extends Component {
           <Sider width={400}
             theme={"light"}>
             <div className="main-trip-name">Trip Name {this.state.curTrip.name}</div>
-            <DailyPlan curTrip={this.state.curTrip} placeInPlanner={placeInPlanner} onDelete={this.onDeletePlaceFromPlanner} />
+            <DailyPlan curTrip={this.state.curTrip} placeInPlanner={placeInPlanner} onDelete={this.onDeletePlaceFromPlanner} token={this.props.token}/>
           </Sider>
         }
 
