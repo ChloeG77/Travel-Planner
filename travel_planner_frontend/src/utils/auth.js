@@ -85,7 +85,7 @@ export const deleteTrip = (data, token) => {
       throw Error('Fail to delete trip');
     }
     return response.json();
-  }) 
+  })
 }
 
 // const deleteTripUrl = `${SERVER_ORIGIN}/api/trip/deleteTrip?tripId=`;
@@ -106,7 +106,7 @@ export const addPlaceToTrip = (tripId, placeId, token) => {
       throw Error('Fail to add place to trip');
     }
     return response.json();
-  }) 
+  })
 }
 
 
@@ -126,7 +126,7 @@ export const deletePlaceFromTrip = (tripId, placeId, token) => {
       throw Error('Fail to delete place from trip');
     }
     return response.json();
-  }) 
+  })
 }
 
 
@@ -145,7 +145,7 @@ export const addPlaceToDay = (dayId, placeId, token) => {
       throw Error('Fail to add place to day');
     }
     return response.json();
-  }) 
+  })
 }
 
 
@@ -164,7 +164,7 @@ export const deletePlaceFromDay = (dayId, placeId, token) => {
       throw Error('Fail to delete place from day');
     }
     return response.json();
-  }) 
+  })
 }
 
 
@@ -182,7 +182,7 @@ export const getAllCities = (token) => {
       throw Error('Fail to get all cities');
     }
     return response.json();
-  }) 
+  })
 }
 
 const getRouteUrl = `${SERVER_ORIGIN}/api/trip/day/route?`;
@@ -198,6 +198,26 @@ export const getRoute = (dayId, token) => {
     if (response.status !== 200) {
       throw Error('Fail to get route');
     }
+    console.log("getRoute(): ")
     return response.json();
-  }) 
+  })
+}
+
+const genRouteUrl = `${SERVER_ORIGIN}/api/trip/day/route/gen?`;
+
+export const genRoute = (dayId, token) => {
+  return fetch(`${genRouteUrl}dayId=${dayId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    },
+    body: JSON.stringify(null)
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error('Fail to generate route');
+    }
+    console.log("Route generated");
+    return response.json();
+  })
 }

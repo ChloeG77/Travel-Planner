@@ -6,7 +6,6 @@ const Wrapper = styled.div`
     position: absolute;
     width: 38px;
     height: 37px;
-    background-image: url(https://icon-library.com/images/pin-icon-png/pin-icon-png-9.jpg);
     background-size: contain;
     background-repeat: no-repeat;
     -webkit-user-select: none;
@@ -20,6 +19,7 @@ const Wrapper = styled.div`
 
 const Marker = ({ text, onClick }) => (
     <Wrapper
+        style={{backgroundImage: `url(https://icon-library.com/images/pin-icon-png/pin-icon-png-2.jpg)`}}
         alt={text}
         onClick={onClick}
     />
